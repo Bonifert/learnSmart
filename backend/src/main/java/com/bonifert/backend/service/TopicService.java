@@ -1,5 +1,6 @@
 package com.bonifert.backend.service;
 
+import com.bonifert.backend.dto.term.TermDTO;
 import com.bonifert.backend.dto.topic.NewTopicDTO;
 import com.bonifert.backend.dto.topic.TopicDTO;
 import com.bonifert.backend.model.Term;
@@ -36,13 +37,17 @@ public class TopicService {
     LocalDateTime now = LocalDateTime.now();
     List<Term> currentTerms = topic.getTerms()
                                    .stream()
-                                   .filter(term -> term.getNextShowDateTime().isAfter(now))
+                                   .filter(term -> term.getNextShowDateTime().isBefore(now))
                                    .toList();
-    return new TopicDTO(topic.getName(), topicId, topic.getCreatedAt(), topic.getModifiedAt(), currentTerms);
+    return new TopicDTO(topic.getName(), topicId, topic.getCreatedAt(), topic.getModifiedAt(), convertTermsToDTOs(currentTerms));
   }
 
   public TopicDTO getById(long topicId) {
     Topic topic = topicRepository.findById(topicId).orElseThrow(() -> new RuntimeException("TODO"));
-    return new TopicDTO(topic.getName(), topicId, topic.getCreatedAt(), topic.getModifiedAt(), topic.getTerms());
+    return new TopicDTO(topic.getName(), topicId, topic.getCreatedAt(), topic.getModifiedAt(), convertTermsToDTOs(topic.getTerms()));
+  }
+
+  private List<TermDTO> convertTermsToDTOs(List<Term> terms){
+    return terms.stream().map(term -> new TermDTO(term.getId(), term.getName(), term.getDefinition())).toList();
   }
 }
