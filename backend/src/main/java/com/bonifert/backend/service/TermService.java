@@ -33,6 +33,7 @@ public class TermService {
     term.setName(newTermDTO.name());
     term.setDefinition(newTermDTO.definition());
     term.setTopic(topic);
+    term.setNextShowDateTime(LocalDateTime.now());
     return termRepository.save(term).getId();
   }
 
