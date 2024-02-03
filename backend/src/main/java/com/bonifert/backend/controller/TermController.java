@@ -17,7 +17,7 @@ public class TermController {
   }
 
   @PostMapping
-  public ResponseEntity<Void> create(NewTermDTO newTermDTO) {
+  public ResponseEntity<Void> create(@RequestBody NewTermDTO newTermDTO) {
     long id = termService.create(newTermDTO);
     return ResponseEntity.created(URI.create(String.format("/api/term/%d", id))).build();
   }

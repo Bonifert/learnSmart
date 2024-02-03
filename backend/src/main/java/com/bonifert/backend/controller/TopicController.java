@@ -18,7 +18,7 @@ public class TopicController {
   }
 
   @PostMapping
-  public ResponseEntity<Void> create(NewTopicDTO newTopicDTO) {
+  public ResponseEntity<Void> createTopic(@RequestBody NewTopicDTO newTopicDTO) {
     long id = topicService.create(newTopicDTO);
     return ResponseEntity.created(URI.create(String.format("/api/topic/%d", id))).build();
   }
