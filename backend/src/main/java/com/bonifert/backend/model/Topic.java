@@ -25,6 +25,6 @@ public class Topic {
   private LocalDateTime createdAt;
   @UpdateTimestamp
   private LocalDateTime modifiedAt;
-  @OneToMany
+  @OneToMany(mappedBy = "topic")
   private List<Term> terms;
 }
