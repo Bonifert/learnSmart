@@ -9,7 +9,7 @@ import java.util.List;
 @Service
 public class NextShowCalculatorImpl implements NextShowCalculator {
   @Override
-  public LocalDateTime calculate(List<Review> reviews) {
+  public LocalDateTime calculate(List<Review> reviews) { // TODO: create a forgetting curve implementation
     return LocalDateTime.now().plusHours(reviews.size() * 6L);
   }
 }
