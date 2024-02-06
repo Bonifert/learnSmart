@@ -1,4 +1,4 @@
 package com.bonifert.backend.dto.user;
 
-public record NewUserDTO(String name) {
+public record NewUserDTO(String name, String password) {
 }
