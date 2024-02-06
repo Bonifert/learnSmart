@@ -1,5 +1,6 @@
 package com.bonifert.backend.model;
 
+import com.bonifert.backend.model.user.UserEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
