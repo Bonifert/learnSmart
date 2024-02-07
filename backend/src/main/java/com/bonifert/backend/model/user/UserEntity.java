@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -26,7 +27,7 @@ public class UserEntity {
   @OneToMany
   private Set<Topic> topics;
   @ManyToMany(fetch = FetchType.EAGER)
-  private Set<Role> roles;
+  private Set<Role> roles = new HashSet<>();
 
   public void addRole(Role role) {
     roles.add(role);
