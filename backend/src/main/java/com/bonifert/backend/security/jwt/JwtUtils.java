@@ -51,8 +51,4 @@ public class JwtUtils {
     return claimsJws.getBody().getSubject();
   }
 
-  public long getId(Jws<Claims> claimsJws) {
-    return (long) claimsJws.getBody().get("userId");
-  }
-
 }
