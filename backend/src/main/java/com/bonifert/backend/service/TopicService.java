@@ -3,11 +3,13 @@ package com.bonifert.backend.service;
 import com.bonifert.backend.dto.term.TermDTO;
 import com.bonifert.backend.dto.topic.NewTopicDTO;
 import com.bonifert.backend.dto.topic.TopicDTO;
+import com.bonifert.backend.exception.NotFoundException;
 import com.bonifert.backend.model.Term;
 import com.bonifert.backend.model.Topic;
 import com.bonifert.backend.model.user.UserEntity;
 import com.bonifert.backend.service.repository.TopicRepository;
 import com.bonifert.backend.service.repository.UserRepository;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -25,8 +27,10 @@ public class TopicService {
     this.validator = validator;
   }
 
-  public long create(NewTopicDTO newTopicDTO) { // how to authenticate
-    UserEntity user = userRepository.findById(newTopicDTO.userId()).orElseThrow(() -> new RuntimeException("TODO"));
+  public long create(NewTopicDTO newTopicDTO) {
+    String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+    UserEntity user = userRepository.findByName(userName)
+                                    .orElseThrow(() -> new NotFoundException("User not found"));
     Topic topic = new Topic();
     topic.setName(newTopicDTO.name());
     topic.setUserEntity(user);
@@ -34,7 +38,7 @@ public class TopicService {
   }
 
   public TopicDTO getByIdWithFilteredTerms(long topicId) {
-    Topic topic = topicRepository.findById(topicId).orElseThrow(() -> new RuntimeException("TODO"));
+    Topic topic = topicRepository.findById(topicId).orElseThrow(() -> new NotFoundException("Topic not found"));
     validator.validateTopic(topic);
     LocalDateTime now = LocalDateTime.now();
     List<Term> currentTerms = topic.getTerms()
@@ -53,7 +57,7 @@ public class TopicService {
   }
 
   public TopicDTO getById(long topicId) {
-    Topic topic = topicRepository.findById(topicId).orElseThrow(() -> new RuntimeException("TODO"));
+    Topic topic = topicRepository.findById(topicId).orElseThrow(() -> new NotFoundException("Topic not found"));
     validator.validateTopic(topic);
     return new TopicDTO(topic.getName(),
                         topicId,
