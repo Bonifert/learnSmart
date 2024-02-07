@@ -7,10 +7,10 @@ import com.bonifert.backend.model.user.UserEntity;
 import com.bonifert.backend.service.repository.RoleRepository;
 import com.bonifert.backend.service.repository.UserRepository;
 import jakarta.transaction.Transactional;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -29,8 +29,15 @@ public class UserService {
     UserEntity userEntity = new UserEntity();
     userEntity.setName(newUserDTO.name());
     userEntity.setPassword(passwordEncoder.encode(newUserDTO.password()));
-    Role role = roleRepository.findByName("ROLE_USER").orElseThrow(() -> new NotFoundException("TODO"));
-    userEntity.addRole(role);
+    Optional<Role> role = roleRepository.findByName("ROLE_USER");
+    if (role.isPresent()) {
+      userEntity.addRole(role.get());
+    } else {
+      Role userRole = new Role(); // is it good?
+      userRole.setName("ROLE_USER");
+      roleRepository.save(userRole);
+      userEntity.addRole(userRole);
+    }
     return userRepository.save(userEntity).getId();
   }
 

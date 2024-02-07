@@ -1,6 +1,7 @@
 package com.bonifert.backend.service;
 
 import com.bonifert.backend.dto.term.NewTermDTO;
+import com.bonifert.backend.exception.NotFoundException;
 import com.bonifert.backend.model.Review;
 import com.bonifert.backend.model.Term;
 import com.bonifert.backend.model.Topic;
@@ -8,6 +9,7 @@ import com.bonifert.backend.service.repository.ReviewRepository;
 import com.bonifert.backend.service.repository.TermRepository;
 import com.bonifert.backend.service.repository.TopicRepository;
 import com.bonifert.backend.service.showCalculator.NextShowCalculator;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -29,8 +31,10 @@ public class TermService {
     this.validator = validator;
   }
 
+  @Transactional
   public long create(NewTermDTO newTermDTO) {
-    Topic topic = topicRepository.findById(newTermDTO.topicId()).orElseThrow(() -> new RuntimeException("TODO"));
+    Topic topic = topicRepository.findById(newTermDTO.topicId())
+                                 .orElseThrow(() -> new NotFoundException("Topic not found"));
     validator.validateTopic(topic);
     Term term = new Term();
     term.setName(newTermDTO.name());
@@ -40,8 +44,9 @@ public class TermService {
     return termRepository.save(term).getId();
   }
 
+  @Transactional
   public void createReviewByTermId(long termId) {
-    Term term = termRepository.findById(termId).orElseThrow(() -> new RuntimeException("TODO"));
+    Term term = termRepository.findById(termId).orElseThrow(() -> new NotFoundException("Term not found"));
     validator.validateTopic(term.getTopic());
     Review review = new Review();
     reviewRepository.save(review);

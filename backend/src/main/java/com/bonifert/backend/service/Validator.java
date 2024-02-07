@@ -13,7 +13,7 @@ public class Validator {
     String userName = SecurityContextHolder.getContext().getAuthentication().getName();
     String topicUserName = topic.getUserEntity().getName();
     if (!Objects.equals(userName, topicUserName)){
-      throw new AccessDeniedException("TODO");
+      throw new AccessDeniedException("Resource permission denied");
     }
   }
 }

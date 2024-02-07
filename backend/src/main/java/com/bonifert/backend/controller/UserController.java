@@ -4,8 +4,12 @@ import com.bonifert.backend.dto.user.LoginUserDTO;
 import com.bonifert.backend.dto.user.NewUserDTO;
 import com.bonifert.backend.service.AuthenticationService;
 import com.bonifert.backend.service.UserService;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
 
@@ -27,7 +31,8 @@ public class UserController {
   }
 
   @PostMapping("/login")
-  public ResponseEntity<String> login(@RequestBody LoginUserDTO loginUserDTO) {
-    return ResponseEntity.ok(authenticationService.login(loginUserDTO));
+  public ResponseEntity<Void> login(@RequestBody LoginUserDTO loginUserDTO) {
+    HttpHeaders jwt = authenticationService.login(loginUserDTO);
+    return ResponseEntity.ok().headers(jwt).build();
   }
 }

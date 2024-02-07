@@ -22,7 +22,7 @@ public class Term {
   private String definition;
   private int learnRate;
   @OneToMany
-  private List<Review> reviews; // TODO: how can i store data about the reviews to implement forgetting curve
+  private List<Review> reviews;
   private LocalDateTime nextShowDateTime;
 
   public void addReview(Review review) {
