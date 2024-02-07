@@ -8,6 +8,7 @@ import com.bonifert.backend.exception.NotFoundException;
 import com.bonifert.backend.model.Term;
 import com.bonifert.backend.model.Topic;
 import com.bonifert.backend.model.user.UserEntity;
+import com.bonifert.backend.service.mapper.TopicMapper;
 import com.bonifert.backend.service.repository.TopicRepository;
 import com.bonifert.backend.service.repository.UserRepository;
 import jakarta.transaction.Transactional;
@@ -22,11 +23,14 @@ public class TopicService {
   private final TopicRepository topicRepository;
   private final UserRepository userRepository;
   private final Validator validator;
+  private final TopicMapper topicMapper;
 
-  public TopicService(TopicRepository topicRepository, UserRepository userRepository, Validator validator) {
+  public TopicService(TopicRepository topicRepository, UserRepository userRepository, Validator validator,
+                      TopicMapper topicMapper) {
     this.topicRepository = topicRepository;
     this.userRepository = userRepository;
     this.validator = validator;
+    this.topicMapper = topicMapper;
   }
 
   public long create(NewTopicDTO newTopicDTO) {
@@ -46,13 +50,13 @@ public class TopicService {
                                    .stream()
                                    .filter(term -> term.getNextShowDateTime().isBefore(now))
                                    .toList();
-    return convertTopicToDTOWithFilteredTerms(topic, currentTerms);
+    return convertTopicToDTOWithFilteredTerms(topic, currentTerms); // TODO do with mapper but how?
   }
 
   public TopicDTO getById(long topicId) {
     Topic topic = topicRepository.findById(topicId).orElseThrow(() -> new NotFoundException("Topic not found"));
     validator.validateTopic(topic);
-    return convertTopicToDTO(topic);
+    return topicMapper.toTopicDTO(topic);
   }
 
   public void deleteById(long id) {
@@ -67,19 +71,11 @@ public class TopicService {
                                  .orElseThrow(() -> new NotFoundException("Topic not found"));
     validator.validateTopic(topic);
     topic.setName(editTopicDTO.newName());
-    return convertTopicToDTO(topicRepository.save(topic));
+    return topicMapper.toTopicDTO(topicRepository.save(topic));
   }
 
   private List<TermDTO> convertTermsToDTOs(List<Term> terms) {
     return terms.stream().map(term -> new TermDTO(term.getId(), term.getName(), term.getDefinition())).toList();
-  }
-
-  private TopicDTO convertTopicToDTO(Topic topic) {
-    return new TopicDTO(topic.getName(),
-                        topic.getId(),
-                        topic.getCreatedAt(),
-                        topic.getModifiedAt(),
-                        convertTermsToDTOs(topic.getTerms()));
   }
 
   private TopicDTO convertTopicToDTOWithFilteredTerms(Topic topic, List<Term> terms) {
