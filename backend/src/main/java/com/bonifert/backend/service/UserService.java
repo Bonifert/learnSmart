@@ -17,7 +17,6 @@ public class UserService {
   private final UserRepository userRepository;
   private final RoleRepository roleRepository;
   private final PasswordEncoder passwordEncoder;
-  private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
   public UserService(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
     this.userRepository = userRepository;
