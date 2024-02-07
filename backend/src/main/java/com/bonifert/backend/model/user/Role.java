@@ -1,5 +1,6 @@
 package com.bonifert.backend.model.user;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -15,5 +16,6 @@ public class Role {
   @Id
   @GeneratedValue
   private Long id;
+  @Column(unique = true)
   private String name;
 }
