@@ -25,10 +25,13 @@ public class UserService {
     this.passwordEncoder = passwordEncoder;
   }
 
-  public long create(NewUserDTO newUserDTO) {
+  @Transactional
+  public long register(NewUserDTO newUserDTO) {
     UserEntity userEntity = new UserEntity();
     userEntity.setName(newUserDTO.name());
     userEntity.setPassword(passwordEncoder.encode(newUserDTO.password()));
+    Role role = roleRepository.findByName("ROLE_USER").orElseThrow(() -> new NotFoundException("TODO"));
+    userEntity.addRole(role);
     return userRepository.save(userEntity).getId();
   }
 
