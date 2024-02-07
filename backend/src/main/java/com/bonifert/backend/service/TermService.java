@@ -18,17 +18,20 @@ public class TermService {
   private final TopicRepository topicRepository;
   private final ReviewRepository reviewRepository;
   private final NextShowCalculator nextShowCalculator;
+  private final Validator validator;
 
   public TermService(TermRepository termRepository, TopicRepository topicRepository, ReviewRepository reviewRepository,
-                     NextShowCalculator nextShowCalculator) {
+                     NextShowCalculator nextShowCalculator, Validator validator) {
     this.termRepository = termRepository;
     this.topicRepository = topicRepository;
     this.reviewRepository = reviewRepository;
     this.nextShowCalculator = nextShowCalculator;
+    this.validator = validator;
   }
 
   public long create(NewTermDTO newTermDTO) {
     Topic topic = topicRepository.findById(newTermDTO.topicId()).orElseThrow(() -> new RuntimeException("TODO"));
+    validator.validateTopic(topic);
     Term term = new Term();
     term.setName(newTermDTO.name());
     term.setDefinition(newTermDTO.definition());
@@ -39,6 +42,7 @@ public class TermService {
 
   public void createReviewByTermId(long termId) {
     Term term = termRepository.findById(termId).orElseThrow(() -> new RuntimeException("TODO"));
+    validator.validateTopic(term.getTopic());
     Review review = new Review();
     reviewRepository.save(review);
     term.addReview(review);
