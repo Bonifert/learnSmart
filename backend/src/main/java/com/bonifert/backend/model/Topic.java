@@ -26,6 +26,6 @@ public class Topic {
   private LocalDateTime createdAt;
   @UpdateTimestamp
   private LocalDateTime modifiedAt;
-  @OneToMany(mappedBy = "topic")
+  @OneToMany(mappedBy = "topic", cascade = CascadeType.REMOVE)
   private List<Term> terms;
 }
