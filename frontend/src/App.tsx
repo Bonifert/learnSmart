@@ -1,8 +1,21 @@
-import './App.css'
-import {HomePage} from "./Pages/HomePage.tsx";
+import "./app.css"
+import {HomePage} from "./pages/HomePage.tsx";
+import {ResponsiveAppBar} from "./pages/layout/ResponsiveAppBar.tsx"
+import {createBrowserRouter, RouterProvider} from "react-router-dom";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <HomePage></HomePage>
+  },
+  {
+    path: "/topics",
+    element: <ResponsiveAppBar></ResponsiveAppBar>
+  }
+])
 
 function App() {
-    return <HomePage></HomePage>
+  return <RouterProvider router={router}></RouterProvider>;
 }
 
 export default App;
