@@ -57,44 +57,6 @@
 <p align="right">(<a href="#about-the-project">back to top</a>)</p>
 
 
-## Implemented features:
-
-### Backend:
-
-1. User registration
-2. Topic and term crud operations
-3. User authorization and authentication
-4. Repetition algorithm
-5. Error messages
-
-### Frontend:
-
-1. Login and register page
-2. Context:
-   - User context to store data from the user
-   - Alert context to give feedback to the user
-
-## In progress:
-
-### Backend:
-
-1. Move authentication endpoints from UserController to authentication controller.
-
-### Frontend:
-
-1. My topics page
-2. Edit/create topic page
-
-## Future plans
-
-1. AI integration to allow the application to recommend terms and definitions related to the topic
-2. Implement forgetting curve
-3. Dockerizing the application
-
-<!-- GETTING STARTED -->
-
-<p align="right">(<a href="#about-the-project">back to top</a>)</p>
-
 # Getting Started
 
 ## Prerequisites
@@ -150,7 +112,7 @@
      ```shell
      npm install
      ```
-    
+
 12. Install vite and run the application
      ```shell
      npm install -g vite
@@ -159,6 +121,45 @@
      ```shell
      vite
      ```
+
+<p align="right">(<a href="#about-the-project">back to top</a>)</p>
+
+
+## Implemented features:
+
+### Backend:
+
+1. User registration
+2. Topic and term crud operations
+3. User authorization and authentication
+4. Repetition algorithm
+5. Error messages
+
+### Frontend:
+
+1. Login and register page
+2. Context:
+   - User context to store data from the user
+   - Alert context to give feedback to the user
+
+## In progress:
+
+### Backend:
+
+1. Move authentication endpoints from UserController to authentication controller.
+
+### Frontend:
+
+1. My topics page
+2. Edit/create topic page
+
+## Future plans
+
+1. AI integration to allow the application to recommend terms and definitions related to the topic
+2. Implement forgetting curve
+3. Dockerizing the application
+
+<!-- GETTING STARTED -->
 
 <p align="right">(<a href="#about-the-project">back to top</a>)</p>
 
