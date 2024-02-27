@@ -5,10 +5,10 @@
   </a>
 
 <h3 align="center">learnSmart</h3>
-<p align="left">
+<p>
    learnSmart is a full-stack web application designed to help users learn new languages or memorize definitions effectively. Users can register and create personalized learning spaces by creating topics and adding terms with clear definitions. The application utilizes features like flashcards and spaced repetition algorithms to enhance learning and retention. 
 </p>
-<p align="left">
+<p>
    Please note that the project is not yet finished. I'm currently working on it.  
 </p>
 
@@ -24,12 +24,12 @@
         <li><a href="#building-with">Built With</a></li>
       </ul>
     </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
+<!--     <li> -->
+<!--       <a href="#getting-started">Getting Started</a>
       <ul>
         <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
+      </ul> -->
+<!--     </li> -->
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#author">Author</a></li>
   </ol>
