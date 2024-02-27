@@ -91,41 +91,69 @@
 
 <!-- GETTING STARTED -->
 
-<p align="right">(<a href="#about-the-project">back to top</a>)</p>
+[//]: # (<p align="right">&#40;<a href="#about-the-project">back to top</a>&#41;</p>)
 
-## Getting Started
+[//]: # (## Getting Started)
 
-### Installation:
+[//]: # ()
+[//]: # (### Installation:)
 
-0. Download Node and Maven and add them to the path if you haven't already.
-   <br/>(Node: https://nodejs.org/en/download, Maven: https://maven.apache.org/download.cgi) <br/> <br/>
-1. Clone the repo
-   ```sh
-   git clone https://github.com/Bonifert/learnSmart
-   ```
-2. Navigate to the frontend folder
-   ```sh
-   cd frontend
-   ```
-3. Install frontend packages
-   ```shell
-   npm install
-   ```
-4. Run the frontend
-   ```sh
-   vite
-   ```
-   (if not working, run ```npm install -g vite``` and then ```vite```)
+[//]: # ()
+[//]: # (0. Download Node and Maven and add them to the path if you haven't already.)
 
+[//]: # (   <br/>&#40;Node: https://nodejs.org/en/download, Maven: https://maven.apache.org/download.cgi&#41; <br/> <br/>)
 
-5. Open another terminal, and navigate to the backend folder
-   ```shell
-   cd backend
-   ```
-6. Run the backend
-   ```shell
-   mvn spring-boot:run
-   ```
+[//]: # (1. Clone the repo)
+
+[//]: # (   ```sh)
+
+[//]: # (   git clone https://github.com/Bonifert/learnSmart)
+
+[//]: # (   ```)
+
+[//]: # (2. Navigate to the frontend folder)
+
+[//]: # (   ```sh)
+
+[//]: # (   cd frontend)
+
+[//]: # (   ```)
+
+[//]: # (3. Install frontend packages)
+
+[//]: # (   ```shell)
+
+[//]: # (   npm install)
+
+[//]: # (   ```)
+
+[//]: # (4. Run the frontend)
+
+[//]: # (   ```sh)
+
+[//]: # (   vite)
+
+[//]: # (   ```)
+
+[//]: # (   &#40;if not working, run ```npm install -g vite``` and then ```vite```&#41;)
+
+[//]: # ()
+[//]: # ()
+[//]: # (5. Open another terminal, and navigate to the backend folder)
+
+[//]: # (   ```shell)
+
+[//]: # (   cd backend)
+
+[//]: # (   ```)
+
+[//]: # (6. Run the backend)
+
+[//]: # (   ```shell)
+
+[//]: # (   mvn spring-boot:run)
+
+[//]: # (   ```)
 
 <p align="right">(<a href="#about-the-project">back to top</a>)</p>
 
