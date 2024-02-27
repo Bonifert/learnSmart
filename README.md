@@ -105,7 +105,7 @@
    ```
 2. Navigate to the frontend folder
    ```sh
-   cd frontend
+   cd learnSmart/frontend
    ```
 3. Install frontend packages
    ```shell
@@ -120,7 +120,7 @@
 
 5. Open another terminal, and navigate to the backend folder
    ```shell
-   cd backend
+   cd learnSmart/backend
    ```
 6. Run the backend
    ```shell
