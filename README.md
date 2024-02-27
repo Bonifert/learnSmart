@@ -133,11 +133,11 @@
 
 8. Set the database name, username and password as environment variables as follows:
 
-   ✅ DATABASE_NAME=your database name
+   ✅ DB_NAME=your database name
 
-   ✅ DATABASE_USERNAME=your username
+   ✅ DB_USERNAME=your username
 
-   ✅ DATABASE_PASSWORD=your password
+   ✅ DB_PASSWORD=your password
 
 
 9. Run the application by the "Run" button in the top right corner or with Shift + F10 shortcut
