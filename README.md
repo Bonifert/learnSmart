@@ -111,7 +111,7 @@
 
 1. Clone the repo
    ```shell
-   git clone https://github.com/Bonifert/learnSmart
+   git clone git@github.com:Bonifert/learnSmart.git
    ```
 2. Install Java version 17 or higher
 
