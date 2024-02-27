@@ -22,11 +22,15 @@
       <a href="#about-the-project">About The Project</a>
       <ul>
         <li><a href="#building-with">Built With</a></li>
+        <li><a href="#implemented-features">Implemented features</a></li>
+        <li><a href="#in-progress">In progress</a></li>
+        <li><a href="#future-plans">Future plans</a></li>
       </ul>
     </li>
     <li>
       <a href="#getting-started">Getting Started</a>
       <ul>
+      <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
@@ -39,7 +43,7 @@
 
 <!-- ABOUT THE PROJECT -->
 
-## About The Project
+# About The Project
 
 
 ## Building With
@@ -91,69 +95,72 @@
 
 <!-- GETTING STARTED -->
 
-[//]: # (<p align="right">&#40;<a href="#about-the-project">back to top</a>&#41;</p>)
+<p align="right">(<a href="#about-the-project">back to top</a>)</p>
 
-[//]: # (## Getting Started)
+# Getting Started
 
-[//]: # ()
-[//]: # (### Installation:)
+## Prerequisites
 
-[//]: # ()
-[//]: # (0. Download Node and Maven and add them to the path if you haven't already.)
+1. JAVA
+2. MAVEN
+3. INTELLIJ
+4. POSTGRESQL
+5. NODE
 
-[//]: # (   <br/>&#40;Node: https://nodejs.org/en/download, Maven: https://maven.apache.org/download.cgi&#41; <br/> <br/>)
+## Installation
 
-[//]: # (1. Clone the repo)
+1. Clone the repo
+   ```shell
+   git clone https://github.com/Bonifert/learnSmart
+   ```
+2. Install Java version 17 or higher
 
-[//]: # (   ```sh)
 
-[//]: # (   git clone https://github.com/Bonifert/learnSmart)
+3. Install Apache Maven or IDE with built-in Maven support
 
-[//]: # (   ```)
 
-[//]: # (2. Navigate to the frontend folder)
+4. Install an integrated development environment(IDE) - IntelliJ IDEA
 
-[//]: # (   ```sh)
 
-[//]: # (   cd frontend)
+5. Install PostgreSQL
 
-[//]: # (   ```)
 
-[//]: # (3. Install frontend packages)
+6. Create a database in PostgreSQL
 
-[//]: # (   ```shell)
 
-[//]: # (   npm install)
+7. Open the project in intelliJ
 
-[//]: # (   ```)
 
-[//]: # (4. Run the frontend)
+8. Set the database name, username and password as environment variables as follows:
 
-[//]: # (   ```sh)
+   ✅ DATABASE_NAME=your database name
 
-[//]: # (   vite)
+   ✅ DATABASE_USERNAME=your username
 
-[//]: # (   ```)
+   ✅ DATABASE_PASSWORD=your password
 
-[//]: # (   &#40;if not working, run ```npm install -g vite``` and then ```vite```&#41;)
 
-[//]: # ()
-[//]: # ()
-[//]: # (5. Open another terminal, and navigate to the backend folder)
+9. Run the application by the "Run" button in the top right corner or with Shift + F10 shortcut
 
-[//]: # (   ```shell)
 
-[//]: # (   cd backend)
+10. Navigate to the frontend folder in terminal
+     ```shell
+     cd learnSmart/frontend
+     ```
 
-[//]: # (   ```)
-
-[//]: # (6. Run the backend)
-
-[//]: # (   ```shell)
-
-[//]: # (   mvn spring-boot:run)
-
-[//]: # (   ```)
+11. Install the frontend packages
+     ```shell
+     npm install
+     ```
+    
+12. Install vite and run the application
+     ```shell
+     npm install -g vite
+     ```
+    then
+     ```shell
+     vite
+     ```
 
 <p align="right">(<a href="#about-the-project">back to top</a>)</p>
 
