@@ -27,13 +27,13 @@
         <li><a href="#future-plans">Future plans</a></li>
       </ul>
     </li>
-<!--     <li> -->
-<!--       <a href="#getting-started">Getting Started</a>
+     <li>
+       <a href="#getting-started">Getting Started</a>
       <ul>
       <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#installation">Installation</a></li>
-      </ul> -->
-<!--     </li> -->
+      </ul>
+     </li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#author">Author</a></li>
   </ol>
