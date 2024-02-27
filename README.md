@@ -41,7 +41,6 @@
 
 ## About The Project
 
-<p align="right">(<a href="#about-the-project">back to top</a>)</p>
 
 ## Building With
 
@@ -96,8 +95,10 @@
 
 ## Getting Started
 
-### Installation
+### Installation:
 
+0. Download Node and Maven and add them to the path if you haven't already.
+   <br/>(Node: https://nodejs.org/en/download, Maven: https://maven.apache.org/download.cgi) <br/> <br/>
 1. Clone the repo
    ```sh
    git clone https://github.com/Bonifert/learnSmart
@@ -114,6 +115,9 @@
    ```sh
    vite
    ```
+   (if not working, run ```npm install -g vite``` and then ```vite```)
+
+
 5. Open another terminal, and navigate to the backend folder
    ```shell
    cd backend
