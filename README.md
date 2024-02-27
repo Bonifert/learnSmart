@@ -1,4 +1,3 @@
-<!-- PROJECT LOGO -->
 <br />
 <div align="center">
   <a href="https://github.com/Bonifert/learnSmart">
@@ -6,7 +5,6 @@
   </a>
 
 <h3 align="center">learnSmart</h3>
-
 <p align="left">
    learnSmart is a full-stack web application designed to help users learn new languages or memorize definitions effectively. Users can register and create personalized learning spaces by creating topics and adding terms with clear definitions. The application utilizes features like flashcards and spaced repetition algorithms to enhance learning and retention. 
 </p>
@@ -43,7 +41,7 @@
 
 ## About The Project
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#about-the-project">back to top</a>)</p>
 
 ## Building With
 
@@ -55,7 +53,7 @@
 
 ![Java] <br/> ![SpringBoot]<br/> ![psql]
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#about-the-project">back to top</a>)</p>
 
 
 ## Implemented features:
@@ -94,6 +92,8 @@
 
 <!-- GETTING STARTED -->
 
+<p align="right">(<a href="#about-the-project">back to top</a>)</p>
+
 ## Getting Started
 
 ### Installation
@@ -123,7 +123,7 @@
    mvn spring-boot:run
    ```
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#about-the-project">back to top</a>)</p>
 
 
 
@@ -143,7 +143,7 @@ simply open an issue with the tag "enhancement".
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#about-the-project">back to top</a>)</p>
 
 
 <!-- AUTHORS -->
@@ -154,7 +154,7 @@ simply open an issue with the tag "enhancement".
 ![Gmail] <br/> bonifert.andras@gmail.com <br/> <br/>
 ![LinkedIn] <br/> https://www.linkedin.com/in/andras-bonifert/
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#about-the-project">back to top</a>)</p>
 
 
 
