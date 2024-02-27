@@ -12,9 +12,9 @@
 <p>
    learnSmart is a full-stack web application designed to help users learn new languages or memorize definitions effectively. Users can register and create personalized learning spaces by creating topics and adding terms with clear definitions. The application utilizes features like flashcards and spaced repetition algorithms to enhance learning and retention. 
 </p>
-<p>
-   Please note that the project is not yet finished. I'm currently working on it.  
-</p>
+
+_Please note that the project is not yet finished. I'm currently working on it._  
+
 
 
 
