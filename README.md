@@ -128,7 +128,7 @@
 6. Create a database in PostgreSQL
 
 
-7. Open the project in intelliJ
+7. Open the backend folder in intelliJ
 
 
 8. Set the database name, username and password as environment variables as follows:
