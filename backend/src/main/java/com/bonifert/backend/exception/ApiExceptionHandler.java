@@ -25,9 +25,7 @@ public class ApiExceptionHandler {
   @ExceptionHandler(value = ConstraintViolationException.class)
   public ResponseEntity<ErrorResponse> handleConstraintViolationException(ConstraintViolationException exception) {
     HttpStatus httpStatus = HttpStatus.CONFLICT;
-    ErrorResponse errorResponse = new ErrorResponse(exception.getSQL(),
-                                                    httpStatus);
-
+    ErrorResponse errorResponse = new ErrorResponse(exception.getSQL(), httpStatus);
     return new ResponseEntity<>(errorResponse, httpStatus);
   }
 }
