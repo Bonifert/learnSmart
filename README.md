@@ -186,9 +186,11 @@ simply open an issue with the tag "enhancement".
 
 ## Author
 
-![Github Pages] <br/> https://github.com/Bonifert <br/> <br/>
-![Gmail] <br/> bonifert.andras@gmail.com <br/> <br/>
-![LinkedIn] <br/> https://www.linkedin.com/in/andras-bonifert/
+Bonifert András
+
+[![Github Pages]](https://github.com/Bonifert) 
+[![LinkedIn]](https://www.linkedin.com/in/andras-bonifert/) 
+[![Gmail]](mailto:bonifert.andras@gmail.com) <br/> <br/>
 
 <p align="right">(<a href="#about-the-project">back to top</a>)</p>
 
