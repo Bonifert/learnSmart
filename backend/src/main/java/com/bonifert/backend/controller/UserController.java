@@ -2,14 +2,13 @@ package com.bonifert.backend.controller;
 
 import com.bonifert.backend.dto.user.LoginUserDTO;
 import com.bonifert.backend.dto.user.NewUserDTO;
+import com.bonifert.backend.dto.user.UserInformationDTO;
 import com.bonifert.backend.service.AuthenticationService;
 import com.bonifert.backend.service.UserService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 
@@ -34,5 +33,11 @@ public class UserController {
   public ResponseEntity<Void> login(@RequestBody LoginUserDTO loginUserDTO) {
     HttpHeaders jwt = authenticationService.login(loginUserDTO);
     return ResponseEntity.ok().headers(jwt).build();
+  }
+
+  @GetMapping("/me")
+  public ResponseEntity<UserInformationDTO> me(){
+    String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+    return ResponseEntity.ok().body(new UserInformationDTO(userName));
   }
 }
