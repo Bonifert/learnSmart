@@ -28,7 +28,7 @@ public class AuthenticationService {
 
   public HttpHeaders login(LoginUserDTO loginUserDTO) {
     Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-            loginUserDTO.name(),
+            loginUserDTO.userName(),
             loginUserDTO.password()));
     SecurityContextHolder.getContext().setAuthentication(authentication);
     String token = jwtUtils.generateJwtToken(authentication);
@@ -39,6 +39,6 @@ public class AuthenticationService {
 
   public UserEntity getUser(){
     String userName = SecurityContextHolder.getContext().getAuthentication().getName();
-    return userRepository.findByName(userName).orElseThrow(()-> new NotFoundException("User not found"));
+    return userRepository.findByUserName(userName).orElseThrow(()-> new NotFoundException("User not found"));
   }
 }
