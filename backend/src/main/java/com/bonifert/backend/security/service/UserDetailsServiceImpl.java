@@ -1,6 +1,5 @@
 package com.bonifert.backend.security.service;
 
-import com.bonifert.backend.exception.NotFoundException;
 import com.bonifert.backend.model.user.UserEntity;
 import com.bonifert.backend.service.repository.UserRepository;
 import org.springframework.security.core.GrantedAuthority;
@@ -23,8 +22,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    UserEntity user = userRepository.findByName(username)
-                                    .orElseThrow(() -> new NotFoundException("User not found with name: " + username));
+    UserEntity user = userRepository.findByUserName(username).orElseThrow(RuntimeException::new);
     List<? extends GrantedAuthority> grantedAuthorities = user.getRoles()
                                                               .stream()
                                                               .map(role -> new SimpleGrantedAuthority(role.getName()))

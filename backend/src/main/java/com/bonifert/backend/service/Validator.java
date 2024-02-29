@@ -11,7 +11,7 @@ import java.util.Objects;
 public class Validator {
   public void validateTopic(Topic topic){
     String userName = SecurityContextHolder.getContext().getAuthentication().getName();
-    String topicUserName = topic.getUserEntity().getName();
+    String topicUserName = topic.getUserEntity().getUserName();
     if (!Objects.equals(userName, topicUserName)){
       throw new AccessDeniedException("Resource permission denied");
     }

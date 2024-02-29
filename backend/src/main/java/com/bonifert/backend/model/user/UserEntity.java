@@ -20,7 +20,7 @@ public class UserEntity {
   @GeneratedValue
   private Long id;
   @Column(unique = true)
-  private String name;
+  private String userName;
   private String password;
   @CreationTimestamp
   private LocalDateTime createdAt;

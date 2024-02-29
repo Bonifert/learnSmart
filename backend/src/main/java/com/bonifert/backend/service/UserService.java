@@ -27,7 +27,7 @@ public class UserService {
   @Transactional
   public long register(NewUserDTO newUserDTO) {
     UserEntity userEntity = new UserEntity();
-    userEntity.setName(newUserDTO.name());
+    userEntity.setUserName(newUserDTO.userName());
     userEntity.setPassword(passwordEncoder.encode(newUserDTO.password()));
     Optional<Role> role = roleRepository.findByName("ROLE_USER");
     if (role.isPresent()) {
