@@ -186,7 +186,7 @@ simply open an issue with the tag "enhancement".
 
 ## Author
 
-Bonifert András
+### Bonifert András
 
 [![Github Pages]](https://github.com/Bonifert) 
 [![LinkedIn]](https://www.linkedin.com/in/andras-bonifert/) 
