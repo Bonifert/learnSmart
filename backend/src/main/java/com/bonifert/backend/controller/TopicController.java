@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/topic")
@@ -44,5 +45,10 @@ public class TopicController {
   @PatchMapping
   public ResponseEntity<TopicDTO> update(@RequestBody EditTopicDTO editTopicDTO) {
     return ResponseEntity.ok(topicService.edit(editTopicDTO));
+  }
+
+  @GetMapping
+  public ResponseEntity<List<TopicDTO>> getUserTopics(){
+    return ResponseEntity.ok(topicService.getTopicsByUser());
   }
 }
