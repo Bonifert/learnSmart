@@ -20,7 +20,7 @@ import java.util.List;
 
 @Service
 public class TopicService {
-  private final TopicRepository topicRepository;
+  private final TopicRepository  topicRepository;
   private final UserRepository userRepository;
   private final Validator validator;
   private final TopicMapper topicMapper;
@@ -35,7 +35,7 @@ public class TopicService {
 
   public long create(NewTopicDTO newTopicDTO) {
     String userName = SecurityContextHolder.getContext().getAuthentication().getName();
-    UserEntity user = userRepository.findByName(userName).orElseThrow(() -> new NotFoundException("User not found"));
+    UserEntity user = userRepository.findByUserName(userName).orElseThrow(() -> new NotFoundException("User not found"));
     Topic topic = new Topic();
     topic.setName(newTopicDTO.name());
     topic.setUserEntity(user);
@@ -57,6 +57,13 @@ public class TopicService {
     Topic topic = topicRepository.findById(topicId).orElseThrow(() -> new NotFoundException("Topic not found"));
     validator.validateTopic(topic);
     return topicMapper.toTopicDTO(topic);
+  }
+
+  public List<TopicDTO> getTopicsByUser(){
+    String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+    UserEntity user = userRepository.findByUserName(userName).orElseThrow(()-> new NotFoundException("User not found"));
+    List<Topic> topics = topicRepository.getAllByUserEntity(user);
+    return topics.stream().map(topicMapper::toTopicDTO).toList();
   }
 
   public void deleteById(long id) {
