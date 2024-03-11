@@ -1,6 +1,7 @@
 package com.bonifert.backend.controller;
 
 import com.bonifert.backend.dto.term.NewTermDTO;
+import com.bonifert.backend.dto.term.TermDTO;
 import com.bonifert.backend.service.TermService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +26,12 @@ public class TermController {
   @PutMapping("/review/{termId}")
   public ResponseEntity<Void> createReview(@PathVariable long termId) {
     termService.createReviewByTermId(termId);
+    return ResponseEntity.ok().build();
+  }
+
+  @PatchMapping
+  public ResponseEntity<Void> editTerm(@RequestBody TermDTO termDTO){
+    termService.editTerm(termDTO);
     return ResponseEntity.ok().build();
   }
 }

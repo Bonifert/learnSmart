@@ -1,6 +1,7 @@
 package com.bonifert.backend.service;
 
 import com.bonifert.backend.dto.term.NewTermDTO;
+import com.bonifert.backend.dto.term.TermDTO;
 import com.bonifert.backend.exception.NotFoundException;
 import com.bonifert.backend.model.Review;
 import com.bonifert.backend.model.Term;
@@ -13,6 +14,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class TermService {
@@ -35,7 +37,7 @@ public class TermService {
   public long create(NewTermDTO newTermDTO) {
     Topic topic = topicRepository.findById(newTermDTO.topicId())
                                  .orElseThrow(() -> new NotFoundException("Topic not found"));
-    validator.validateTopic(topic);
+    validator.validate(topic);
     Term term = new Term();
     term.setName(newTermDTO.name());
     term.setDefinition(newTermDTO.definition());
@@ -47,12 +49,45 @@ public class TermService {
   @Transactional
   public void createReviewByTermId(long termId) {
     Term term = termRepository.findById(termId).orElseThrow(() -> new NotFoundException("Term not found"));
-    validator.validateTopic(term.getTopic());
+    validator.validate(term);
     Review review = new Review();
     reviewRepository.save(review);
     term.addReview(review);
+    if (LocalDateTime.now().isBefore(term.getNextShowDateTime())){
+      calculateAndSetNextShowDate(term);
+      Topic topic = term.getTopic();
+      updateTopicUrgency(topic);
+    }
+    termRepository.save(term);
+  }
+
+  @Transactional
+  public void editTerm(TermDTO termDTO){
+    Term term = termRepository.findById(termDTO.id()).orElseThrow(()-> new NotFoundException("Term not found"));
+    term.setDefinition(termDTO.definition());
+    term.setName(termDTO.name());
+    termRepository.save(term);
+  }
+
+  private void calculateAndSetNextShowDate(Term term){
     LocalDateTime nextShowDateTime = nextShowCalculator.calculate(term.getReviews());
     term.setNextShowDateTime(nextShowDateTime);
-    termRepository.save(term);
+  }
+
+  private void updateTopicUrgency(Topic topic){
+    String topicUrgencyLevel = calculateUrgency(topic);
+    topic.setPriority(topicUrgencyLevel);
+    topicRepository.save(topic);
+  }
+
+  private String calculateUrgency(Topic topic){
+    int expiredCounter = 0;
+    List<Term> terms = topic.getTerms();
+    for (Term term : terms){
+      if (term.getNextShowDateTime().isBefore(LocalDateTime.now())) expiredCounter++;
+    }
+    if (expiredCounter == 0) return "Optional";
+    if (expiredCounter / terms.size() * 100 < 30) return "Consider";
+    return "Prioritize";
   }
 }
