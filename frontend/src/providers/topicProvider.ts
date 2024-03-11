@@ -1,9 +1,8 @@
 import {ApiResObj} from "./userProvider.ts";
-import {Topic} from "../components/TopicForm.tsx";
 
 async function getMyTopics(): Promise<ApiResObj> {
   const token = localStorage.getItem("token") ?? "";
-  const httpRes: Response = await fetch("/api/topic", {
+  const httpRes: Response = await fetch("/api/topic/info", {
     method: "GET",
     headers: {
       "Authorization": token,
@@ -25,16 +24,16 @@ async function getTopicById(id: number) : Promise<ApiResObj>{
   return {status: httpRes.status, body};
 }
 
-async function createTopic(topic : Topic) : Promise<ApiResObj>{
+async function createTopic() : Promise<ApiResObj>{
   const token = localStorage.getItem("token") ?? "";
   const httpRes : Response = await fetch("/api/topic",{
     method: "POST",
     headers: {
       "Authorization": token,
-    },
-    body: JSON.stringify(topic)
+    }
   });
-  return {status: httpRes.status};
+  const body = await httpRes.json();
+  return {status: httpRes.status, body};
 }
 
 async function deleteTopic(id: number) : Promise<ApiResObj>{
