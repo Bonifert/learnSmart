@@ -72,7 +72,7 @@ const UserProvider = ({children}: Props) => {
         getMe(token);
       }
     }
-    return {status: httpRes.status, body: null, headers: httpRes.headers};
+    return {status: httpRes.status};
   }
 
   const logout = () => {
