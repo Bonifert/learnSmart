@@ -5,7 +5,7 @@ import {Term} from "./TopicForm.tsx";
 import { useState} from "react";
 import Grid from "@mui/material/Grid";
 
-interface Props {c
+interface Props {
   open: boolean;
   term: Term;
   onClose: () => void;
