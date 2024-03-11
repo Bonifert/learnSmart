@@ -6,7 +6,7 @@ import {ToggleButton, ToggleButtonGroup, useMediaQuery, useTheme} from "@mui/mat
 import {useState} from "react";
 import Box from "@mui/material/Box";
 
-export const HomePage = () => {
+export const Home = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm')); // Check if screen size is mobile or smaller
   const [loginOrRegister, setLoginOrRegister] = useState("login");
