@@ -1,16 +1,28 @@
 import "./app.css"
-import {HomePage} from "./pages/HomePage.tsx";
-import {ResponsiveAppBar} from "./pages/layout/ResponsiveAppBar.tsx"
+import {Home} from "./pages/Home.tsx";
+import MyTopics from "./pages/MyTopics.tsx";
+import {ResponsiveAppBar} from "./pages/layout/ResponsiveAppBar"
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
+import EditTopic from "./pages/EditTopic.tsx";
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <HomePage></HomePage>
+    path: "/home",
+    element: <Home/>
   },
   {
-    path: "/topics",
-    element: <ResponsiveAppBar></ResponsiveAppBar>
+    path: "/",
+    element: <ResponsiveAppBar/>,
+    children: [
+      {
+        path: "/",
+        element: <MyTopics/>
+      },
+      {
+        path: "/edit/:id",
+        element: <EditTopic/>
+      }
+    ]
   }
 ])
 
