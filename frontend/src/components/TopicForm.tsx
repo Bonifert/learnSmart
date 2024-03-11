@@ -5,10 +5,12 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import TermEditDialog from "./TermEditDialog.tsx";
+import {createTerm, editTerm} from "../providers/termProvider.ts";
+import {useFeedback} from "../context/alertContext/feedbackContextImport.ts";
 
 export interface Topic {
   name: string;
-  id?: number;
+  id: number;
   terms: Term[];
 }
 
@@ -19,47 +21,17 @@ export interface Term {
 }
 
 interface Props {
-  topic: Topic | null;
+  topic: Topic;
   onSave: (topic: Topic) => void;
   onDelete: (id: number) => void;
   disabled: boolean
 }
 
 const TopicForm = ({topic, onSave, onDelete, disabled}: Props) => {
-  topic = {
-    name: "boni topic",
-    id: 1,
-    terms: [
-      {
-        id: 1,
-        name: "Boni",
-        definition: "me"
-      },
-      {
-        id: 2,
-        name: "apple",
-        definition: "almaalmaalmaaadsfasd"
-      },
-      {
-        id: 3,
-        name: "valaki",
-        definition: "jozsi"
-      },
-      {
-        id: 4,
-        name: "React context",
-        definition: "It is an useful tool, to create a.........."
-      },
-      {
-        id: 5,
-        name: "valaki",
-        definition: "jozsi"
-      },
-    ]
-  }
-  const [topicName, setTopicName] = useState(topic?.name ?? "Boni topic");
+  const {feedback} = useFeedback();
+  const [topicName, setTopicName] = useState(topic?.name ?? "");
   const [terms, setTerms] = useState(topic?.terms ?? []);
-  const [editTerm, setEditTerm] = useState<Term>({name: "", definition: "", id: -1});
+  const [currentEditTerm, setCurrentEditTerm] = useState<Term>({name: "", definition: "", id: -1});
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [newTermOpen, setNewTermOpen] = useState(false);
 
@@ -73,28 +45,48 @@ const TopicForm = ({topic, onSave, onDelete, disabled}: Props) => {
     onSave(topicToSave);
   }
 
-  function handleEditTerm(term: Term) {
-    setTerms((prevState) => {
-      const newTerms = [...prevState];
-      return newTerms.map(currentTerm => currentTerm.id === term.id ? {
-        name: term.name,
-        definition: term.definition,
-        id: term.id
-      } : currentTerm);
-    });
-    setEditDialogOpen(false);
+  async function handleEditTerm(term: Term) {
+    try {
+      const response = await editTerm(term);
+      console.log(response)
+      if (response.status === 200){
+        setTerms((prevState) => {
+          const newTerms = [...prevState];
+          return newTerms.map(currentTerm => currentTerm.id === term.id ? {
+            name: term.name,
+            definition: term.definition,
+            id: term.id
+          } : currentTerm);
+        });
+        feedback("Term edited!", "success");
+      }
+    } catch (e) {
+      console.log(e);
+      feedback("The edit was not successful", "error");
+    } finally {
+      setEditDialogOpen(false);
+    }
   }
 
   function handleDialogEditClose() {
-    setEditTerm({name: "", definition: "", id: -1});
+    setCurrentEditTerm({name: "", definition: "", id: -1});
     setEditDialogOpen(false);
   }
 
-  function handleNewTerm(term: Term){
-    setTerms((prevState) => {
-      return [...prevState, term];
-    });
-    setNewTermOpen(false);
+  async function handleNewTerm(term: Term) {
+    try {
+      const response = await createTerm({name: term.name, topicId: topic.id, definition: term.definition});
+      if (response.status === 201){
+        feedback("Term created!", "success");
+        setTerms((prevState) => {
+          return [...prevState, term];
+        });
+        setNewTermOpen(false);
+      }
+    } catch (e) {
+      console.error(e);
+      feedback("Unexpected error occurred.", "error");
+    }
   }
 
   return (
@@ -135,15 +127,15 @@ const TopicForm = ({topic, onSave, onDelete, disabled}: Props) => {
                       <Grid pl={3} item xs={6} textAlign="left">
                         <Typography>Terms</Typography>
                       </Grid>
-                      <Grid xs={6} textAlign="right" p={0.4}>
+                      <Grid item xs={6} textAlign="right" p={0.4}>
                         <Button size="small"
-                                onClick={()=> setNewTermOpen(true)}
+                                onClick={() => setNewTermOpen(true)}
                                 sx={{
-                          color: "white",
-                          borderRadius: "7px",
-                          backgroundColor: "#18838c",
-                          "&:hover": {bgcolor: "#154f57"}
-                        }}>Create term</Button>
+                                  color: "white",
+                                  borderRadius: "7px",
+                                  backgroundColor: "#18838c",
+                                  "&:hover": {bgcolor: "#154f57"}
+                                }}>Create term</Button>
                       </Grid>
                     </Grid>
                   </Grid>
@@ -158,7 +150,7 @@ const TopicForm = ({topic, onSave, onDelete, disabled}: Props) => {
                       }}>
                         <Button fullWidth onClick={() => {
                           setEditDialogOpen(true);
-                          setEditTerm({...term});
+                          setCurrentEditTerm({...term});
                         }}>
                           <Grid container sx={{placeItems: "center", color: "black", textTransform: "none"}}>
                             <Grid item xs={6}>{shortString(term.name)}</Grid>
@@ -174,12 +166,12 @@ const TopicForm = ({topic, onSave, onDelete, disabled}: Props) => {
           </Grid>
         </Grid>
         {
-          editDialogOpen && <TermEditDialog open={true} term={editTerm} onClose={handleDialogEditClose}
-                                            onSave={handleEditTerm}/>
+            editDialogOpen && <TermEditDialog open={true} term={currentEditTerm} onClose={handleDialogEditClose}
+                                              onSave={handleEditTerm}/>
         }
         {
-          newTermOpen && <TermEditDialog open={true} term={editTerm} onClose={()=> setNewTermOpen(false)}
-                                         onSave={handleNewTerm}/>
+            newTermOpen && <TermEditDialog open={true} term={currentEditTerm} onClose={() => setNewTermOpen(false)}
+                                           onSave={handleNewTerm}/>
         }
       </Box>
   )
