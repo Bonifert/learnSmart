@@ -13,6 +13,10 @@ import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
+import {createTopic} from "../providers/topicProvider.ts";
+import {useNavigate} from "react-router-dom";
+import {useFeedback} from "../context/alertContext/feedbackContextImport.ts";
+import CircularProgress from '@mui/material/CircularProgress';
 
 interface Props {
   topics: TopicInfo[];
@@ -38,39 +42,17 @@ const MenuProps = {
 const priorityNames = ["Optional", "Consider", "Prioritize"] as const;
 
 const TopicList = ({topics}: Props) => {
-  topics = [{name: "English words", termLength: 16, priority: "Consider"}, {
-    name: "German",
-    termLength: 5,
-    priority: "Prioritize"
-  }, {name: "TypeScript workbook", termLength: 13, priority: "Consider"}, {
-    name: "topics 1",
-    termLength: 4,
-    priority: "Optional"
-  }, {name: "Type definitions", termLength: 4, priority: "Optional"}, {
-    name: "topics 7",
-    termLength: 120,
-    priority: "Consider"
-  }, {name: "English home topic", termLength: 4, priority: "Prioritize"}, {
-    name: "topics 6",
-    termLength: 9,
-    priority: "Prioritize"
-  }, {name: "Halo", termLength: 4, priority: "Optional"}, {
-    name: "topics 2",
-    termLength: 4,
-    priority: "Optional"
-  }, {name: "topics 3", termLength: 4, priority: "Consider"}, {
-    name: "topics 89",
-    termLength: 7,
-    priority: "Optional"
-  }, {name: "topics 4", termLength: 4, priority: "Optional"}, {
-    name: "topics 23423",
-    termLength: 32,
-    priority: "Prioritize"
-  }, {name: "topics 5", termLength: 4, priority: "Optional"}];
 
+  useEffect(() => {
+    setFilteredTopics(topics)
+  }, [topics]);
+
+  const navigate = useNavigate();
+  const {feedback} = useFeedback();
   const [filteredTopics, setFilteredTopics] = useState<TopicInfo[]>(topics);
   const [personName, setPersonName] = useState<string[]>(["Optional", "Consider", "Prioritize"]);
   const [currentPriorities, setCurrentPriorities] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const newFilteredTopics: TopicInfo[] = [];
@@ -90,6 +72,24 @@ const TopicList = ({topics}: Props) => {
         typeof value === 'string' ? value.split(',') : value,
     );
   };
+
+  async function handleCreateTopic() {
+    setLoading(true);
+    try {
+      const response = await createTopic();
+      if (response.status === 201 && response.body) {
+        console.log(response.body);
+        feedback("Topic created!", "success");
+        navigate(`/edit/${response.body}`)
+      }
+    } catch (e) {
+      feedback("Unexpected error occurred.", "error");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  if (loading) return <CircularProgress/>
 
   return (
       <Box height="100%" width="100%" sx={{bgcolor: "#d1e6e8", justifyContent: 'center', alignItems: 'center'}}>
@@ -120,7 +120,8 @@ const TopicList = ({topics}: Props) => {
                     ))}
                   </Select>
                 </FormControl>
-                <Button sx={{m: 1, color: "#18838c", border: "1px solid #18838c"}}>Create topic</Button>
+                <Button onClick={handleCreateTopic}
+                        sx={{m: 1, color: "#18838c", border: "1px solid #18838c"}}>Create topic</Button>
               </Box>
             </Grid>
             <Box pb={3}>
@@ -139,25 +140,25 @@ const TopicList = ({topics}: Props) => {
                   </Grid>
                 </Grid>
                 <Box pb={0.4}>
-                {
-                  filteredTopics.map(topic =>
-                      <Grid item m={1} height="5vh" key={topic.name}
-                            sx={{
-                              bgcolor: "#d1e6e8",
-                              "&:hover": {bgcolor: "#469ca3"},
-                              alignItem: "center",
-                              borderRadius: 2
-                            }}>
-                        <Button fullWidth>
-                          <Grid container sx={{placeItems: "center", color: "black", textTransform: "none"}}>
-                            <Grid item xs={4}>{topic.name}</Grid>
-                            <Grid item xs={4}>{topic.termLength}</Grid>
-                            <Grid item xs={4}>{topic.priority}</Grid>
-                          </Grid>
-                        </Button>
-                      </Grid>
-                  )
-                }
+                  {
+                    filteredTopics.map(topic =>
+                        <Grid item m={1} height="5vh" key={topic.name}
+                              sx={{
+                                bgcolor: "#d1e6e8",
+                                "&:hover": {bgcolor: "#469ca3"},
+                                alignItem: "center",
+                                borderRadius: 2
+                              }}>
+                          <Button fullWidth>
+                            <Grid container sx={{placeItems: "center", color: "black", textTransform: "none"}}>
+                              <Grid item xs={4}>{topic.name}</Grid>
+                              <Grid item xs={4}>{topic.termLength}</Grid>
+                              <Grid item xs={4}>{topic.priority}</Grid>
+                            </Grid>
+                          </Button>
+                        </Grid>
+                    )
+                  }
                 </Box>
               </Grid>
             </Box>
