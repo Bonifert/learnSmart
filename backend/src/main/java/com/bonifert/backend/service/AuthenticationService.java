@@ -5,13 +5,12 @@ import com.bonifert.backend.exception.NotFoundException;
 import com.bonifert.backend.model.user.UserEntity;
 import com.bonifert.backend.security.jwt.JwtUtils;
 import com.bonifert.backend.service.repository.UserRepository;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-
-import org.springframework.http.HttpHeaders;
 
 @Service
 public class AuthenticationService {
