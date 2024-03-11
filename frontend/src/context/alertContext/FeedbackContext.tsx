@@ -19,21 +19,21 @@ interface Props {
 const FeedbackProvider = ({children}: Props) => {
   const [alertMessage, setAlertMessage] = useState<AlertObj>({variant: "error", message: ""});
 
-  function feedbackAlert(message: string, variant: Variant) {
+  function feedback(message: string, variant: Variant) {
     setAlertMessage({variant: variant, message: message});
   }
 
   return (
-      <FeedbackContext.Provider value={{feedbackAlert}}>
+      <FeedbackContext.Provider value={{feedback}}>
         {children}
-        <Snackbar open={alertMessage.message !== ""}
-                  autoHideDuration={4000}
-                  onClose={() => setAlertMessage({variant: "error", message: ""})}
-                  anchorOrigin={{vertical: 'bottom', horizontal: 'right'}}>
+        {alertMessage.message !== "" && <Snackbar open={alertMessage.message !== ""}
+                                                  autoHideDuration={4000}
+                                                  onClose={() => setAlertMessage({variant: "error", message: ""})}
+                                                  anchorOrigin={{vertical: 'bottom', horizontal: 'right'}}>
           <Alert severity={alertMessage.variant}>
             {alertMessage.message}
           </Alert>
-        </Snackbar>
+        </Snackbar>}
       </FeedbackContext.Provider>
   )
 }

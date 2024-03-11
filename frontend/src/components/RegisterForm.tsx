@@ -14,13 +14,13 @@ interface FunctionProp {
 }
 
 const RegisterForm = ({onNavigateLogin}: FunctionProp) => {
-  const {feedbackAlert} = useFeedback();
+  const {feedback} = useFeedback();
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const data: FormData = new FormData(event.currentTarget);
     if (data.get("password") !== data.get("passwordAgain")) {
-      feedbackAlert("Passwords don't match.", "error");
+      feedback("Passwords don't match.", "error");
       return;
     }
     const loginData: UserNamePassword = {
@@ -30,14 +30,14 @@ const RegisterForm = ({onNavigateLogin}: FunctionProp) => {
     try {
       const response: ApiResObj = await register(loginData);
       if (response.status === 201) {
-        feedbackAlert("Successful registration!", "info");
+        feedback("Successful registration!", "info");
         onNavigateLogin();
       } else if (response.status === 409) {
-        feedbackAlert("User name is already used.", "error");
+        feedback("User name is already used.", "error");
       }
     } catch (e) {
       console.error(e);
-      feedbackAlert("Unexpected error occurred.", "error");
+      feedback("Unexpected error occurred.", "error");
     }
   }
 

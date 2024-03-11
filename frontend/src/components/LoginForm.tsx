@@ -14,7 +14,7 @@ import {FormEvent} from "react";
 const LoginForm = () => {
   const navigate = useNavigate();
   const {login} = useUser();
-  const {feedbackAlert} = useFeedback();
+  const {feedback} = useFeedback();
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -26,16 +26,16 @@ const LoginForm = () => {
     try {
       const response : ApiResObj = await login(loginData);
       if (response.status === 401){
-        feedbackAlert("Invalid user name or password!", "error");
+        feedback("Invalid user name or password!", "error");
       } else if (response.status === 200){
-        feedbackAlert("Logged in", "info");
-        navigate("/topics");
+        feedback("Logged in", "info");
+        navigate("/");
         return;
       } else {
-        feedbackAlert("Unexpected error occurred.", "error");
+        feedback("Unexpected error occurred.", "error");
       }
     } catch (e){
-      feedbackAlert("Unexpected error occurred.", "error");
+      feedback("Unexpected error occurred.", "error");
     }
   };
 
