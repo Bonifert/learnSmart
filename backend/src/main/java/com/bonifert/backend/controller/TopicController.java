@@ -1,7 +1,7 @@
 package com.bonifert.backend.controller;
 
 import com.bonifert.backend.dto.topic.EditTopicDTO;
-import com.bonifert.backend.dto.topic.NewTopicDTO;
+import com.bonifert.backend.dto.topic.InfoTopicDTO;
 import com.bonifert.backend.dto.topic.TopicDTO;
 import com.bonifert.backend.service.TopicService;
 import org.springframework.http.HttpStatus;
@@ -21,9 +21,9 @@ public class TopicController {
   }
 
   @PostMapping
-  public ResponseEntity<Void> createTopic(@RequestBody NewTopicDTO newTopicDTO) {
-    long id = topicService.create(newTopicDTO);
-    return ResponseEntity.created(URI.create(String.format("/api/topic/%d", id))).build();
+  public ResponseEntity<Long> createTopic() {
+    long id = topicService.create();
+    return ResponseEntity.created(URI.create(String.format("/api/topic/%d", id))).body(id);
   }
 
   @GetMapping("/{topicId}")
@@ -50,5 +50,10 @@ public class TopicController {
   @GetMapping
   public ResponseEntity<List<TopicDTO>> getUserTopics(){
     return ResponseEntity.ok(topicService.getTopicsByUser());
+  }
+
+  @GetMapping("/info")
+  public ResponseEntity<List<InfoTopicDTO>> getUserTopicsInfo(){
+    return ResponseEntity.ok(topicService.getTopicsInfoByUser());
   }
 }
