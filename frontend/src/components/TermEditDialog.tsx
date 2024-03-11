@@ -30,7 +30,7 @@ const TermEditDialog = ({term, onSave, onClose, open}: Props) => {
         </DialogTitle>
         <DialogContent sx={{my: 2}}>
           <Grid container>
-          <TextField multiline sx={{m: 1}} label="Name" value={name} defaultValue={term.name} fullWidth
+          <TextField multiline sx={{m: 1}} label="Name" value={name}  fullWidth
                      onChange={(e) => setName(e.target.value)}/>
           <TextField multiline sx={{m: 1}} label="Definition" value={definition} fullWidth
                      onChange={(e) => setDefinition(e.target.value)}/>
