@@ -1,7 +1,16 @@
 import {ApiResObj} from "./userProvider.ts";
 
+function getToken() : string {
+  return localStorage.getItem("token") ?? "";
+}
+
+export interface EditTopicNameDTO{
+  topicId: number;
+  newName: string;
+}
+
 async function getMyTopics(): Promise<ApiResObj> {
-  const token = localStorage.getItem("token") ?? "";
+  const token = getToken();
   const httpRes: Response = await fetch("/api/topic/info", {
     method: "GET",
     headers: {
@@ -13,7 +22,7 @@ async function getMyTopics(): Promise<ApiResObj> {
 }
 
 async function getTopicById(id: number) : Promise<ApiResObj>{
-  const token = localStorage.getItem("token") ?? "";
+  const token = getToken();
   const httpRes : Response = await fetch(`/api/topic/${id}`, {
     method: "GET",
     headers: {
@@ -25,7 +34,7 @@ async function getTopicById(id: number) : Promise<ApiResObj>{
 }
 
 async function createTopic() : Promise<ApiResObj>{
-  const token = localStorage.getItem("token") ?? "";
+  const token = getToken();
   const httpRes : Response = await fetch("/api/topic",{
     method: "POST",
     headers: {
@@ -37,7 +46,7 @@ async function createTopic() : Promise<ApiResObj>{
 }
 
 async function deleteTopic(id: number) : Promise<ApiResObj>{
-  const token = localStorage.getItem("token") ?? "";
+  const token = getToken();
   const httpRes : Response = await fetch(`/api/topic/${id}`, {
     method: "DELETE",
     headers: {
@@ -47,4 +56,17 @@ async function deleteTopic(id: number) : Promise<ApiResObj>{
   return {status: httpRes.status};
 }
 
-export {getMyTopics, getTopicById, createTopic, deleteTopic};
+async function editTopicName(editTopicNameDTO: EditTopicNameDTO) : Promise<ApiResObj>{
+  const token = getToken();
+  const httpRes : Response = await fetch("/api/topic", {
+    method: "PATCH",
+    headers: {
+      "Authorization": token,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(editTopicNameDTO)
+  });
+  return {status: httpRes.status};
+}
+
+export {getMyTopics, getTopicById, createTopic, deleteTopic, editTopicName};
