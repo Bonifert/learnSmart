@@ -89,12 +89,12 @@ public class TopicService {
   }
 
   @Transactional
-  public TopicDTO edit(EditTopicDTO editTopicDTO) {
+  public void edit(EditTopicDTO editTopicDTO) {
     Topic topic = topicRepository.findById(editTopicDTO.topicId())
                                  .orElseThrow(() -> new NotFoundException("Topic not found"));
     validator.validate(topic);
     topic.setName(editTopicDTO.newName());
-    return topicMapper.toTopicDTO(topicRepository.save(topic));
+    topicRepository.save(topic);
   }
 
   private List<TermDTO> convertTermsToDTOs(List<Term> terms) {
