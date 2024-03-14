@@ -1,6 +1,6 @@
 import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
-import {createTopic, deleteTopic, getTopicById} from "../providers/topicProvider.ts";
+import {deleteTopic, getTopicById} from "../providers/topicProvider.ts";
 import TopicForm, {Topic} from "../components/TopicForm.tsx";
 import CircularProgress from '@mui/material/CircularProgress';
 import {Box} from "@mui/material";
@@ -18,7 +18,14 @@ const EditTopic = () => {
       try {
         if (id) {
           const response = await getTopicById(parseInt(id));
-          setTopic(response.body as Topic)
+          if (response.status === 200) {
+            setTopic(response.body as Topic)
+          } else if( response.status === 404){
+            feedback("The topic doesn't exist.", "error");
+            navigate("/");
+          } else if(response.status === 401){
+            feedback("You don't have access to this resource.", "error");
+          }
         } else {
           navigate("/");
         }
@@ -33,34 +40,16 @@ const EditTopic = () => {
   }, [id]);
 
 
-
-  async function handleSave(){
-    setLoading(true);
-    try {
-      const httpRes = await createTopic();
-      if (httpRes.status === 200){
-        feedback("Topic saved!", "success");
-      } else {
-        feedback("Failed to save.", "error");
-      }
-    } catch (e) {
-      console.log(e);
-      feedback("Unexpected error occurred.", "error");
-    } finally {
-      setLoading(false);
-    }
-  }
-
   if (loading) {
     return (
-        <Box sx={{display: 'flex'}}>
+        <Box height="40vh" sx={{display: 'flex', alignItems: "center", justifyContent: "center"}}>
           <CircularProgress/>
         </Box>
     )
   }
 
   if (topic) return (
-      <TopicForm topic={topic} onSave={handleSave} disabled={loading} onDelete={deleteTopic}/>
+      <TopicForm topic={topic} disabled={loading} onDelete={deleteTopic}/>
   );
 };
 
