@@ -43,8 +43,9 @@ public class TopicController {
   }
 
   @PatchMapping
-  public ResponseEntity<TopicDTO> update(@RequestBody EditTopicDTO editTopicDTO) {
-    return ResponseEntity.ok(topicService.edit(editTopicDTO));
+  public ResponseEntity<Void> update(@RequestBody EditTopicDTO editTopicDTO) {
+    topicService.edit(editTopicDTO);
+    return ResponseEntity.ok().build();
   }
 
   @GetMapping
