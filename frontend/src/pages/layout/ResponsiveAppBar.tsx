@@ -108,7 +108,7 @@ export const ResponsiveAppBar = () => {
                     }}
                 >
                   {pages.map((page) => (
-                      <MenuItem key={page.optionText} onClick={handleCloseNavMenu}>
+                      <MenuItem key={page.optionText} onClick={page.navigate}>
                         <Typography textAlign="center">{page.optionText}</Typography>
                       </MenuItem>
                   ))}
