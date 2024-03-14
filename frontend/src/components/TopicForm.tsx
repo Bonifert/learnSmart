@@ -1,12 +1,16 @@
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import TermEditDialog from "./TermEditDialog.tsx";
 import {createTerm, editTerm} from "../providers/termProvider.ts";
 import {useFeedback} from "../context/alertContext/feedbackContextImport.ts";
+import useDebouncedValue from "../hooks/useDebouncedValue.tsx";
+import {ApiResObj} from "../providers/userProvider.ts";
+import {editTopicName} from "../providers/topicProvider.ts";
+import {useNavigate} from "react-router-dom";
 
 export interface Topic {
   name: string;
@@ -22,14 +26,15 @@ export interface Term {
 
 interface Props {
   topic: Topic;
-  onSave: (topic: Topic) => void;
   onDelete: (id: number) => void;
   disabled: boolean
 }
 
-const TopicForm = ({topic, onSave, onDelete, disabled}: Props) => {
+const TopicForm = ({topic, onDelete, disabled}: Props) => {
   const {feedback} = useFeedback();
+  const navigate = useNavigate();
   const [topicName, setTopicName] = useState(topic?.name ?? "");
+  const debouncedTopicName = useDebouncedValue(topicName, 2000);
   const [terms, setTerms] = useState(topic?.terms ?? []);
   const [currentEditTerm, setCurrentEditTerm] = useState<Term>({name: "", definition: "", id: -1});
   const [editDialogOpen, setEditDialogOpen] = useState(false);
@@ -40,16 +45,31 @@ const TopicForm = ({topic, onSave, onDelete, disabled}: Props) => {
     return definition;
   }
 
-  function handleSubmit() {
-    const topicToSave: Topic = {...topic, name: topicName, terms};
-    onSave(topicToSave);
+  useEffect(() => {
+    async function handleTopicNameChange() {
+      // to not fetch if the page is just loaded
+      if (debouncedTopicName !== "" && debouncedTopicName !== topic.name) {
+        const httpRes: ApiResObj = await editTopicName({topicId: topic.id, newName: debouncedTopicName});
+        if (httpRes.status === 200) {
+          feedback("Topic name saved!", "info");
+        } else {
+          feedback("We can't save the new name. Unexpected error occurred.", "error");
+        }
+      }
+    }
+
+    handleTopicNameChange();
+  }, [debouncedTopicName]);
+
+  function handleEditTopicName(newName: string) {
+    setTopicName(newName);
   }
 
   async function handleEditTerm(term: Term) {
     try {
       const response = await editTerm(term);
       console.log(response)
-      if (response.status === 200){
+      if (response.status === 200) {
         setTerms((prevState) => {
           const newTerms = [...prevState];
           return newTerms.map(currentTerm => currentTerm.id === term.id ? {
@@ -76,7 +96,7 @@ const TopicForm = ({topic, onSave, onDelete, disabled}: Props) => {
   async function handleNewTerm(term: Term) {
     try {
       const response = await createTerm({name: term.name, topicId: topic.id, definition: term.definition});
-      if (response.status === 201){
+      if (response.status === 201) {
         feedback("Term created!", "success");
         setTerms((prevState) => {
           return [...prevState, term];
@@ -89,6 +109,11 @@ const TopicForm = ({topic, onSave, onDelete, disabled}: Props) => {
     }
   }
 
+  function handleDelete(id: number){
+    onDelete(id);
+    navigate("/");
+  }
+
   return (
       <Box height="100%" width="100%" sx={{bgcolor: "#d1e6e8", justifyContent: 'center', alignItems: 'center'}}>
         <Grid my={4} container
@@ -98,7 +123,7 @@ const TopicForm = ({topic, onSave, onDelete, disabled}: Props) => {
             <Grid container>
               <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
                 <Box m={2} sx={{display: 'flex'}}>
-                  <TextField value={topicName} sx={{width: "75%"}} onChange={(e) => setTopicName(e.target.value)}
+                  <TextField value={topicName} sx={{width: "75%"}} onChange={(e) => handleEditTopicName(e.target.value)}
                              label="Topic name"
                              color={topicName === "" ? "error" : "primary"}/>
                 </Box>
@@ -107,7 +132,7 @@ const TopicForm = ({topic, onSave, onDelete, disabled}: Props) => {
                 <Box m={1.5} sx={{display: 'flex', justifyContent: 'flex-end'}}>
                   {topic?.id && (
                       <Button
-                          onClick={() => onDelete(Number(topic?.id))}
+                          onClick={() => handleDelete(topic?.id)}
                           sx={{marginRight: 1, "&:hover": {bgcolor: "#b6040a", color: "white"}}}
                           variant="outlined"
                           color="error"
@@ -116,8 +141,6 @@ const TopicForm = ({topic, onSave, onDelete, disabled}: Props) => {
                         Delete
                       </Button>
                   )}
-                  <Button disabled={disabled} onClick={() => handleSubmit()} sx={{marginLeft: 1}} variant="contained"
-                          color="success">Save</Button>
                 </Box>
               </Grid>
               <Grid my={2} container sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
@@ -174,8 +197,7 @@ const TopicForm = ({topic, onSave, onDelete, disabled}: Props) => {
                                            onSave={handleNewTerm}/>
         }
       </Box>
-  )
-      ;
+  );
 };
 
 export default TopicForm;
