@@ -81,6 +81,8 @@ const TopicList = ({topics}: Props) => {
         console.log(response.body);
         feedback("Topic created!", "success");
         navigate(`/edit/${response.body}`)
+      } else {
+        feedback("Unexpected error occurred.", "error");
       }
     } catch (e) {
       feedback("Unexpected error occurred.", "error");
@@ -142,7 +144,7 @@ const TopicList = ({topics}: Props) => {
                 <Box pb={0.4}>
                   {
                     filteredTopics.map(topic =>
-                        <Grid item m={1} height="5vh" key={topic.name}
+                        <Grid item m={1} key={topic.name}
                               sx={{
                                 bgcolor: "#d1e6e8",
                                 "&:hover": {bgcolor: "#469ca3"},
