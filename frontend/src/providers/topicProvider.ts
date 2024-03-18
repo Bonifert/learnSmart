@@ -21,7 +21,7 @@ async function getMyTopics(): Promise<ApiResObj> {
   return {status: httpRes.status, body};
 }
 
-async function getTopicById(id: number) : Promise<ApiResObj>{
+async function getTopicById(id: string) : Promise<ApiResObj>{
   const token = getToken();
   const httpRes : Response = await fetch(`/api/topic/${id}`, {
     method: "GET",
@@ -69,4 +69,4 @@ async function editTopicName(editTopicNameDTO: EditTopicNameDTO) : Promise<ApiRe
   return {status: httpRes.status};
 }
 
-export {getMyTopics, getTopicById, createTopic, deleteTopic, editTopicName};
+export {getToken, getMyTopics, getTopicById, createTopic, deleteTopic, editTopicName};
