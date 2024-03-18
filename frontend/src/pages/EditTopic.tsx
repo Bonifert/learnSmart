@@ -10,7 +10,6 @@ const EditTopic = () => {
   const navigate = useNavigate();
   const {feedback} = useFeedback();
   const {topic, loading} = useFetchTopic(id, navigate, feedback);
-  console.log(topic);
 
   if (loading || !topic) {
     return (
