@@ -9,12 +9,18 @@ import {useUser} from "../context/userContext/userContextImport.ts";
 import {useFeedback} from "../context/alertContext/feedbackContextImport.ts";
 import {ApiResObj} from "../providers/userProvider.ts";
 import {useNavigate} from "react-router-dom";
-import {FormEvent} from "react";
+import {FormEvent, useEffect} from "react";
 
 const LoginForm = () => {
   const navigate = useNavigate();
-  const {login} = useUser();
+  const {login, user} = useUser();
   const {feedback} = useFeedback();
+
+  useEffect(() => {
+    if (user){
+      navigate("/");
+    }
+  }, [user]);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -24,17 +30,18 @@ const LoginForm = () => {
       password: data.get("password") as string
     };
     try {
-      const response : ApiResObj = await login(loginData);
-      if (response.status === 401){
+      const response: ApiResObj = await login(loginData);
+      if (response.status === 401) {
         feedback("Invalid user name or password!", "error");
-      } else if (response.status === 200){
-        feedback("Logged in", "info");
-        navigate("/");
+      } else if (response.status === 200) {
+        if (user) {
+          feedback("Logged in", "info");
+        }
         return;
       } else {
         feedback("Unexpected error occurred.", "error");
       }
-    } catch (e){
+    } catch (e) {
       feedback("Unexpected error occurred.", "error");
     }
   };
