@@ -3,6 +3,7 @@ import {Home} from "./pages/Home.tsx";
 import MyTopics from "./pages/MyTopics.tsx";
 import {ResponsiveAppBar} from "./pages/layout/ResponsiveAppBar"
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
+import Protected from "./components/Protected.tsx";
 import EditTopic from "./pages/EditTopic.tsx";
 
 const router = createBrowserRouter([
@@ -12,18 +13,25 @@ const router = createBrowserRouter([
   },
   {
     path: "/",
-    element: <ResponsiveAppBar/>,
-    children: [
+    element: <Protected/>,
+    children:[
       {
         path: "/",
-        element: <MyTopics/>
-      },
-      {
-        path: "/edit/:id",
-        element: <EditTopic/>
+        element: <ResponsiveAppBar/>,
+        children: [
+          {
+            path: "/",
+            element: <MyTopics/>
+          },
+          {
+            path: "/edit/:id",
+            element: <EditTopic/>
+          }
+        ]
       }
     ]
   }
+
 ])
 
 function App() {
