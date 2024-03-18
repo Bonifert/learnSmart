@@ -26,6 +26,7 @@ export interface TopicInfo {
   readonly name: string;
   readonly termLength: number;
   readonly priority: string;
+  readonly id: number;
 }
 
 const ITEM_HEIGHT = 48;
@@ -78,7 +79,6 @@ const TopicList = ({topics}: Props) => {
     try {
       const response = await createTopic();
       if (response.status === 201 && response.body) {
-        console.log(response.body);
         feedback("Topic created!", "success");
         navigate(`/edit/${response.body}`)
       } else {
@@ -144,7 +144,7 @@ const TopicList = ({topics}: Props) => {
                 <Box pb={0.4}>
                   {
                     filteredTopics.map(topic =>
-                        <Grid item m={1} key={topic.name}
+                        <Grid item m={1} key={topic.id}
                               sx={{
                                 bgcolor: "#d1e6e8",
                                 "&:hover": {bgcolor: "#469ca3"},
