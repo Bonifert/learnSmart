@@ -5,12 +5,13 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import TermEditDialog from "./TermEditDialog.tsx";
-import {createTerm, editTerm} from "../providers/termProvider.ts";
+import {createTerm, deleteTerm, editTerm} from "../providers/termProvider.ts";
 import {useFeedback} from "../context/alertContext/feedbackContextImport.ts";
 import useDebouncedValue from "../hooks/useDebouncedValue.tsx";
 import {ApiResObj} from "../providers/userProvider.ts";
 import {editTopicName} from "../providers/topicProvider.ts";
 import {useNavigate} from "react-router-dom";
+import {deleteTopic} from "../providers/topicProvider.ts";
 
 export interface Topic {
   name: string;
@@ -26,11 +27,10 @@ export interface Term {
 
 interface Props {
   topic: Topic;
-  onDelete: (id: number) => void;
-  disabled: boolean
+  disabled: boolean;
 }
 
-const TopicForm = ({topic, onDelete, disabled}: Props) => {
+const TopicForm = ({topic, disabled}: Props) => {
   const {feedback} = useFeedback();
   const navigate = useNavigate();
   const [topicName, setTopicName] = useState(topic?.name ?? "");
@@ -84,7 +84,7 @@ const TopicForm = ({topic, onDelete, disabled}: Props) => {
       console.log(e);
       feedback("The edit was not successful", "error");
     } finally {
-      setEditDialogOpen(false);
+      handleDialogEditClose();
     }
   }
 
@@ -96,22 +96,56 @@ const TopicForm = ({topic, onDelete, disabled}: Props) => {
   async function handleNewTerm(term: Term) {
     try {
       const response = await createTerm({name: term.name, topicId: topic.id, definition: term.definition});
-      if (response.status === 201) {
-        feedback("Term created!", "success");
+      if (response.status === 201 && response.body ) {
         setTerms((prevState) => {
-          return [...prevState, term];
+          const newTerm : Term = {id: response.body as number, name: term.name, definition: term.definition};
+          return [...prevState, newTerm];
         });
-        setNewTermOpen(false);
+        feedback("Term created!", "success");
+      } else {
+        feedback("Unexpected error occurred.", "error");
       }
     } catch (e) {
       console.error(e);
       feedback("Unexpected error occurred.", "error");
+    } finally {
+      setNewTermOpen(false);
     }
   }
 
-  function handleDelete(id: number){
-    onDelete(id);
-    navigate("/");
+  async function handleTopicDelete(id: number) {
+    try {
+      const response : ApiResObj = await deleteTopic(id);
+      if (response.status === 200) {
+        feedback("Topic deleted", "success");
+        navigate("/");
+      } else {
+        feedback("Unexpected error occurred.", "error");
+      }
+    } catch (e) {
+      console.log(e);
+      feedback("Unexpected error occurred.", "error");
+    }
+  }
+
+  async function deleteTermById(id: number) {
+    try {
+      const response: ApiResObj = await deleteTerm(id);
+      if (response.status === 200) {
+        setTerms((prevState) => {
+          return [...prevState].filter(state => state.id !== id)
+        });
+        feedback("Term deleted", "success");
+      } else {
+        feedback("Unexpected error occurred.", "error");
+      }
+    } catch (e) {
+      console.log(e);
+      feedback("Unexpected error occurred.", "error");
+    } finally {
+      handleDialogEditClose();
+    }
+
   }
 
   return (
@@ -132,7 +166,7 @@ const TopicForm = ({topic, onDelete, disabled}: Props) => {
                 <Box m={1.5} sx={{display: 'flex', justifyContent: 'flex-end'}}>
                   {topic?.id && (
                       <Button
-                          onClick={() => handleDelete(topic?.id)}
+                          onClick={() => handleTopicDelete(topic?.id)}
                           sx={{marginRight: 1, "&:hover": {bgcolor: "#b6040a", color: "white"}}}
                           variant="outlined"
                           color="error"
@@ -189,11 +223,13 @@ const TopicForm = ({topic, onDelete, disabled}: Props) => {
           </Grid>
         </Grid>
         {
-            editDialogOpen && <TermEditDialog open={true} term={currentEditTerm} onClose={handleDialogEditClose}
-                                              onSave={handleEditTerm}/>
+            editDialogOpen &&
+          <TermEditDialog dialogText="Edit term" open={true} term={currentEditTerm} onClose={handleDialogEditClose}
+                          onSave={handleEditTerm} onDelete={()=> deleteTermById(currentEditTerm.id)}/>
         }
         {
-            newTermOpen && <TermEditDialog open={true} term={currentEditTerm} onClose={() => setNewTermOpen(false)}
+            newTermOpen && <TermEditDialog dialogText="Create term" open={true} term={currentEditTerm}
+                                           onClose={() => setNewTermOpen(false)}
                                            onSave={handleNewTerm}/>
         }
       </Box>
