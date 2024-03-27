@@ -94,7 +94,7 @@ const TopicList = ({topics}: Props) => {
   if (loading) return <CircularProgress/>
 
   return (
-      <Box height="100%" width="100%" sx={{bgcolor: "#d1e6e8", justifyContent: 'center', alignItems: 'center'}}>
+      <Box height="100%" width="100%" sx={{bgcolor: "#E1F7FAFF", justifyContent: 'center', alignItems: 'center'}}>
         <Grid container sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
           <Grid item height="70vh" xs={11} md={8} lg={7} sm={10} minWidth="275px">
             <Grid m={2} sx={{display: "flex", justifyContent: "center", alignItems: "center"}}>
@@ -127,7 +127,7 @@ const TopicList = ({topics}: Props) => {
               </Box>
             </Grid>
             <Box pb={3}>
-              <Grid sx={{bgcolor: "#A3CDD1", borderRadius: 2}}>
+              <Grid sx={{bgcolor: "#A3CDD1", borderRadius: 2, boxShadow: 3}}>
                 <Grid height="5vh" sx={{bgcolor: "#74B5BA", borderRadius: 2}}>
                   <Grid container sx={{placeItems: "center"}} height="100%">
                     <Grid xs={4} item textAlign="center">
@@ -151,7 +151,7 @@ const TopicList = ({topics}: Props) => {
                                 alignItem: "center",
                                 borderRadius: 2
                               }}>
-                          <Button fullWidth>
+                          <Button fullWidth onClick={()=> navigate(`/info/${topic.id}`)}>
                             <Grid container sx={{placeItems: "center", color: "black", textTransform: "none"}}>
                               <Grid item xs={4}>{topic.name}</Grid>
                               <Grid item xs={4}>{topic.termLength}</Grid>
