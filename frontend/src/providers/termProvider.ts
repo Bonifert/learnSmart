@@ -46,4 +46,15 @@ async function deleteTerm(id: number) : Promise<ApiResObj>{
   return {status: httpRes.status};
 }
 
-export {createTerm, editTerm, deleteTerm};
+async function createTermReview(id: number) : Promise<ApiResObj>{
+  const token = getToken();
+  const httpRes : Response = await fetch(`/api/term/review/${id}`, {
+    method: 'PUT',
+    headers: {
+      "Authorization": token,
+    }
+  });
+  return {status: httpRes.status};
+}
+
+export {createTerm, editTerm, deleteTerm, createTermReview};
