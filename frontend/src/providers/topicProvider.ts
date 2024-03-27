@@ -33,6 +33,18 @@ async function getTopicById(id: string) : Promise<ApiResObj>{
   return {status: httpRes.status, body};
 }
 
+async function getFilteredTopicById(id: string) : Promise<ApiResObj>{
+  const token = getToken();
+  const httpRes : Response = await fetch(`/api/topic/filtered/${id}`, {
+    method: "GET",
+    headers: {
+      "Authorization": token,
+    }
+  });
+  const body = await httpRes.json();
+  return {status: httpRes.status, body};
+}
+
 async function createTopic() : Promise<ApiResObj>{
   const token = getToken();
   const httpRes : Response = await fetch("/api/topic",{
@@ -69,4 +81,4 @@ async function editTopicName(editTopicNameDTO: EditTopicNameDTO) : Promise<ApiRe
   return {status: httpRes.status};
 }
 
-export {getToken, getMyTopics, getTopicById, createTopic, deleteTopic, editTopicName};
+export {getToken, getMyTopics, getTopicById, createTopic, deleteTopic, editTopicName, getFilteredTopicById};
