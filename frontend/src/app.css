@@ -31,7 +31,7 @@ footer, header, hgroup, menu, nav, section {
 body {
     line-height: 1;
     min-height: 100vh;
-    background-color: #d1e6e8;
+    background-color: #e1f7fa;
 }
 ol, ul {
     list-style: none;
@@ -47,4 +47,63 @@ q:before, q:after {
 table {
     border-collapse: collapse;
     border-spacing: 0;
+}
+
+/* to the flip cards */
+
+.flip-card {
+    padding: 2rem;
+    background-color: transparent;
+    perspective: 1000px;
+    justify-content: center;
+}
+
+.flip-card-inner {
+    position: relative;
+    width: 100%;
+    min-height: 10rem;
+    height: auto;
+    text-align: center;
+    transition: transform 0.5s;
+    transform-style: preserve-3d;
+}
+
+.flip-card-front, .flip-card-back {
+    position: absolute;
+    min-height: 5rem;
+    width: 100%;
+    height: auto;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+.flip-card-front {
+    background-color: #A3CDD1FF;
+    color: black;
+    border: 1px solid #469ca3;
+    border-radius: 7px;
+    cursor: pointer;
+    min-height: 10rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.flip-card-back {
+    background-color: #cae6e8;
+    color: black;
+    border: 1px solid #469ca3;
+    border-radius: 7px;
+    transform: rotateY(180deg);
+    cursor: pointer;
+    min-height: 10rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.flip-card-inner.flipped {
+    transform: rotateY(180deg);
 }
