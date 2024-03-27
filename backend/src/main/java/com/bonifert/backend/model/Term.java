@@ -19,11 +19,12 @@ public class Term {
   @ManyToOne
   private Topic topic;
   private String name;
+  @Column(length = 1000)
   private String definition;
   private int learnRate;
   @OneToMany
   private List<Review> reviews;
-  private LocalDateTime nextShowDateTime;
+  private LocalDateTime nextShowDateTime = LocalDateTime.now();
 
   public void addReview(Review review) {
     reviews.add(review);
