@@ -6,6 +6,7 @@ import com.bonifert.backend.exception.NotFoundException;
 import com.bonifert.backend.model.Review;
 import com.bonifert.backend.model.Term;
 import com.bonifert.backend.model.Topic;
+import com.bonifert.backend.service.mapper.TermMapper;
 import com.bonifert.backend.service.repository.ReviewRepository;
 import com.bonifert.backend.service.repository.TermRepository;
 import com.bonifert.backend.service.repository.TopicRepository;
@@ -14,7 +15,6 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 public class TermService {
@@ -23,18 +23,23 @@ public class TermService {
   private final ReviewRepository reviewRepository;
   private final NextShowCalculator nextShowCalculator;
   private final Validator validator;
+  private final TermMapper termMapper;
+  private final TopicUrgencyService topicUrgencyService;
 
   public TermService(TermRepository termRepository, TopicRepository topicRepository, ReviewRepository reviewRepository,
-                     NextShowCalculator nextShowCalculator, Validator validator) {
+                     NextShowCalculator nextShowCalculator, Validator validator, TermMapper termMapper,
+                     TopicUrgencyService topicUrgencyService) {
     this.termRepository = termRepository;
     this.topicRepository = topicRepository;
     this.reviewRepository = reviewRepository;
     this.nextShowCalculator = nextShowCalculator;
     this.validator = validator;
+    this.termMapper = termMapper;
+    this.topicUrgencyService = topicUrgencyService;
   }
 
   @Transactional
-  public long create(NewTermDTO newTermDTO) {
+  public TermDTO create(NewTermDTO newTermDTO) {
     Topic topic = topicRepository.findById(newTermDTO.topicId())
                                  .orElseThrow(() -> new NotFoundException("Topic not found"));
     validator.validate(topic);
@@ -43,7 +48,16 @@ public class TermService {
     term.setDefinition(newTermDTO.definition());
     term.setTopic(topic);
     term.setNextShowDateTime(LocalDateTime.now());
-    return termRepository.save(term).getId();
+    topic.addTerm(term);
+    topic.setPriority(topicUrgencyService.calculateUrgency(topic));
+    topicRepository.save(topic);
+    return termMapper.toTermDTO(termRepository.save(term));
+  }
+
+  public void delete(long id){
+    Term term = termRepository.findById(id).orElseThrow(()-> new NotFoundException("Term not found"));
+    validator.validate(term);
+    termRepository.delete(term);
   }
 
   @Transactional
@@ -53,41 +67,26 @@ public class TermService {
     Review review = new Review();
     reviewRepository.save(review);
     term.addReview(review);
-    if (LocalDateTime.now().isBefore(term.getNextShowDateTime())){
-      calculateAndSetNextShowDate(term);
+    if (LocalDateTime.now().isAfter(term.getNextShowDateTime())){
+      LocalDateTime next = calculateNextShowDate(term);
+      term.setNextShowDateTime(next);
       Topic topic = term.getTopic();
-      updateTopicUrgency(topic);
+      String topicUrgencyLevel = topicUrgencyService.calculateUrgency(topic);
+      topic.setPriority(topicUrgencyLevel);
+      topicRepository.save(topic);
     }
     termRepository.save(term);
   }
 
   @Transactional
-  public void editTerm(TermDTO termDTO){
+  public void edit(TermDTO termDTO){
     Term term = termRepository.findById(termDTO.id()).orElseThrow(()-> new NotFoundException("Term not found"));
     term.setDefinition(termDTO.definition());
     term.setName(termDTO.name());
     termRepository.save(term);
   }
 
-  private void calculateAndSetNextShowDate(Term term){
-    LocalDateTime nextShowDateTime = nextShowCalculator.calculate(term.getReviews());
-    term.setNextShowDateTime(nextShowDateTime);
-  }
-
-  private void updateTopicUrgency(Topic topic){
-    String topicUrgencyLevel = calculateUrgency(topic);
-    topic.setPriority(topicUrgencyLevel);
-    topicRepository.save(topic);
-  }
-
-  private String calculateUrgency(Topic topic){
-    int expiredCounter = 0;
-    List<Term> terms = topic.getTerms();
-    for (Term term : terms){
-      if (term.getNextShowDateTime().isBefore(LocalDateTime.now())) expiredCounter++;
-    }
-    if (expiredCounter == 0) return "Optional";
-    if (expiredCounter / terms.size() * 100 < 30) return "Consider";
-    return "Prioritize";
+  private LocalDateTime calculateNextShowDate(Term term){
+    return nextShowCalculator.calculate(term.getReviews());
   }
 }
