@@ -3,13 +3,13 @@ import TopicForm from "../components/TopicForm.tsx";
 import CircularProgress from '@mui/material/CircularProgress';
 import {Box} from "@mui/material";
 import {useFeedback} from "../context/alertContext/feedbackContextImport.ts";
-import {useFetchTopic} from "../hooks/useFetchTopic.tsx";
+import {TopicType, useFetchTopic} from "../hooks/useFetchTopic.tsx";
 
 const EditTopic = () => {
   const {id} = useParams();
   const navigate = useNavigate();
   const {feedback} = useFeedback();
-  const {topic, loading} = useFetchTopic(id, navigate, feedback);
+  const {topic, loading} = useFetchTopic(id, navigate, feedback, TopicType.ALL);
 
   if (loading || !topic) {
     return (
