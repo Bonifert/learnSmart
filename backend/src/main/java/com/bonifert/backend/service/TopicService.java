@@ -78,7 +78,7 @@ public class TopicService {
   public List<InfoTopicDTO> getTopicsInfoByUser() {
     List<Topic> topics = getTopicEntitiesByUser();
     return topics.stream()
-                 .map(topic -> new InfoTopicDTO(topic.getName(), topic.getTerms().size(), topic.getPriority()))
+                 .map(topic -> new InfoTopicDTO(topic.getName(), topic.getTerms().size(), topic.getPriority(), topic.getId()))
                  .toList();
   }
 
@@ -98,7 +98,7 @@ public class TopicService {
   }
 
   private List<TermDTO> convertTermsToDTOs(List<Term> terms) {
-    return terms.stream().map(term -> new TermDTO(term.getId(), term.getName(), term.getDefinition())).toList();
+    return terms.stream().map(term -> new TermDTO(term.getId(), term.getName(), term.getDefinition(), term.getNextShowDateTime())).toList();
   }
 
   private TopicDTO convertTopicToDTOWithFilteredTerms(Topic topic, List<Term> terms) {
@@ -106,6 +106,7 @@ public class TopicService {
                         topic.getId(),
                         topic.getCreatedAt(),
                         topic.getModifiedAt(),
-                        convertTermsToDTOs(terms));
+                        convertTermsToDTOs(terms),
+                        topic.getPriority());
   }
 }
