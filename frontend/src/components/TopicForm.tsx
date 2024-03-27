@@ -12,17 +12,23 @@ import {ApiResObj} from "../providers/userProvider.ts";
 import {editTopicName} from "../providers/topicProvider.ts";
 import {useNavigate} from "react-router-dom";
 import {deleteTopic} from "../providers/topicProvider.ts";
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import InfoPopover from "./InfoPopover.tsx";
 
 export interface Topic {
   name: string;
   id: number;
   terms: Term[];
+  createdAt: string;
+  modifiedAt: string;
+  priority: string;
 }
 
 export interface Term {
   id: number;
   name: string;
   definition: string;
+  nextShowDateTime: string;
 }
 
 interface Props {
@@ -36,7 +42,12 @@ const TopicForm = ({topic, disabled}: Props) => {
   const [topicName, setTopicName] = useState(topic?.name ?? "");
   const debouncedTopicName = useDebouncedValue(topicName, 2000);
   const [terms, setTerms] = useState(topic?.terms ?? []);
-  const [currentEditTerm, setCurrentEditTerm] = useState<Term>({name: "", definition: "", id: -1});
+  const [currentEditTerm, setCurrentEditTerm] = useState<Term>({
+    name: "",
+    definition: "",
+    id: -1,
+    nextShowDateTime: ""
+  });
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [newTermOpen, setNewTermOpen] = useState(false);
 
@@ -45,9 +56,8 @@ const TopicForm = ({topic, disabled}: Props) => {
     return definition;
   }
 
-  useEffect(() => {
-    async function handleTopicNameChange() {
-      // to not fetch if the page is just loaded
+  async function handleTopicNameChange() {
+    try {
       if (debouncedTopicName !== "" && debouncedTopicName !== topic.name) {
         const httpRes: ApiResObj = await editTopicName({topicId: topic.id, newName: debouncedTopicName});
         if (httpRes.status === 200) {
@@ -56,8 +66,30 @@ const TopicForm = ({topic, disabled}: Props) => {
           feedback("We can't save the new name. Unexpected error occurred.", "error");
         }
       }
+    } catch (e) {
+      console.log(e);
+      feedback("Unexpected error occurred.", "error");
     }
+  }
 
+  async function handleFinishEditing() {
+    try {
+      if (topicName !== debouncedTopicName) {
+        const response: ApiResObj = await editTopicName({topicId: topic.id, newName: topicName});
+        if (response.status === 200) {
+          feedback("Topic name saved!", "info");
+        } else {
+          feedback("We can't save the new name. Unexpected error occurred.", "error");
+        }
+      }
+      navigate(`/info/${topic.id}`);
+    } catch (e) {
+      console.log(e);
+      feedback("We can't save the new name. Unexpected error occurred.", "error");
+    }
+  }
+
+  useEffect(() => {
     handleTopicNameChange();
   }, [debouncedTopicName]);
 
@@ -75,30 +107,33 @@ const TopicForm = ({topic, disabled}: Props) => {
           return newTerms.map(currentTerm => currentTerm.id === term.id ? {
             name: term.name,
             definition: term.definition,
-            id: term.id
+            id: term.id,
+            nextShowDateTime: term.nextShowDateTime
           } : currentTerm);
         });
         feedback("Term edited!", "success");
+      } else {
+        feedback("The edit was not successful. Unexpected error occurred.", "error");
       }
     } catch (e) {
       console.log(e);
-      feedback("The edit was not successful", "error");
+      feedback("The edit was not successful. Unexpected error occurred.", "error");
     } finally {
       handleDialogEditClose();
     }
   }
 
   function handleDialogEditClose() {
-    setCurrentEditTerm({name: "", definition: "", id: -1});
+    setCurrentEditTerm({name: "", definition: "", id: -1, nextShowDateTime: ""});
     setEditDialogOpen(false);
   }
 
   async function handleNewTerm(term: Term) {
     try {
       const response = await createTerm({name: term.name, topicId: topic.id, definition: term.definition});
-      if (response.status === 201 && response.body ) {
+      if (response.status === 201 && response.body) {
         setTerms((prevState) => {
-          const newTerm : Term = {id: response.body as number, name: term.name, definition: term.definition};
+          const newTerm: Term = response.body as Term;
           return [...prevState, newTerm];
         });
         feedback("Term created!", "success");
@@ -115,7 +150,7 @@ const TopicForm = ({topic, disabled}: Props) => {
 
   async function handleTopicDelete(id: number) {
     try {
-      const response : ApiResObj = await deleteTopic(id);
+      const response: ApiResObj = await deleteTopic(id);
       if (response.status === 200) {
         feedback("Topic deleted", "success");
         navigate("/");
@@ -149,40 +184,56 @@ const TopicForm = ({topic, disabled}: Props) => {
   }
 
   return (
-      <Box height="100%" width="100%" sx={{bgcolor: "#d1e6e8", justifyContent: 'center', alignItems: 'center'}}>
+      <Box height="100%" width="100%" sx={{bgcolor: "#E1F7FAFF", justifyContent: 'center', alignItems: 'center'}}>
         <Grid my={4} container
-              sx={{bgcolor: "#d1e6e8", display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-          <Grid item xs={11} md={8} lg={7} sm={10} minWidth="275px"
+              sx={{bgcolor: "#E1F7FAFF", display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+          <Grid boxShadow={3} item xs={11} md={8} lg={7} sm={10} minWidth="275px"
                 sx={{bgcolor: "#A3CDD1", borderRadius: 2}}>
             <Grid container>
-              <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                <Box m={2} sx={{display: 'flex'}}>
+              <Grid item xs={12} sm={8} md={6} lg={6} xl={6}>
+                <Box m={3}>
+                  <Typography color="#676767" mb={2}><InfoOutlinedIcon fontSize="inherit"/> Enter the topic
+                    name</Typography>
                   <TextField value={topicName} sx={{width: "75%"}} onChange={(e) => handleEditTopicName(e.target.value)}
                              label="Topic name"
                              color={topicName === "" ? "error" : "primary"}/>
                 </Box>
               </Grid>
-              <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                <Box m={1.5} sx={{display: 'flex', justifyContent: 'flex-end'}}>
-                  {topic?.id && (
-                      <Button
-                          onClick={() => handleTopicDelete(topic?.id)}
-                          sx={{marginRight: 1, "&:hover": {bgcolor: "#b6040a", color: "white"}}}
+              <Grid item xs={12} sm={4} md={6} lg={6} xl={6}>
+                <Box m={3} sx={{display: 'flex', justifyContent: 'flex-end'}}>
+                  <Button onClick={handleFinishEditing} sx={{
+                    color: "white",
+                    bgcolor: "#469ca3",
+                    mr: 1.5,
+                    borderColor: "#469ca3",
+                    "&:hover": {bgcolor: "#18838c"}
+                  }}
                           variant="outlined"
-                          color="error"
-                          disabled={disabled}
-                      >
-                        Delete
-                      </Button>
-                  )}
+                          color="inherit">Done</Button>
+
+                  <Button
+                      onClick={() => handleTopicDelete(topic?.id)}
+                      sx={{marginRight: 1, "&:hover": {bgcolor: "#b6040a", color: "white"}}}
+                      variant="outlined"
+                      color="error"
+                      disabled={disabled}
+                  >
+                    Delete
+                  </Button>
                 </Box>
               </Grid>
-              <Grid my={2} container sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                <Grid item xs={11} sm={11} md={9} lg={9} xl={9} sx={{bgcolor: "#d1e6e8", borderRadius: 3}}>
+              <Grid my={3} container sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                <Grid boxShadow={2} item xs={11} sm={11} md={9} lg={9} xl={9}
+                      sx={{bgcolor: "#d1e6e8", borderRadius: 3}}>
                   <Grid sx={{bgcolor: "#74B5BA", borderRadius: 2}}>
                     <Grid container sx={{placeItems: "center"}} height="100%">
                       <Grid pl={3} item xs={6} textAlign="left">
-                        <Typography>Terms</Typography>
+                        <Typography>Terms
+                          <InfoPopover
+                              message={"Click on the \"CREATE TERM\" button to create new term.\nClick on the term to edit or delete it."}>
+
+                          </InfoPopover>
+                        </Typography>
                       </Grid>
                       <Grid item xs={6} textAlign="right" p={0.4}>
                         <Button size="small"
@@ -225,7 +276,7 @@ const TopicForm = ({topic, disabled}: Props) => {
         {
             editDialogOpen &&
           <TermEditDialog dialogText="Edit term" open={true} term={currentEditTerm} onClose={handleDialogEditClose}
-                          onSave={handleEditTerm} onDelete={()=> deleteTermById(currentEditTerm.id)}/>
+                          onSave={handleEditTerm} onDelete={() => deleteTermById(currentEditTerm.id)}/>
         }
         {
             newTermOpen && <TermEditDialog dialogText="Create term" open={true} term={currentEditTerm}
