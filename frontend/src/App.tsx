@@ -5,6 +5,9 @@ import {ResponsiveAppBar} from "./pages/layout/ResponsiveAppBar"
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import Protected from "./components/Protected.tsx";
 import EditTopic from "./pages/EditTopic.tsx";
+import TopicDetails from "./pages/TopicDetails.tsx";
+import PlayFilteredTopic from "./pages/PlayFilteredTopic.tsx";
+import PlayTopic from "./pages/PlayTopic.tsx";
 
 const router = createBrowserRouter([
   {
@@ -26,6 +29,18 @@ const router = createBrowserRouter([
           {
             path: "/edit/:id",
             element: <EditTopic/>
+          },
+          {
+            path: "/info/:id",
+            element: <TopicDetails/>
+          },
+          {
+            path: "/play/:id/filtered",
+            element: <PlayFilteredTopic/>
+          },
+          {
+            path: "/play/:id/all",
+            element: <PlayTopic/>
           }
         ]
       }
