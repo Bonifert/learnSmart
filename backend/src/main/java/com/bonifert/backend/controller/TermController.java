@@ -18,9 +18,9 @@ public class TermController {
   }
 
   @PostMapping
-  public ResponseEntity<Void> create(@RequestBody NewTermDTO newTermDTO) {
-    long id = termService.create(newTermDTO);
-    return ResponseEntity.created(URI.create(String.format("/api/term/%d", id))).build();
+  public ResponseEntity<TermDTO> create(@RequestBody NewTermDTO newTermDTO) {
+    TermDTO term = termService.create(newTermDTO);
+    return ResponseEntity.created(URI.create(String.format("/api/term/%d", term.id()))).body(term);
   }
 
   @PutMapping("/review/{termId}")
@@ -31,7 +31,13 @@ public class TermController {
 
   @PatchMapping
   public ResponseEntity<Void> editTerm(@RequestBody TermDTO termDTO){
-    termService.editTerm(termDTO);
+    termService.edit(termDTO);
+    return ResponseEntity.ok().build();
+  }
+
+  @DeleteMapping("/{id}")
+  public ResponseEntity<Void> delete(@PathVariable long id){
+    termService.delete(id);
     return ResponseEntity.ok().build();
   }
 }
