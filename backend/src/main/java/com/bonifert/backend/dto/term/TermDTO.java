@@ -1,4 +1,6 @@
 package com.bonifert.backend.dto.term;
 
-public record TermDTO(long id, String name, String definition) {
+import java.time.LocalDateTime;
+
+public record TermDTO(long id, String name, String definition, LocalDateTime nextShowDateTime) {
 }
