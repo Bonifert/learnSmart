@@ -4,7 +4,6 @@ import com.bonifert.backend.dto.topic.EditTopicDTO;
 import com.bonifert.backend.dto.topic.InfoTopicDTO;
 import com.bonifert.backend.dto.topic.TopicDTO;
 import com.bonifert.backend.service.TopicService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,7 +38,7 @@ public class TopicController {
   @DeleteMapping("/{topicId}")
   public ResponseEntity<Void> deleteById(@PathVariable long topicId) {
     topicService.deleteById(topicId);
-    return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    return ResponseEntity.ok().build();
   }
 
   @PatchMapping
