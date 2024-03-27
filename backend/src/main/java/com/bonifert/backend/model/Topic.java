@@ -29,4 +29,8 @@ public class Topic {
   @OneToMany(mappedBy = "topic", cascade = CascadeType.REMOVE)
   private List<Term> terms;
   private String priority = "Optional";
+
+  public void addTerm(Term term){
+    terms.add(term);
+  }
 }
