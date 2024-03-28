@@ -141,17 +141,16 @@ _Please note that the project is not yet finished. I'm currently working on it._
 2. Context:
    - User context to store data from the user
    - Alert context to give feedback to the user
-
+3. Topics page
+4. Topic info page
+5. Topic edit page
+6. Play topic page
 ## In progress:
 
 ### Backend:
 
 1. Move authentication endpoints from UserController to authentication controller.
-
-### Frontend:
-
-1. My topics page
-2. Edit/create topic page
+2. AI integration to generate terms and definitions.
 
 ## Future plans
 
