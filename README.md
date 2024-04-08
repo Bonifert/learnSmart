@@ -80,7 +80,7 @@ You only need docker to try this application!
     - (info: if you just want to try the application, it doesn't matter what data you enter)
 
     
-3. Run the docker-compose:
+3. Start the application using Docker Compose::
     ```shell
     cd learnSmart
     ```
