@@ -56,71 +56,37 @@ _Please note that the project is not yet finished. I'm currently working on it._
 
 <p align="right">(<a href="#about-the-project">back to top</a>)</p>
 
-
 # Getting Started
 
 ## Prerequisites
 
-1. JAVA
-2. MAVEN
-3. INTELLIJ
-4. POSTGRESQL
-5. NODE
+![Docker] <br/>
+You only need docker to try this application!
 
 ## Installation
+
+0. Install Docker:
+    - For Windows: [Docker Desktop for Windows](https://docs.docker.com/desktop/install/windows-install/)
+    - For macOS: [Docker Desktop for Mac](https://docs.docker.com/desktop/install/mac-install/)
+    - For Linux: [Docker Desktop for Linux](https://docs.docker.com/desktop/install/linux-install/)
+
 
 1. Clone the repo
    ```shell
    git clone git@github.com:Bonifert/learnSmart.git
    ```
-2. Install Java version 17 or higher
+2. Create the .env file:
+    - Copy the `envtemplate` file in the repository and modify the values according to your configuration. Rename the file to `.env`.
+    - (info: if you just want to try the application, it doesn't matter what data you enter)
 
-
-3. Install Apache Maven or IDE with built-in Maven support
-
-
-4. Install an integrated development environment(IDE) - IntelliJ IDEA
-
-
-5. Install PostgreSQL
-
-
-6. Create a database in PostgreSQL
-
-
-7. Open the backend folder in intelliJ
-
-
-8. Set the database name, username and password as environment variables as follows:
-
-   ✅ DB_NAME=your database name
-
-   ✅ DB_USERNAME=your username
-
-   ✅ DB_PASSWORD=your password
-
-
-9. Run the application by the "Run" button in the top right corner or with Shift + F10 shortcut
-
-
-10. Navigate to the frontend folder in terminal
-     ```shell
-     cd learnSmart/frontend
-     ```
-
-11. Install the frontend packages
-     ```shell
-     npm install
-     ```
-
-12. Install vite and run the application
-     ```shell
-     npm install -g vite
-     ```
-    then
-     ```shell
-     vite
-     ```
+    
+3. Run the docker-compose:
+    ```shell
+    cd learnSmart
+    ```
+    ```shell
+    docker compose up -d
+    ```
 
 <p align="right">(<a href="#about-the-project">back to top</a>)</p>
 
@@ -145,6 +111,8 @@ _Please note that the project is not yet finished. I'm currently working on it._
 4. Topic info page
 5. Topic edit page
 6. Play topic page
+
+
 ## In progress:
 
 ### Backend:
@@ -154,9 +122,8 @@ _Please note that the project is not yet finished. I'm currently working on it._
 
 ## Future plans
 
-1. AI integration to allow the application to recommend terms and definitions related to the topic
+1. AI integration to create topic with AI
 2. Implement forgetting curve
-3. Dockerizing the application
 
 <!-- GETTING STARTED -->
 
@@ -215,3 +182,5 @@ simply open an issue with the tag "enhancement".
 [Gmail]: https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white
 
 [LinkedIn]: https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white
+
+[Docker]: https://img.shields.io/badge/docker-121013?style=for-the-badge&logo=docker
