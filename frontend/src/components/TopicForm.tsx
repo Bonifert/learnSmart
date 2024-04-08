@@ -9,11 +9,13 @@ import {createTerm, deleteTerm, editTerm} from "../providers/termProvider.ts";
 import {useFeedback} from "../context/alertContext/feedbackContextImport.ts";
 import useDebouncedValue from "../hooks/useDebouncedValue.tsx";
 import {ApiResObj} from "../providers/userProvider.ts";
-import {editTopicName} from "../providers/topicProvider.ts";
+import {deleteTopic, editTopicName} from "../providers/topicProvider.ts";
 import {useNavigate} from "react-router-dom";
-import {deleteTopic} from "../providers/topicProvider.ts";
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import InfoPopover from "./InfoPopover.tsx";
+import {AddCircleOutlined} from "@mui/icons-material";
+import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
+import DoneOutlinedIcon from '@mui/icons-material/DoneOutlined';
 
 export interface Topic {
   name: string;
@@ -184,11 +186,11 @@ const TopicForm = ({topic, disabled}: Props) => {
   }
 
   return (
-      <Box height="100%" width="100%" sx={{bgcolor: "#E1F7FAFF", justifyContent: 'center', alignItems: 'center'}}>
+      <Box height="100%" width="100%" sx={{justifyContent: 'center', alignItems: 'center'}}>
         <Grid my={4} container
-              sx={{bgcolor: "#E1F7FAFF", display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+              sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
           <Grid boxShadow={3} item xs={11} md={8} lg={7} sm={10} minWidth="275px"
-                sx={{bgcolor: "#A3CDD1", borderRadius: 2}}>
+                sx={{bgcolor: "white", borderRadius: 2}}>
             <Grid container>
               <Grid item xs={12} sm={8} md={6} lg={6} xl={6}>
                 <Box m={3}>
@@ -209,7 +211,7 @@ const TopicForm = ({topic, disabled}: Props) => {
                     "&:hover": {bgcolor: "#18838c"}
                   }}
                           variant="outlined"
-                          color="inherit">Done</Button>
+                          color="inherit"><DoneOutlinedIcon/></Button>
 
                   <Button
                       onClick={() => handleTopicDelete(topic?.id)}
@@ -218,19 +220,19 @@ const TopicForm = ({topic, disabled}: Props) => {
                       color="error"
                       disabled={disabled}
                   >
-                    Delete
+                    <DeleteOutlinedIcon fontSize="medium"/>
                   </Button>
                 </Box>
               </Grid>
               <Grid my={3} container sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                 <Grid boxShadow={2} item xs={11} sm={11} md={9} lg={9} xl={9}
-                      sx={{bgcolor: "#d1e6e8", borderRadius: 3}}>
-                  <Grid sx={{bgcolor: "#74B5BA", borderRadius: 2}}>
+                      sx={{bgcolor: "white", borderRadius: 3}}>
+                  <Grid sx={{bgcolor: "#bcd8dc", borderRadius: 2}}>
                     <Grid container sx={{placeItems: "center"}} height="100%">
                       <Grid pl={3} item xs={6} textAlign="left">
-                        <Typography>Terms
+                        <Typography>Cards
                           <InfoPopover
-                              message={"Click on the \"CREATE TERM\" button to create new term.\nClick on the term to edit or delete it."}>
+                              message={"Click on the \"+\" button to create new card.\nClick on the card to edit or delete it."}>
 
                           </InfoPopover>
                         </Typography>
@@ -243,7 +245,7 @@ const TopicForm = ({topic, disabled}: Props) => {
                                   borderRadius: "7px",
                                   backgroundColor: "#18838c",
                                   "&:hover": {bgcolor: "#154f57"}
-                                }}>Create term</Button>
+                                }}><AddCircleOutlined fontSize="small"/></Button>
                       </Grid>
                     </Grid>
                   </Grid>
@@ -251,8 +253,8 @@ const TopicForm = ({topic, disabled}: Props) => {
                     {terms.map(term => <Grid item xs={12} sm={6} key={term.id}
                     >
                       <Box m={0.5} sx={{
-                        bgcolor: "#a3cdd1",
-                        "&:hover": {bgcolor: "#469ca3"},
+                        bgcolor: "#d8e6e8",
+                        "&:hover": {bgcolor: "#c7dfe1", transform: "scaleY(1.1) scaleX(1.01)", transition: ".1s"},
                         alignItem: "center",
                         borderRadius: 2
                       }}>
@@ -275,11 +277,11 @@ const TopicForm = ({topic, disabled}: Props) => {
         </Grid>
         {
             editDialogOpen &&
-          <TermEditDialog dialogText="Edit term" open={true} term={currentEditTerm} onClose={handleDialogEditClose}
+          <TermEditDialog dialogText="Edit card" open={true} term={currentEditTerm} onClose={handleDialogEditClose}
                           onSave={handleEditTerm} onDelete={() => deleteTermById(currentEditTerm.id)}/>
         }
         {
-            newTermOpen && <TermEditDialog dialogText="Create term" open={true} term={currentEditTerm}
+            newTermOpen && <TermEditDialog dialogText="Create card" open={true} term={currentEditTerm}
                                            onClose={() => setNewTermOpen(false)}
                                            onSave={handleNewTerm}/>
         }

@@ -43,21 +43,21 @@ const RegisterForm = ({onNavigateLogin}: FunctionProp) => {
 
   return (
       <Box
-          boxShadow={7}
+          boxShadow={2}
           borderRadius={3}
           position="relative"
           p={1}
-          bgcolor="#74B5BA"
+          bgcolor="white"
           paddingTop={2}
       >
-        <Container component="main" maxWidth="xs" sx={{bgcolor: "#74B5BA", borderRadius: 3}}>
+        <Container component="main" maxWidth="xs" sx={{bgcolor: "white", borderRadius: 3}}>
           <Box sx={{
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
           }}>
             <Grid container justifyContent="flex-start">
-              <Typography component="h1" variant="h5" color="white">
+              <Typography component="h1" variant="h5">
                 Register
               </Typography>
             </Grid>

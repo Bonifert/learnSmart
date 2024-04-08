@@ -4,6 +4,7 @@ import Button from "@mui/material/Button";
 import {Term} from "./TopicForm.tsx";
 import {useState} from "react";
 import Grid from "@mui/material/Grid";
+import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 
 interface Props {
   open: boolean;
@@ -39,7 +40,7 @@ const TermEditDialog = ({term, onSave, onClose, open, dialogText, onDelete}: Pro
               {dialogText}
             </Grid>
             {onDelete && <Grid item xs={6} sm={6} md={6} lg={6} xl={6} sx={{display: 'flex', justifyContent: 'flex-end'}}>
-              <Button variant="outlined" color="error" onClick={onDelete}>Delete</Button>
+              <Button variant="outlined" color="error" onClick={onDelete}><DeleteOutlinedIcon/></Button>
             </Grid>}
 
           </Grid>

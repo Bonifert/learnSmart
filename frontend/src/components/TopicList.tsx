@@ -94,68 +94,71 @@ const TopicList = ({topics}: Props) => {
   if (loading) return <CircularProgress/>
 
   return (
-      <Box height="100%" width="100%" sx={{bgcolor: "#E1F7FAFF", justifyContent: 'center', alignItems: 'center'}}>
+      <Box height="100%" width="100%" sx={{justifyContent: 'center', alignItems: 'center'}}>
         <Grid container sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-          <Grid item height="70vh" xs={11} md={8} lg={7} sm={10} minWidth="275px">
-            <Grid m={2} sx={{display: "flex", justifyContent: "center", alignItems: "center"}}>
-              <Box flexDirection={{xs: "column", md: "row"}} sx={{display: "flex"}}>
-                <TextField sx={{m: 1}} label="Search by name"
-                           onChange={(e) => setCurrentPriorities(e.target.value)}
-                           variant="outlined"/>
-                <FormControl sx={{width: 300, m: 1}}>
-                  <InputLabel id="demo-multiple-checkbox-label">Priority</InputLabel>
-                  <Select
-                      labelId="demo-multiple-checkbox-label"
-                      id="demo-multiple-checkbox"
-                      multiple
-                      value={personName}
-                      input={<OutlinedInput label="Priority"/>}
-                      renderValue={(selected: string[]) => selected.join(', ')}
-                      MenuProps={MenuProps}
-                      onChange={handleSelectChange}
-                  >
-                    {priorityNames.map((name) => (
-                        <MenuItem key={name} value={name}>
-                          <Checkbox checked={personName.indexOf(name) > -1}/>
-                          <ListItemText primary={name}/>
-                        </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
+          <Grid item height="70vh" xs={11} sm={10} md={8} lg={7} minWidth="275px">
+            <Grid my={2} sx={{display: "flex", justifyContent: "center", alignItems: "center"}}>
+              <Box flexDirection={{xs: "column", md: "row"}} sx={{display: "flex", justifyContent: "space-between", width: "100%"}} gap={2}>
+                <Box flexDirection={{xs: "column", md:"row"}} display="flex" gap={2}>
+                  <TextField label="Search by name"
+                             onChange={(e) => setCurrentPriorities(e.target.value)}
+                             variant="outlined"
+                  size="small" />
+                  <FormControl size="small" sx={{minWidth: "250px"}}>
+                    <InputLabel id="demo-multiple-checkbox-label">Priority</InputLabel>
+                    <Select
+                        labelId="demo-multiple-checkbox-label"
+                        id="demo-multiple-checkbox"
+                        multiple
+                        value={personName}
+                        input={<OutlinedInput label="Priority"/>}
+                        renderValue={(selected: string[]) => selected.join(', ')}
+                        MenuProps={MenuProps}
+                        onChange={handleSelectChange}
+                    >
+                      {priorityNames.map((name) => (
+                          <MenuItem key={name} value={name}>
+                            <Checkbox checked={personName.indexOf(name) > -1}/>
+                            <ListItemText primary={name}/>
+                          </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Box>
                 <Button onClick={handleCreateTopic}
-                        sx={{m: 1, color: "#18838c", border: "1px solid #18838c"}}>Create topic</Button>
+                        sx={{color: "#18838c", border: "1px solid #18838c", minWidth: "125px"}}>Create topic</Button>
               </Box>
             </Grid>
             <Box pb={3}>
-              <Grid sx={{bgcolor: "#A3CDD1", borderRadius: 2, boxShadow: 3}}>
-                <Grid height="5vh" sx={{bgcolor: "#74B5BA", borderRadius: 2}}>
+              <Grid sx={{bgcolor: "white", borderRadius: 2, boxShadow: 2}}>
+                <Grid height="5vh" sx={{bgcolor: "#bcd8dc", borderRadius: 2, borderBottomLeftRadius: 0, borderBottomRightRadius: 0}}>
                   <Grid container sx={{placeItems: "center"}} height="100%">
                     <Grid xs={4} item textAlign="center">
-                      <Typography>Name</Typography>
-                    </Grid>
-                    <Grid xs={4} item textAlign="center">
-                      <Typography>Number of term</Typography>
+                      <Typography pl={3}>Name</Typography>
                     </Grid>
                     <Grid xs={4} item textAlign="center">
                       <Typography>Priority</Typography>
+                    </Grid>
+                    <Grid xs={4} pr={3} item textAlign="center">
+                      <Typography>Cards</Typography>
                     </Grid>
                   </Grid>
                 </Grid>
                 <Box pb={0.4}>
                   {
                     filteredTopics.map(topic =>
-                        <Grid item m={1} key={topic.id}
+                        <Grid item m={1.2} key={topic.id}
                               sx={{
-                                bgcolor: "#d1e6e8",
-                                "&:hover": {bgcolor: "#469ca3"},
+                                bgcolor: "#d8e6e8",
+                                "&:hover": {bgcolor: "#c7dfe1", transform: "scaleY(1.1) scaleX(1.006)", transition: ".1s"},
                                 alignItem: "center",
                                 borderRadius: 2
                               }}>
                           <Button fullWidth onClick={()=> navigate(`/info/${topic.id}`)}>
                             <Grid container sx={{placeItems: "center", color: "black", textTransform: "none"}}>
                               <Grid item xs={4}>{topic.name}</Grid>
-                              <Grid item xs={4}>{topic.termLength}</Grid>
                               <Grid item xs={4}>{topic.priority}</Grid>
+                              <Grid item xs={4}>{topic.termLength}</Grid>
                             </Grid>
                           </Button>
                         </Grid>

@@ -6,8 +6,10 @@ import {Accordion, AccordionDetails, AccordionSummary, Box, Grid, Stack} from "@
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-const buttonSx = {color: "white", bgcolor: "#469ca3", borderColor: "#469ca3", "&:hover": {bgcolor: "#18838c"}, boxShadow: 2};
-const centerSx = {display: "flex", alignItems: "center", justifyContent: "center"};
+import {grey} from "@mui/material/colors";
+
+const buttonStyle = {color: "white", bgcolor: "#469ca3", borderColor: "#469ca3", "&:hover": {bgcolor: "#18838c"}, boxShadow: 2};
+const centerStyle = {display: "flex", alignItems: "center", justifyContent: "center"};
 
 const TopicDetails = () => {
   const {id} = useParams();
@@ -17,7 +19,7 @@ const TopicDetails = () => {
 
   if (loading || !topic) {
     return (
-        <Box height="40vh" sx={centerSx}>
+        <Box height="40vh" sx={centerStyle}>
           <CircularProgress/>
         </Box>
     );
@@ -45,18 +47,20 @@ const TopicDetails = () => {
   }
 
   return (
-      <Box height="100%" width="100%" sx={{bgcolor: "#E1F7FAFF", ...centerSx}}>
+      <Box height="100%" width="100%" sx={{...centerStyle}}>
         <Grid my={4} container
-              sx={{bgcolor: "#E1F7FAFF", ...centerSx}}>
+              sx={{...centerStyle}}>
           <Grid item xs={10} sm={8} md={7} lg={6} minWidth="275px"
-                sx={{bgcolor: "#A3CDD1", borderRadius: 2, boxShadow: 3}}>
+                sx={{bgcolor: "white", borderRadius: 2, boxShadow: 3}}>
             <Grid container>
               <Grid item xs={8}>
                 <Box m={3}>
                   <Typography variant="h4">
                     {topic.name}
                   </Typography>
-                  <Box my={4} color={"#676767"}>
+                  <Typography color={grey[500]}>Topic</Typography>
+
+                  <Box my={4} color={grey[500]}>
                     <Typography>
                       Created at: {formatDate(new Date(topic.createdAt))}
                     </Typography>
@@ -69,15 +73,15 @@ const TopicDetails = () => {
               </Grid>
               <Grid item xs={4} sx={{display: "flex", alignItems: "center", justifyContent: "flex-end"}}>
                 <Stack spacing={1} m={3}>
-                  <Button sx={buttonSx}
+                  <Button sx={buttonStyle}
                           variant="outlined"
                           color="inherit"
                           onClick={() => navigate(`/edit/${topic!.id}`)}>Edit topic</Button>
-                  <Button sx={buttonSx}
+                  <Button sx={buttonStyle}
                           variant="outlined"
                           color="inherit"
                           onClick={() => navigate(`/play/${topic?.id}/all`)}>Play all</Button>
-                  <Button sx={buttonSx}
+                  <Button sx={buttonStyle}
                           variant="outlined"
                           color="inherit"
                           onClick={() => navigate(`/play/${topic?.id}/filtered`)}>Play pending</Button>
@@ -85,11 +89,11 @@ const TopicDetails = () => {
               </Grid>
             </Grid>
             <Box m={3}>
-              <Typography variant="h5">Terms:</Typography>
+              <Typography variant="h5">Cards:</Typography>
               <Grid container>
                 {topic.terms.map(term => (
-                    <Grid item xs={12} sm={6}>
-                      <Accordion sx={{m: 1}}>
+                    <Grid item xs={12} sm={12} p={1}>
+                      <Accordion sx={{bgcolor: "#e6eff1"}}>
                         <AccordionSummary
                             expandIcon={<ArrowDownwardIcon/>}
                             aria-controls="panel1-content"

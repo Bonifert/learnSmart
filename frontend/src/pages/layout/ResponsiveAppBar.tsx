@@ -10,9 +10,11 @@ import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
+import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import {Outlet, useNavigate} from "react-router-dom";
 import {useUser} from "../../context/userContext/userContextImport.ts";
-
+import {grey} from "@mui/material/colors";
+import LightbulbOutlinedIcon from '@mui/icons-material/LightbulbOutlined';
 
 export const ResponsiveAppBar = () => {
   const {logout} = useUser();
@@ -57,27 +59,31 @@ export const ResponsiveAppBar = () => {
 
   return (
       <Box height="100%" sx={{display:"flex", flexFlow:"column"}} minWidth="270px">
-        <AppBar position="static" sx={{bgcolor: "#469ca3"}}>
+        <AppBar position="static" sx={{bgcolor: "#d1e6e8", boxShadow: 0, borderBottom: `1px solid ${grey[300]}`}}>
           <Container maxWidth="xl">
-            <Toolbar disableGutters>
-              <Typography
-                  p={0.8}
-                  variant="h6"
-                  noWrap
-                  component="a"
-                  sx={{
-                    mr: 6,
-                    bgcolor: "#18838c",
-                    display: {xs: 'none', md: 'flex'},
-                    fontWeight: 700,
-                    color: 'white',
-                    textDecoration: 'none',
-                    border: "1px solid white",
-                    borderRadius: 3
-                  }}
-              >
-                learnSmart
-              </Typography>
+            <Toolbar disableGutters sx={{paddingLeft: 3}}>
+              <Box display="flex" p={0.5} sx={{
+                mr: 6,
+                display: {xs: 'none', md: 'flex'},
+                color: '#469ca3',
+                textDecoration: 'none',
+                borderRadius: 3,
+                alignItems: "center"
+              }}>
+                <LightbulbOutlinedIcon fontSize="large"/>
+                <Typography
+                    ml={0.5}
+                    pt="2px"
+                    fontFamily="poppins"
+                    variant="h6"
+                    noWrap
+                    component="a"
+                    sx={{fontWeight: 700, height: "100%", verticalAlign: "middle"}}
+                >
+                  learnSmart
+                </Typography>
+              </Box>
+
               <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
                 <IconButton
                     size="large"
@@ -85,7 +91,8 @@ export const ResponsiveAppBar = () => {
                     aria-controls="menu-appbar"
                     aria-haspopup="true"
                     onClick={handleOpenNavMenu}
-                    color="inherit"
+                    sx={{color:grey[800]}}
+
                 >
                   <MenuIcon />
                 </IconButton>
@@ -115,30 +122,33 @@ export const ResponsiveAppBar = () => {
                 </Menu>
               </Box>
 
-              <Typography
-                  p={0.8}
-                  variant="h6"
-                  noWrap
-                  component="a"
-                  sx={{
-                    display: {xs: 'flex', md: 'none'},
-                    mr: 6,
-                    bgcolor: "#18838c",
-                    fontWeight: 700,
-                    color: 'white',
-                    textDecoration: 'none',
-                    border: "1px solid white",
-                    borderRadius: 3
-                  }}
-              >
-                learnSmart
-              </Typography>
+              <Box display="flex" p={0.5} sx={{
+                mr: 6,
+                display: {xs: 'flex', md: 'none'},
+                color: '#469ca3',
+                textDecoration: 'none',
+                borderRadius: 3,
+                alignItems: "center"
+              }}>
+                <LightbulbOutlinedIcon fontSize="large"/>
+                <Typography
+                    ml={0.5}
+                    pt="2px"
+                    fontFamily="poppins"
+                    variant="h6"
+                    noWrap
+                    component="a"
+                    sx={{fontWeight: 700, height: "100%", verticalAlign: "middle"}}
+                >
+                  learnSmart
+                </Typography>
+              </Box>
               <Box sx={{flexGrow: 1, display: {xs: 'none', md: 'flex'}}}>
                 {pages.map((page) => (
                     <Button
                         key={page.optionText}
                         onClick={page.navigate}
-                        sx={{my: 2, color: 'white', display: 'block', textTransform: "none"}}
+                        sx={{my: 2, color: 'black', display: 'block', textTransform: "none"}}
                     >
                       <Typography variant="h6">{page.optionText}</Typography>
                     </Button>
@@ -146,9 +156,9 @@ export const ResponsiveAppBar = () => {
               </Box>
 
               <Box sx={{flexGrow: 0}}>
-                <Tooltip title="Open settings">
-                  <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
-                    <MenuIcon/>
+                <Tooltip title="Profile menu">
+                  <IconButton onClick={handleOpenUserMenu} sx={{p: 0, color:grey[800]}}>
+                    <AccountCircleOutlinedIcon/>
                   </IconButton>
                 </Tooltip>
 

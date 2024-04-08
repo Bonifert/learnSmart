@@ -48,21 +48,21 @@ const LoginForm = () => {
 
   return (
       <Box
-          boxShadow={7} // Adjust the shadow depth as needed
+          boxShadow={2} // Adjust the shadow depth as needed
           borderRadius={3}
           position="relative" // Position relative to allow positioning of the shadow
           p={1} // Adjust padding as needed
-          bgcolor="#74B5BA"
+          bgcolor="white"
           paddingTop={2}
       >
-        <Container component="main" maxWidth="xs" sx={{bgcolor: "#74B5BA", borderRadius: 3}}>
+        <Container component="main" maxWidth="xs" sx={{bgcolor: "white", borderRadius: 3}}>
           <Box sx={{
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
           }}>
             <Grid container justifyContent="flex-start">
-              <Typography component="h1" variant="h5" color="white">
+              <Typography component="h1" variant="h5">
                 Sign in
               </Typography>
             </Grid>
@@ -127,9 +127,9 @@ const LoginForm = () => {
                     sx={{
                       mt: 3,
                       mb: 2,
-                      color: "#18838c",
-                      bgcolor: "#D9D9D9",
-                      "&:hover": {bgcolor: "#18838c", color: "#D9D9D9"}
+                      color: "white",
+                      bgcolor: "#469ca3",
+                      "&:hover": {bgcolor: "#18838c", color: "white"}
                     }}
                 >
                   sign in
