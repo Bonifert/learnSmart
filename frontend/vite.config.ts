@@ -9,6 +9,7 @@ export default defineConfig({
         secure: false,
       },
     },
+    host: true
   },
   // some other configuration
 })
