@@ -131,7 +131,7 @@ const TopicList = ({topics}: Props) => {
             </Grid>
             <Box pb={3}>
               <Grid sx={{bgcolor: "white", borderRadius: 2, boxShadow: 2}}>
-                <Grid height="5vh" sx={{bgcolor: "#bcd8dc", borderRadius: 2, borderBottomLeftRadius: 0, borderBottomRightRadius: 0}}>
+                <Grid p={1} sx={{bgcolor: "#bcd8dc", borderRadius: 2, borderBottomLeftRadius: 0, borderBottomRightRadius: 0}}>
                   <Grid container sx={{placeItems: "center"}} height="100%">
                     <Grid xs={4} item textAlign="center">
                       <Typography pl={3}>Name</Typography>
