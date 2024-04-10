@@ -1,19 +1,23 @@
 import {Term} from "./TopicForm.tsx";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 
-interface Prop {
+interface Props {
   onTermSuccess: (id: number) => void;
   onTermFailed: () => void;
   term: Term;
   termInfo: string;
 }
 
-const TermWithFlashCard = ({onTermSuccess, onTermFailed, term, termInfo}: Prop) => {
+const TermWithFlashCard = ({onTermSuccess, onTermFailed, term, termInfo}: Props) => {
   const [isFlipped, setIsFlipped] = useState(false);
+
+  useEffect(() => {
+    setIsFlipped(false);
+  }, [term]); // todo is it good like this?
 
   function handleFlip() {
     setIsFlipped(!isFlipped);
