@@ -2,11 +2,11 @@ import {useNavigate, useParams} from "react-router-dom";
 import {useFeedback} from "../context/alertContext/feedbackContextImport.ts";
 import {TopicType, useFetchTopic} from "../hooks/useFetchTopic.tsx";
 import CircularProgress from "@mui/material/CircularProgress";
-import {Accordion, AccordionDetails, AccordionSummary, Box, Grid, Stack} from "@mui/material";
+import {Box, Grid, Stack} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import {grey} from "@mui/material/colors";
+import CardList from "../components/CardList.tsx";
 
 const buttonStyle = {color: "white", bgcolor: "#469ca3", borderColor: "#469ca3", "&:hover": {bgcolor: "#18838c"}, boxShadow: 2};
 const centerStyle = {display: "flex", alignItems: "center", justifyContent: "center"};
@@ -23,15 +23,6 @@ const TopicDetails = () => {
           <CircularProgress/>
         </Box>
     );
-  }
-
-  function urgencyCalculator(givenDate: Date): string {
-    const now = new Date();
-    if (givenDate < now) {
-      return "Pending";
-    } else {
-      return "Fulfilled";
-    }
   }
 
   function formatDate(givenDate: Date) {
@@ -88,31 +79,7 @@ const TopicDetails = () => {
                 </Stack>
               </Grid>
             </Grid>
-            <Box m={3}>
-              <Typography variant="h5">Cards:</Typography>
-              <Grid container>
-                {topic.terms.map(term => (
-                    <Grid item xs={12} sm={12} p={1}>
-                      <Accordion sx={{bgcolor: "#e6eff1"}}>
-                        <AccordionSummary
-                            expandIcon={<ArrowDownwardIcon/>}
-                            aria-controls="panel1-content"
-                            id="panel1-header"
-                        >
-                          <Typography sx={{width: '65%', flexShrink: 0}}>{term.name}</Typography>
-                          <Typography
-                              sx={{color: 'text.secondary'}}>{urgencyCalculator(new Date(term.nextShowDateTime))}</Typography>
-                        </AccordionSummary>
-                        <AccordionDetails>
-                          <Typography>
-                            {term.definition}
-                          </Typography>
-                        </AccordionDetails>
-                      </Accordion>
-                    </Grid>
-                ))}
-              </Grid>
-            </Box>
+            <CardList cards={topic.terms}/>
           </Grid>
         </Grid>
       </Box>
