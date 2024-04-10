@@ -15,12 +15,12 @@ import java.util.Date;
 
 @Component
 public class JwtUtils {
-  @Value(("${bonifert.app.jwtSecret}"))
+  @Value("${app.jwtSecret}")
   private String jwtSecret;
-  @Value("${bonifert.app.jwtExpirationMs}")
+  @Value("${app.jwtExpirationMs}")
   private int jwtExpirationMs;
 
-  public String generateJwtToken(Authentication authentication) { // user instead of Authentication, is it good?
+  public String generateJwtToken(Authentication authentication) {
     Date issuedAt = new Date();
     Date expiration = new Date(issuedAt.getTime() + jwtExpirationMs);
 
