@@ -87,6 +87,8 @@ You only need docker to try this application!
     ```shell
     docker compose up -d
     ```
+   
+4. You can access the application: http://localhost/home
 
 <p align="right">(<a href="#about-the-project">back to top</a>)</p>
 

@@ -148,9 +148,9 @@ const RegisterForm = ({onNavigateLogin}: FunctionProp) => {
                     sx={{
                       mt: 3,
                       mb: 2,
-                      color: "#18838c",
-                      bgcolor: "#D9D9D9",
-                      "&:hover": {bgcolor: "#18838c", color: "#D9D9D9"}
+                      color: "white",
+                      bgcolor: "#469ca3",
+                        "&:hover": {bgcolor: "#18838c", color: "white"}
                     }}
                 >
                   register
