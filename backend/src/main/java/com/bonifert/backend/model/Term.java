@@ -21,10 +21,16 @@ public class Term {
   private String name;
   @Column(length = 1000)
   private String definition;
-  private int learnRate;
   @OneToMany
   private List<Review> reviews;
   private LocalDateTime nextShowDateTime = LocalDateTime.now();
+
+  public Term(Topic topic, String name, String definition, LocalDateTime nextShowDateTime) {
+    this.topic = topic;
+    this.name = name;
+    this.definition = definition;
+    this.nextShowDateTime = nextShowDateTime;
+  }
 
   public void addReview(Review review) {
     reviews.add(review);
