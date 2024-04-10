@@ -1,8 +1,7 @@
 package com.bonifert.backend.controller;
 
-import com.bonifert.backend.dto.topic.EditTopicDTO;
-import com.bonifert.backend.dto.topic.InfoTopicDTO;
-import com.bonifert.backend.dto.topic.TopicDTO;
+import com.bonifert.backend.dto.topic.*;
+import com.bonifert.backend.dto.topic.BasicTopicDTO;
 import com.bonifert.backend.service.TopicService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +22,16 @@ public class TopicController {
   public ResponseEntity<Long> createTopic() {
     long id = topicService.create();
     return ResponseEntity.created(URI.create(String.format("/api/topic/%d", id))).body(id);
+  }
+
+  @PostMapping("/generate-topic/definitions")
+  public ResponseEntity<BasicTopicDTO> generateDefinitions(@RequestBody GenerateTopicWithDefinitionDTO dto){
+    return ResponseEntity.ok(topicService.generateTopicWithDefinitions(dto));
+  }
+
+  @PostMapping("/generate-topic/words")
+  public ResponseEntity<BasicTopicDTO> generateWords(@RequestBody GenerateTopicWithWordsDTO dto) {
+    return ResponseEntity.ok(topicService.generateTopicWithWords(dto));
   }
 
   @GetMapping("/{topicId}")
