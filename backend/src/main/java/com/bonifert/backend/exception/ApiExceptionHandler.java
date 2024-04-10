@@ -1,5 +1,6 @@
 package com.bonifert.backend.exception;
 
+import com.google.gson.JsonSyntaxException;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,20 @@ public class ApiExceptionHandler {
   public ResponseEntity<ErrorResponse> handleNotFoundException(NotFoundException exception) {
     HttpStatus httpStatus = HttpStatus.NOT_FOUND;
     ErrorResponse errorResponse = new ErrorResponse(exception.getMessage(), httpStatus);
+    return new ResponseEntity<>(errorResponse, httpStatus);
+  }
+
+  @ExceptionHandler(value = OpenAIException.class)
+  public ResponseEntity<ErrorResponse> handleOpenAIException(OpenAIException exception) {
+    HttpStatus httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+    ErrorResponse errorResponse = new ErrorResponse(exception.getMessage(), httpStatus);
+    return new ResponseEntity<>(errorResponse, httpStatus);
+  }
+
+  @ExceptionHandler(value = JsonSyntaxException.class)
+  public ResponseEntity<ErrorResponse> handleJsonSyntaxException(JsonSyntaxException jsonSyntaxException) {
+    HttpStatus httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+    ErrorResponse errorResponse = new ErrorResponse("Cannot process the OpenAI response", httpStatus);
     return new ResponseEntity<>(errorResponse, httpStatus);
   }
 
