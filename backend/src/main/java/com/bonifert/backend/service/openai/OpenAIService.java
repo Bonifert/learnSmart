@@ -33,7 +33,8 @@ public class OpenAIService {
 
   public String getTopicWithWordsInJsonStringFormat(GenerateTopicWithWordsDTO dto) throws OpenAIException {
     OpenAIRequestDTO request = new OpenAIRequestDTO(model, createWordPrompt(dto), TEMPERATURE, MAX_TOKENS);
-    request.addMessage(new Message("system", "You will give back json string in format like: \"{\n  \"topic\": \"My new topic\",\n  \"terms\": [\n    {\n      \"name\": \"name language\",\n      \"definition\": \"definition language\"\n    },\n  ]\n}\""));
+    request.addMessage(new Message("system",
+                                   "You will give back json string in format like: \"{\n  \"topic\": \"My new topic\",\n  \"terms\": [\n    {\n      \"name\": \"name language\",\n      \"definition\": \"definition language\"\n    },\n  ]\n}\""));
     return getFromOpenAI(request);
   }
 
@@ -64,7 +65,7 @@ public class OpenAIService {
 
   private String createDefinitionPrompt(GenerateTopicWithDefinitionDTO dto) {
     return String.format(
-            "I need a json string related to %s, like %s, at least %d terms. The definition of the term should be at least %d sentences long",
+            "I need a json string related to %s, like %s, at least %d terms. The definition of the term should be at least %d sentences long.",
             dto.topic(),
             String.join(", ", dto.examples()),
             dto.numberOfCards(),
