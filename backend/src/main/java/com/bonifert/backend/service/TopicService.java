@@ -1,17 +1,16 @@
 package com.bonifert.backend.service;
 
 import com.bonifert.backend.dto.term.TermDTO;
-import com.bonifert.backend.dto.topic.EditTopicDTO;
-import com.bonifert.backend.dto.topic.InfoTopicDTO;
-import com.bonifert.backend.dto.topic.TopicDTO;
+import com.bonifert.backend.dto.topic.*;
 import com.bonifert.backend.exception.NotFoundException;
 import com.bonifert.backend.model.Term;
 import com.bonifert.backend.model.Topic;
 import com.bonifert.backend.model.user.UserEntity;
 import com.bonifert.backend.service.mapper.TopicMapper;
-import com.bonifert.backend.service.repository.TermRepository;
+import com.bonifert.backend.service.openai.OpenAIService;
 import com.bonifert.backend.service.repository.TopicRepository;
 import com.bonifert.backend.service.repository.UserRepository;
+import com.google.gson.Gson;
 import jakarta.transaction.Transactional;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -25,15 +24,16 @@ public class TopicService {
   private final UserRepository userRepository;
   private final Validator validator;
   private final TopicMapper topicMapper;
-  private final TermRepository termRepository;
+  private final OpenAIService openAIService;
+  private final Gson gson = new Gson(); // todo bean
 
   public TopicService(TopicRepository topicRepository, UserRepository userRepository, Validator validator,
-                      TopicMapper topicMapper, TermRepository termRepository) {
+                      TopicMapper topicMapper, OpenAIService openAIService) {
     this.topicRepository = topicRepository;
     this.userRepository = userRepository;
     this.validator = validator;
     this.topicMapper = topicMapper;
-    this.termRepository = termRepository;
+    this.openAIService = openAIService;
   }
 
   public long create() {
@@ -44,6 +44,16 @@ public class TopicService {
     topic.setName("");
     topic.setUserEntity(user);
     return topicRepository.save(topic).getId();
+  }
+
+  public BasicTopicDTO generateTopicWithDefinitions(GenerateTopicWithDefinitionDTO dto){
+    String topicJson = openAIService.getTopicWithDefinitionsInJsonStringFormat(dto);
+    return gson.fromJson(topicJson, BasicTopicDTO.class);
+  }
+
+  public BasicTopicDTO generateTopicWithWords(GenerateTopicWithWordsDTO dto){
+    String topicJson = openAIService.getTopicWithWordsInJsonStringFormat(dto);
+    return gson.fromJson(topicJson, BasicTopicDTO.class);
   }
 
   public TopicDTO getByIdWithFilteredTerms(long topicId) {
