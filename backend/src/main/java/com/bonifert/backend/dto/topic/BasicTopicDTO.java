@@ -13,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 public class BasicTopicDTO {
   @SerializedName("topic")
-  private String topic;
+  private String name;
   @SerializedName("terms")
   private List<GeneratedTermDTO> terms;
 }
