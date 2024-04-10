@@ -8,6 +8,7 @@ import EditTopic from "./pages/EditTopic.tsx";
 import TopicDetails from "./pages/TopicDetails.tsx";
 import PlayFilteredTopic from "./pages/PlayFilteredTopic.tsx";
 import PlayTopic from "./pages/PlayTopic.tsx";
+import GeneratingOptions from "./pages/GeneratingOptions.tsx";
 
 const router = createBrowserRouter([
   {
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
           {
             path: "/play/:id/all",
             element: <PlayTopic/>
+          },
+          {
+            path: "/ai/options",
+            element: <GeneratingOptions/>
           }
         ]
       }
