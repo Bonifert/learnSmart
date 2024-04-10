@@ -42,7 +42,7 @@ const TopicForm = ({topic, disabled}: Props) => {
   const {feedback} = useFeedback();
   const navigate = useNavigate();
   const [topicName, setTopicName] = useState(topic?.name ?? "");
-  const debouncedTopicName = useDebouncedValue(topicName, 2000);
+  const debouncedTopicName = useDebouncedValue(topicName, 1000);
   const [terms, setTerms] = useState(topic?.terms ?? []);
   const [currentEditTerm, setCurrentEditTerm] = useState<Term>({
     name: "",
