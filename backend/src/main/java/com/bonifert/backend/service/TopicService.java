@@ -8,6 +8,7 @@ import com.bonifert.backend.model.Topic;
 import com.bonifert.backend.model.user.UserEntity;
 import com.bonifert.backend.service.mapper.TopicMapper;
 import com.bonifert.backend.service.openai.OpenAIService;
+import com.bonifert.backend.service.repository.TermRepository;
 import com.bonifert.backend.service.repository.TopicRepository;
 import com.bonifert.backend.service.repository.UserRepository;
 import com.google.gson.Gson;
@@ -22,36 +23,54 @@ import java.util.List;
 public class TopicService {
   private final TopicRepository topicRepository;
   private final UserRepository userRepository;
+  private final TermRepository termRepository;
   private final Validator validator;
   private final TopicMapper topicMapper;
   private final OpenAIService openAIService;
   private final Gson gson = new Gson(); // todo bean
 
-  public TopicService(TopicRepository topicRepository, UserRepository userRepository, Validator validator,
+  public TopicService(TopicRepository topicRepository, UserRepository userRepository, TermRepository termRepository,
+                      Validator validator,
                       TopicMapper topicMapper, OpenAIService openAIService) {
     this.topicRepository = topicRepository;
     this.userRepository = userRepository;
+    this.termRepository = termRepository;
     this.validator = validator;
     this.topicMapper = topicMapper;
     this.openAIService = openAIService;
   }
 
   public long create() {
-    String userName = SecurityContextHolder.getContext().getAuthentication().getName();
-    UserEntity user = userRepository.findByUserName(userName)
-                                    .orElseThrow(() -> new NotFoundException("User not found"));
+    UserEntity user = getUser();
     Topic topic = new Topic();
-    topic.setName("");
     topic.setUserEntity(user);
     return topicRepository.save(topic).getId();
   }
 
-  public BasicTopicDTO generateTopicWithDefinitions(GenerateTopicWithDefinitionDTO dto){
+  @Transactional
+  public long createFromBasic(BasicTopicDTO basicTopicDTO) {
+    UserEntity user = getUser();
+    Topic topic = new Topic();
+    List<Term> terms = basicTopicDTO.getTerms()
+                                    .stream()
+                                    .map(term -> new Term(topic,
+                                                          term.getName(),
+                                                          term.getDefinition(),
+                                                          LocalDateTime.now()))
+                                    .toList();
+    termRepository.saveAll(terms);
+    topic.setTerms(terms);
+    topic.setUserEntity(user);
+    topic.setName(basicTopicDTO.getName());
+    return topicRepository.save(topic).getId();
+  }
+
+  public BasicTopicDTO generateTopicWithDefinitions(GenerateTopicWithDefinitionDTO dto) {
     String topicJson = openAIService.getTopicWithDefinitionsInJsonStringFormat(dto);
     return gson.fromJson(topicJson, BasicTopicDTO.class);
   }
 
-  public BasicTopicDTO generateTopicWithWords(GenerateTopicWithWordsDTO dto){
+  public BasicTopicDTO generateTopicWithWords(GenerateTopicWithWordsDTO dto) {
     String topicJson = openAIService.getTopicWithWordsInJsonStringFormat(dto);
     return gson.fromJson(topicJson, BasicTopicDTO.class);
   }
@@ -88,7 +107,10 @@ public class TopicService {
   public List<InfoTopicDTO> getTopicsInfoByUser() {
     List<Topic> topics = getTopicEntitiesByUser();
     return topics.stream()
-                 .map(topic -> new InfoTopicDTO(topic.getName(), topic.getTerms().size(), topic.getPriority(), topic.getId()))
+                 .map(topic -> new InfoTopicDTO(topic.getName(),
+                                                topic.getTerms().size(),
+                                                topic.getPriority(),
+                                                topic.getId()))
                  .toList();
   }
 
@@ -108,7 +130,12 @@ public class TopicService {
   }
 
   private List<TermDTO> convertTermsToDTOs(List<Term> terms) {
-    return terms.stream().map(term -> new TermDTO(term.getId(), term.getName(), term.getDefinition(), term.getNextShowDateTime())).toList();
+    return terms.stream()
+                .map(term -> new TermDTO(term.getId(),
+                                         term.getName(),
+                                         term.getDefinition(),
+                                         term.getNextShowDateTime()))
+                .toList();
   }
 
   private TopicDTO convertTopicToDTOWithFilteredTerms(Topic topic, List<Term> terms) {
@@ -118,5 +145,10 @@ public class TopicService {
                         topic.getModifiedAt(),
                         convertTermsToDTOs(terms),
                         topic.getPriority());
+  }
+
+  private UserEntity getUser() {
+    String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+    return userRepository.findByUserName(userName).orElseThrow(() -> new NotFoundException("User not found"));
   }
 }
