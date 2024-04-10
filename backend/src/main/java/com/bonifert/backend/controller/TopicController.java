@@ -29,6 +29,12 @@ public class TopicController {
     return ResponseEntity.ok(topicService.generateTopicWithDefinitions(dto));
   }
 
+  @PostMapping("/create-from-basic")
+  public ResponseEntity<Long> createFromBasic(@RequestBody BasicTopicDTO basicTopicDTO){
+    long id = topicService.createFromBasic(basicTopicDTO);
+    return ResponseEntity.created(URI.create(String.format("/api/topic/%d", id))).body(id);
+  }
+
   @PostMapping("/generate-topic/words")
   public ResponseEntity<BasicTopicDTO> generateWords(@RequestBody GenerateTopicWithWordsDTO dto) {
     return ResponseEntity.ok(topicService.generateTopicWithWords(dto));
