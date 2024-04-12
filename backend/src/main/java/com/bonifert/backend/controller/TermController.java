@@ -3,6 +3,7 @@ package com.bonifert.backend.controller;
 import com.bonifert.backend.dto.term.NewTermDTO;
 import com.bonifert.backend.dto.term.TermDTO;
 import com.bonifert.backend.service.TermService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,7 +19,7 @@ public class TermController {
   }
 
   @PostMapping
-  public ResponseEntity<TermDTO> create(@RequestBody NewTermDTO newTermDTO) {
+  public ResponseEntity<TermDTO> create(@Valid @RequestBody NewTermDTO newTermDTO) {
     TermDTO term = termService.create(newTermDTO);
     return ResponseEntity.created(URI.create(String.format("/api/term/%d", term.id()))).body(term);
   }
@@ -30,7 +31,7 @@ public class TermController {
   }
 
   @PatchMapping
-  public ResponseEntity<Void> editTerm(@RequestBody TermDTO termDTO){
+  public ResponseEntity<Void> editTerm(@Valid @RequestBody TermDTO termDTO){
     termService.edit(termDTO);
     return ResponseEntity.ok().build();
   }
