@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GeneratedTermDTO {
+public class BasicTermDTO {
   @SerializedName("name")
   private String name;
 
