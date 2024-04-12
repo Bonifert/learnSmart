@@ -1,59 +1,63 @@
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import {Card, CardActions, CardContent, CardMedia} from "@mui/material";
+import {Card, CardContent, CardMedia} from "@mui/material";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
+import {useNavigate} from "react-router-dom";
+import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 
-const buttonStyle = {
-  color: "white",
-      bgcolor: "#469ca3",
-      mr: 1.5,
-      borderColor: "#469ca3",
-      "&:hover": {bgcolor: "#18838c"}
-}
 
 const GeneratingOptions = () => {
+  const navigate = useNavigate();
   return (
-      <Box display="flex" justifyContent="center">
-        <Grid container my={2} alignContent="center" height="75vh"  width={{xs: "100%", sm: "90%", md: "80%", lg: "70%"}}>
-          <Grid mt={3} px={4} item xs={12} sm={6} display="flex" justifyContent="center">
-            <Card sx={{ maxWidth: 500, borderRadius: 2, boxShadow: 2}}>
+      <Box display="flex" justifyContent="center" minHeight="70vh">
+        <Grid container my={2} alignContent="center" width={{xs: "95%", sm: "85%", md: "70%", lg: "60%"}}>
+          <Grid mt={2} item xs={12} display="flex" justifyContent="center">
+            <Grid p={4} width="100%" mx={2} sx={{bgcolor: "white", borderRadius: 2, boxShadow: 1}}>
+              <Typography sx={{mb: 4}} variant="h4">Create topic with AI! <AutoAwesomeIcon fontSize="large"/></Typography>
+              <Typography>Whether you're delving into topics or exploring vocabulary, our innovative
+                tool caters to your learning needs.</Typography><br/>
+              <Typography>Accelerate your learning journey with concise definitions
+                and expand your language skills with ease.</Typography>
+              <Typography>Learn in a smarter way, and generate definitions and words! <br/><br/> Learning has never been so easy!</Typography></Grid>
+          </Grid>
+          <Grid mt={3} px={2} item xs={12} sm={6} display="flex" justifyContent="center">
+            <Card onClick={() => navigate("/ai/generate/definitions")} sx={{
+              width: "100%",
+              borderRadius: 2,
+              pt: 1,
+              boxShadow: 2,
+              "&:hover": {transform: "scaleY(1.01) scaleX(1.01)", transition: ".1s", cursor: "pointer"}
+            }}>
               <CardMedia
-                  sx={{ height: 140 }}
-                  image="/public/img.png"
+                  sx={{height: 140,}}
+                  image="/public/definition.png"
                   title="green iguana"
               />
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                  Topic with definitions
-                </Typography>
-                <Typography variant="body2" color="text.secondary" height="100px">
-                  Generate topic with definitions with the AI! You just have to give some details about the topic.
+              <CardContent sx={{textAlign: "center"}}>
+                <Typography gutterBottom variant="h5" component="div" sx={{mt: 2}}>
+                  Generate definitions
                 </Typography>
               </CardContent>
-              <CardActions sx={{display: "flex", justifyContent: "flex-end"}}>
-                <Button size="medium" sx={buttonStyle}>Generate</Button>
-              </CardActions>
             </Card>
           </Grid>
-          <Grid mt={3} px={4} item xs={12} sm={6} display="flex" justifyContent="center">
-            <Card sx={{ maxWidth: 500, borderRadius: 2, boxShadow: 2}}>
+          <Grid mt={3} px={2} item xs={12} sm={6} sx={{bgcolor: "white"}} display="flex" justifyContent="center">
+            <Card onClick={() => navigate("/ai/generate/words")} sx={{
+              borderRadius: 2,
+              width: "100%",
+              boxShadow: 2,
+              pt: 1,
+              "&:hover": {transform: "scaleY(1.01) scaleX(1.01)", transition: ".1s", cursor: "pointer"}
+            }}>
               <CardMedia
-                  sx={{ height: 140 }}
-                  image="/public/img_6.png"
+                  sx={{height: 140}}
+                  image="/public/dictionary.png"
                   title="green iguana"
               />
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                  Topic with words
-                </Typography>
-                <Typography variant="body2" color="text.secondary" height="100px">
-                  Create a topic and flash cards with the AI! You can specify the topic, the number of flash cards and the language skill level.
+              <CardContent sx={{textAlign: "center"}}>
+                <Typography gutterBottom variant="h5" component="div" sx={{ mt: 2}}>
+                  Generate words
                 </Typography>
               </CardContent>
-              <CardActions sx={{display: "flex", justifyContent: "flex-end"}} >
-                <Button size="medium" sx={buttonStyle}>Generate</Button>
-              </CardActions>
             </Card>
           </Grid>
         </Grid>
