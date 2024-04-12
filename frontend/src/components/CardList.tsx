@@ -2,9 +2,10 @@ import {Term} from "./TopicForm.tsx";
 import Typography from "@mui/material/Typography";
 import {Accordion, AccordionDetails, AccordionSummary, Box, Grid} from "@mui/material";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+import {BasicTerm} from "../pages/CreateTopicWithDefinition.tsx";
 
 interface Props {
-  cards: Term[];
+  cards: Term[] | BasicTerm[];
 }
 
 const CardList = ({cards} : Props) => {
@@ -30,8 +31,11 @@ const CardList = ({cards} : Props) => {
                       id="panel1-header"
                   >
                     <Typography sx={{width: '65%', flexShrink: 0}}>{card.name}</Typography>
-                    <Typography
-                        sx={{color: 'text.secondary'}}>{urgencyCalculator(new Date(card.nextShowDateTime))}</Typography>
+                    {('nextShowDateTime' in card) && (
+                        <Typography sx={{color: 'text.secondary'}}>
+                          {urgencyCalculator(new Date((card as Term).nextShowDateTime))}
+                        </Typography>
+                    )}
                   </AccordionSummary>
                   <AccordionDetails>
                     <Typography>
