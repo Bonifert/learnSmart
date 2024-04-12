@@ -9,6 +9,8 @@ import TopicDetails from "./pages/TopicDetails.tsx";
 import PlayFilteredTopic from "./pages/PlayFilteredTopic.tsx";
 import PlayTopic from "./pages/PlayTopic.tsx";
 import GeneratingOptions from "./pages/GeneratingOptions.tsx";
+import CreateTopicWithDefinition from "./pages/CreateTopicWithDefinition.tsx";
+import CreateTopicWithWords from "./pages/CreateTopicWithWords.tsx";
 
 const router = createBrowserRouter([
   {
@@ -46,6 +48,14 @@ const router = createBrowserRouter([
           {
             path: "/ai/options",
             element: <GeneratingOptions/>
+          },
+          {
+            path: "/ai/generate/definitions",
+            element: <CreateTopicWithDefinition/>
+          },
+          {
+            path: "ai/generate/words",
+            element: <CreateTopicWithWords/>
           }
         ]
       }
