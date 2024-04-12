@@ -60,6 +60,7 @@ public class TopicService {
                                     .toList();
     termRepository.saveAll(terms);
     topic.setTerms(terms);
+    topic.setPriority("Prioritize");
     topic.setUserEntity(user);
     topic.setName(basicTopicDTO.getName());
     return topicRepository.save(topic).getId();
