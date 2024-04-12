@@ -64,11 +64,10 @@ public class OpenAIService {
   }
 
   private String createDefinitionPrompt(GenerateTopicWithDefinitionDTO dto) {
-    return String.format(
-            "I need a json string related to %s, like %s, at least %d terms. The definition of the term should be at least %d sentences long.",
-            dto.topic(),
-            String.join(", ", dto.examples()),
-            dto.numberOfCards(),
-            dto.definitionSentenceAmount());
+    return String.format("I need a json string related to %s, like %s, at least %d terms." + (dto.definitionSentenceAmount() > 0 ? "The definition of the term should be at least %d sentences long." : ""),
+                         dto.topic(),
+                         String.join(", ", dto.examples()),
+                         dto.numberOfCards(),
+                         dto.definitionSentenceAmount());
   }
 }
