@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {ReactNode} from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -15,6 +16,7 @@ import {Outlet, useNavigate} from "react-router-dom";
 import {useUser} from "../../context/userContext/userContextImport.ts";
 import {grey} from "@mui/material/colors";
 import LightbulbOutlinedIcon from '@mui/icons-material/LightbulbOutlined';
+import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 
 export const ResponsiveAppBar = () => {
   const {logout} = useUser();
@@ -23,9 +25,14 @@ export const ResponsiveAppBar = () => {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
   const pages: Option[] = [
     {
-      optionText: "Topics",
-      navigate: () => navigate("/")
+      optionText: "My topics",
+      navigate: () => navigate("/"),
     },
+    {
+      optionText: "AI",
+      navigate: ()=> navigate("/ai/options"),
+      icon: <AutoAwesomeIcon fontSize="small"/>
+    }
   ];
   const settings: Option[] = [
     {
@@ -33,13 +40,14 @@ export const ResponsiveAppBar = () => {
       navigate: () => {
         logout();
         navigate("/home");
-      }
+      },
     },
   ];
 
   interface Option {
     readonly optionText: string;
     readonly navigate: () => void;
+    readonly icon?: ReactNode;
   }
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -116,7 +124,7 @@ export const ResponsiveAppBar = () => {
                 >
                   {pages.map((page) => (
                       <MenuItem key={page.optionText} onClick={page.navigate}>
-                        <Typography textAlign="center">{page.optionText}</Typography>
+                        <Typography textAlign="center">{page.optionText} {page.icon}</Typography>
                       </MenuItem>
                   ))}
                 </Menu>
@@ -148,9 +156,10 @@ export const ResponsiveAppBar = () => {
                     <Button
                         key={page.optionText}
                         onClick={page.navigate}
-                        sx={{my: 2, color: 'black', display: 'block', textTransform: "none"}}
+                        sx={{m: 2, color: 'black', display: 'block', textTransform: "none"}}
                     >
-                      <Typography variant="h6">{page.optionText}</Typography>
+
+                      <Typography variant="h6">{page.optionText} {page.icon}</Typography>
                     </Button>
                 ))}
               </Box>
