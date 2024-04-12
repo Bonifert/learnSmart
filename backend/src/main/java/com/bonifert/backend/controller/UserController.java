@@ -5,6 +5,7 @@ import com.bonifert.backend.dto.user.NewUserDTO;
 import com.bonifert.backend.dto.user.UserInformationDTO;
 import com.bonifert.backend.service.AuthenticationService;
 import com.bonifert.backend.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,7 +25,7 @@ public class UserController {
   }
 
   @PostMapping
-  public ResponseEntity<Void> register(@RequestBody NewUserDTO newUserDTO) {
+  public ResponseEntity<Void> register(@Valid @RequestBody NewUserDTO newUserDTO) {
     long id = userService.register(newUserDTO);
     return ResponseEntity.created(URI.create(String.format("/api/user/%d", id))).build();
   }
