@@ -5,6 +5,8 @@ import {useState} from "react";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import {FormValue} from "./TopicWithWordsForm.tsx";
+import {useFeedback} from "../context/alertContext/feedbackContextImport.ts";
 
 const centerStyle = {display: "flex", alignItems: "center", justifyContent: "center"};
 const buttonStyle = {
@@ -15,27 +17,80 @@ const buttonStyle = {
   boxShadow: 2
 };
 
+export const numberCheckRegex = new RegExp("^[0-9]+$");
+
 interface Props {
   onGenerate: (data: TopicWithDefinitionRequest) => void;
 }
 
 const TopicWithDefinitionForm = ({onGenerate}: Props) => {
-  const [topic, setTopic] = useState<string>("");
+  const [topic, setTopic] = useState<FormValue<string>>({value: "", error: false, errorMessage: " "});
+  const [numberOfCards, setNumberOfCards] = useState<FormValue<string>>({value: "", error: false, errorMessage: " "});
   const [examples, setExamples] = useState<string>("");
-  const [numberOfCards, setNumberOfCards] = useState<string>("");
-  const [definitionSentenceAmount, setDefinitionSentenceAmount] = useState<string>("");
+  const [definitionSentenceAmount, setDefinitionSentenceAmount] = useState<FormValue<string>>({
+    value: "",
+    error: false,
+    errorMessage: " "
+  });
+  const {feedback} = useFeedback();
 
   async function onSubmit() {
-    const exampleValue = examples.split(",");
-    const numberOfCardsValue = parseInt(numberOfCards);
-    const definitionSentenceAmountValue = parseInt(definitionSentenceAmount);
-    const generateConfig: TopicWithDefinitionRequest = {
-      topic,
-      examples: exampleValue,
-      numberOfCards: numberOfCardsValue,
-      definitionSentenceAmount: isNaN(definitionSentenceAmountValue) ? 0 : definitionSentenceAmountValue
-    };
-    onGenerate(generateConfig);
+    if (topic.value === "" || numberOfCards.value === "" || definitionSentenceAmount.error) {
+      feedback("Invalid input!", "error");
+      highlightRequired();
+    } else {
+      const exampleValue = examples.split(",");
+      const numberOfCardsValue = parseInt(numberOfCards.value);
+      const definitionSentenceAmountValue = parseInt(definitionSentenceAmount.value);
+      const generateConfig: TopicWithDefinitionRequest = {
+        topic: topic.value,
+        examples: exampleValue,
+        numberOfCards: numberOfCardsValue,
+        definitionSentenceAmount: isNaN(definitionSentenceAmountValue) ? null : definitionSentenceAmountValue
+      };
+      onGenerate(generateConfig);
+    }
+  }
+
+  function handleTopicChange(topicValue: string) {
+    if (topicValue.length === 0) {
+      setTopic({value: topicValue, error: true, errorMessage: "Please provide a topic"});
+    } else if (topicValue.length > 200) {
+      setTopic({value: topicValue, error: true, errorMessage: "Max 200 character"});
+    } else {
+      setTopic({value: topicValue, error: false, errorMessage: " "});
+    }
+  }
+
+  function handleNumberOfCardsChange(numberOfCardsValue: string) {
+    if (!numberCheckRegex.test(numberOfCardsValue) && numberOfCardsValue !== "") return;
+    const valueNum = parseInt(numberOfCardsValue);
+    if (valueNum <= 0) {
+      setNumberOfCards({value: numberOfCardsValue, error: true, errorMessage: "Must be greater than 0"})
+    } else if (valueNum > 30) {
+      setNumberOfCards({value: numberOfCardsValue, error: true, errorMessage: "30 or smaller"});
+    } else if (numberOfCardsValue === "") {
+      setNumberOfCards({value: numberOfCardsValue, error: true, errorMessage: "Enter a number"})
+    } else {
+      setNumberOfCards({value: numberOfCardsValue, error: false, errorMessage: " "});
+    }
+  }
+
+  function handleDefinitionSentenceAmountChange(sentenceAmount: string) {
+    if (!numberCheckRegex.test(sentenceAmount) && sentenceAmount !== "") return;
+    const valueNum = parseInt(sentenceAmount);
+    if (valueNum < 1) {
+      setDefinitionSentenceAmount({value: sentenceAmount, error: true, errorMessage: "Must be greater than 0"});
+    } else if (valueNum > 6) {
+      setDefinitionSentenceAmount({value: sentenceAmount, error: true, errorMessage: "Maximum 6 sentence!"})
+    } else {
+      setDefinitionSentenceAmount({value: sentenceAmount, error: false, errorMessage: " "});
+    }
+  }
+
+  function highlightRequired() {
+    if (topic.value === "") handleTopicChange(topic.value);
+    if (numberOfCards.value === "") handleNumberOfCardsChange(numberOfCards.value);
   }
 
   return (
@@ -53,14 +108,24 @@ const TopicWithDefinitionForm = ({onGenerate}: Props) => {
               </Box>
               <Grid container my={1}>
                 <Grid my={1} item xs={12} lg={6} p={1}>
-                  <Typography>What should the topic be about?*</Typography>
-                  <TextField value={topic} onChange={(e) => setTopic(e.target.value)} required multiline
-                             sx={{width: "80%", mt: 2}} placeholder="eg.: Human brain*"/>
+                  <Box>
+                    <Typography>What should the topic be about?*</Typography>
+                    <TextField value={topic.value} placeholder="eg.: Human brain*" required multiline
+                               onChange={(e) => handleTopicChange(e.target.value)}
+                               onBlur={(e) => handleTopicChange(e.target.value)}
+                               error={topic.error}
+                               helperText={topic.errorMessage}
+                               sx={{width: "80%", mt: 2}}/>
+                  </Box>
                 </Grid>
                 <Grid my={1} item xs={12} lg={6} p={1}>
                   <Typography>How many cards do you need?*</Typography>
-                  <TextField required placeholder="eg.: 12, max: 30*" onChange={(e) => setNumberOfCards(e.target.value)}
-                             value={numberOfCards} sx={{width: "80%", mt: 2}} inputProps={{type: "number"}}/>
+                  <TextField required placeholder="eg.: 12, max: 30*"
+                             error={numberOfCards.error}
+                             onChange={(e) => handleNumberOfCardsChange(e.target.value)}
+                             onBlur={(e) => handleNumberOfCardsChange(e.target.value)}
+                             value={numberOfCards.value} sx={{width: "80%", mt: 2}}
+                             helperText={numberOfCards.errorMessage}/>
                 </Grid>
                 <Grid my={1} item xs={12} lg={6} p={1}>
                   <Typography>Give some example!</Typography>
@@ -70,8 +135,9 @@ const TopicWithDefinitionForm = ({onGenerate}: Props) => {
                 <Grid my={1} item xs={12} lg={6} p={1}>
                   <Typography>Length (in sentences):</Typography>
                   <TextField required placeholder="eg.: 4, max: 6"
-                             onChange={(e) => setDefinitionSentenceAmount(e.target.value)}
-                             value={definitionSentenceAmount} sx={{width: "80%", mt: 2}} inputProps={{type: "number"}}/>
+                             onChange={(e) => handleDefinitionSentenceAmountChange(e.target.value)}
+                             value={definitionSentenceAmount.value} sx={{width: "80%", mt: 2}}
+                             helperText={definitionSentenceAmount.errorMessage} error={definitionSentenceAmount.error}/>
                 </Grid>
               </Grid>
               <Box display="flex" justifyContent="flex-end">
