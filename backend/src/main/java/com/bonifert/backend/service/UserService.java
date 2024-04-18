@@ -1,7 +1,7 @@
 package com.bonifert.backend.service;
 
 import com.bonifert.backend.dto.user.NewUserDTO;
-import com.bonifert.backend.exception.NotFoundException;
+import com.bonifert.backend.exception.DuplicatedException;
 import com.bonifert.backend.model.user.Role;
 import com.bonifert.backend.model.user.UserEntity;
 import com.bonifert.backend.service.repository.RoleRepository;
@@ -26,13 +26,17 @@ public class UserService {
 
   @Transactional
   public long register(NewUserDTO newUserDTO) {
+    if (userRepository.findByUserName(newUserDTO.userName()).isPresent()) {
+      throw new DuplicatedException("Username is already used.");
+    }
     UserEntity userEntity = new UserEntity();
     userEntity.setUserName(newUserDTO.userName());
     userEntity.setPassword(passwordEncoder.encode(newUserDTO.password()));
     Optional<Role> role = roleRepository.findByName("ROLE_USER");
     if (role.isPresent()) {
       userEntity.addRole(role.get());
-    } else {
+    }
+    else {
       Role userRole = new Role(); // is it good?
       userRole.setName("ROLE_USER");
       roleRepository.save(userRole);
@@ -40,13 +44,4 @@ public class UserService {
     }
     return userRepository.save(userEntity).getId();
   }
-
-  @Transactional
-  public void addRoleToUser(long userId) {
-    UserEntity user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("TODO"));
-    Role role = roleRepository.findByName("ROLE_USER").orElseThrow(() -> new NotFoundException("TODO"));
-    user.addRole(role);
-    userRepository.save(user);
-  }
-
 }
