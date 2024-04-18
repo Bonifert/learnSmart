@@ -24,7 +24,7 @@ const RegisterForm = ({onNavigateLogin}: FunctionProp) => {
       return;
     }
     const loginData: UserNamePassword = {
-      userName: data.get("email") as string,
+      userName: data.get("username") as string,
       password: data.get("password") as string
     };
     try {
@@ -67,10 +67,10 @@ const RegisterForm = ({onNavigateLogin}: FunctionProp) => {
                   margin="normal"
                   required
                   fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
+                  id="username"
+                  label="Username"
+                  name="username"
+                  autoComplete="username"
                   autoFocus
                   sx={{
                     '& .MuiInputLabel-root': {
