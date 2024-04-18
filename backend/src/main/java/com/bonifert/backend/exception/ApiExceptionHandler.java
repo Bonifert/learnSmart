@@ -24,6 +24,13 @@ public class ApiExceptionHandler {
     return new ResponseEntity<>(errorResponse, httpStatus);
   }
 
+  @ExceptionHandler(value = DuplicatedException.class)
+  public ResponseEntity<ErrorResponse> handleDuplicatedException(DuplicatedException exception){
+    HttpStatus httpStatus = HttpStatus.CONFLICT;
+    ErrorResponse errorResponse = new ErrorResponse(exception.getMessage(), httpStatus);
+    return new ResponseEntity<>(errorResponse, httpStatus);
+  }
+
   @ExceptionHandler(value = MethodArgumentNotValidException.class)
   public ResponseEntity<Object> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception){
     HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
@@ -76,7 +83,7 @@ public class ApiExceptionHandler {
   @ExceptionHandler(value = ConstraintViolationException.class)
   public ResponseEntity<ErrorResponse> handleConstraintViolationException(ConstraintViolationException exception) {
     HttpStatus httpStatus = HttpStatus.CONFLICT;
-    ErrorResponse errorResponse = new ErrorResponse(exception.getSQL(), httpStatus);
+    ErrorResponse errorResponse = new ErrorResponse("Problem occurs when recording the data.", httpStatus);
     return new ResponseEntity<>(errorResponse, httpStatus);
   }
 }
