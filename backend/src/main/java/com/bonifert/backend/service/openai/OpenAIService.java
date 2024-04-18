@@ -55,7 +55,7 @@ public class OpenAIService {
 
   private String createWordPrompt(GenerateTopicWithWordsDTO dto) {
     return String.format(
-            "I need words as json string related to %s, proficiency level: %s (just in this level), at least %d terms. The name prop is in %s, the def prop is in %s",
+            "I need words as json string related to %s, proficiency level: %s (just in this level), at least %d terms. The name prop is in %s, the def prop is in %s. Do not repeat yourself!",
             dto.topic(),
             dto.level().name(),
             dto.numberOfCards(),
@@ -64,7 +64,7 @@ public class OpenAIService {
   }
 
   private String createDefinitionPrompt(GenerateTopicWithDefinitionDTO dto) {
-    return String.format("I need a json string related to %s, like %s, at least %d terms." + (dto.definitionSentenceAmount() > 0 ? "The definition of the term should be at least %d sentences long." : ""),
+    return String.format("I need a json string related to %s, like %s, at least %d terms. Do not repeat yourself!" + (dto.definitionSentenceAmount() != null ? "The definition of the term should be at least %d sentences long." : ""),
                          dto.topic(),
                          String.join(", ", dto.examples()),
                          dto.numberOfCards(),
