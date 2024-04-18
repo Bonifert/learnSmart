@@ -11,7 +11,7 @@ export interface TopicWithDefinitionRequest {
   topic: string;
   examples: string[];
   numberOfCards: number;
-  definitionSentenceAmount: number;
+  definitionSentenceAmount: number | null;
 }
 
 export interface BasicTopic {
