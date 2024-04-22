@@ -1,3 +1,3 @@
 export interface User {
-  readonly userName: string
+  readonly username: string
 }

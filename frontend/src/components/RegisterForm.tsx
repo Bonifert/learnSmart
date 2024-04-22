@@ -8,7 +8,7 @@ import {register} from "../providers/userProvider.ts";
 import {useFeedback} from "../context/alertContext/feedbackContextImport.ts";
 import {FormEvent} from "react";
 import {ApiResObj} from "./types/dto/ApiResObj.ts";
-import {UserNamePasswordDTO} from "./types/dto/UserNamePasswordDTO.ts";
+import {UsernamePasswordDTO} from "./types/dto/UsernamePasswordDTO.ts";
 
 interface Props {
   onNavigateLogin: () => void;
@@ -24,8 +24,8 @@ const RegisterForm = ({onNavigateLogin}: Props) => {
       feedback("Passwords don't match.", "error");
       return;
     }
-    const loginData: UserNamePasswordDTO = {
-      userName: data.get("username") as string,
+    const loginData: UsernamePasswordDTO = {
+      username: data.get("username") as string,
       password: data.get("password") as string
     };
     try {

@@ -9,7 +9,7 @@ import {useFeedback} from "../context/alertContext/feedbackContextImport.ts";
 import {useNavigate} from "react-router-dom";
 import {FormEvent, useEffect} from "react";
 import {ApiResObj} from "./types/dto/ApiResObj.ts";
-import {UserNamePasswordDTO} from "./types/dto/UserNamePasswordDTO.ts";
+import {UsernamePasswordDTO} from "./types/dto/UsernamePasswordDTO.ts";
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -25,8 +25,8 @@ const LoginForm = () => {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const loginData: UserNamePasswordDTO = {
-      userName: data.get("username") as string,
+    const loginData: UsernamePasswordDTO = {
+      username: data.get("username") as string,
       password: data.get("password") as string
     };
     try {
