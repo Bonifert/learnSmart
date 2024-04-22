@@ -27,7 +27,7 @@ public class TopicService {
   private final Validator validator;
   private final TopicMapper topicMapper;
   private final OpenAIService openAIService;
-  private final Gson gson = new Gson(); // todo bean
+  private final Gson gson = new Gson();
 
   public TopicService(TopicRepository topicRepository, UserRepository userRepository, TermRepository termRepository,
                       Validator validator,
