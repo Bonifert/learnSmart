@@ -10,12 +10,8 @@
 # About The Project
 
 <p>
-   learnSmart is a full-stack web application designed to help users learn new languages or memorize definitions effectively. Users can register and create personalized learning spaces by creating topics and adding terms with clear definitions. The application utilizes features like flashcards and spaced repetition algorithms to enhance learning and retention. 
+   learnSmart is a full-stack web application designed to help users learn new languages or memorize definitions effectively with AI. Users can register and create personalized learning spaces by creating topics and adding terms with clear definitions. The user can also create topics with the AI. The application utilizes features like flashcards and spaced repetition algorithms to enhance learning and retention. 
 </p>
-
-_Please note that the project is not yet finished. I'm currently working on it._  
-
-
 
 
 <!-- TABLE OF CONTENTS -->
@@ -44,7 +40,7 @@ _Please note that the project is not yet finished. I'm currently working on it._
 </details>
 
 
-## Building With
+## Built With
 
 ### Frontend:
 
@@ -52,7 +48,7 @@ _Please note that the project is not yet finished. I'm currently working on it._
 
 ### Backend: <br/>
 
-![Java] <br/> ![SpringBoot]<br/> ![psql]
+![Java] <br/> ![SpringBoot]<br/> ![psql] <br/> ![OpenAI]
 
 <p align="right">(<a href="#about-the-project">back to top</a>)</p>
 
@@ -61,7 +57,8 @@ _Please note that the project is not yet finished. I'm currently working on it._
 ## Prerequisites
 
 ![Docker] <br/>
-You only need docker to try this application!
+![OpenAI]
+<br/>OpenAI api key
 
 ## Installation
 
@@ -77,7 +74,6 @@ You only need docker to try this application!
    ```
 2. Create the .env file:
     - Copy the `envtemplate` file in the repository and modify the values according to your configuration. Rename the file to `.env`.
-    - (info: if you just want to try the application, it doesn't matter what data you enter)
 
     
 3. Start the application using Docker Compose::
@@ -102,6 +98,7 @@ You only need docker to try this application!
 3. User authorization and authentication
 4. Repetition algorithm
 5. Error messages
+6. OpenAI integration, generate topic with AI
 
 ### Frontend:
 
@@ -113,6 +110,8 @@ You only need docker to try this application!
 4. Topic info page
 5. Topic edit page
 6. Play topic page
+7. AI topic generator page with definitions
+8. AI topic generator page with words
 
 
 ## In progress:
@@ -120,12 +119,10 @@ You only need docker to try this application!
 ### Backend:
 
 1. Move authentication endpoints from UserController to authentication controller.
-2. AI integration to generate terms and definitions.
 
 ## Future plans
 
-1. AI integration to create topic with AI
-2. Implement forgetting curve
+1. Implement forgetting curve
 
 <!-- GETTING STARTED -->
 
@@ -186,3 +183,5 @@ simply open an issue with the tag "enhancement".
 [LinkedIn]: https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white
 
 [Docker]: https://img.shields.io/badge/docker-121013?style=for-the-badge&logo=docker
+
+[OpenAI]: https://img.shields.io/badge/OpenAI-000000?style=for-the-badge&logo=openai
