@@ -4,11 +4,14 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import {register} from "../providers/userProvider.ts";
+import {registerUser} from "../providers/userProvider.ts";
 import {useFeedback} from "../context/alertContext/feedbackContextImport.ts";
-import {FormEvent} from "react";
 import {ApiResObj} from "./types/dto/ApiResObj.ts";
-import {UsernamePasswordDTO} from "./types/dto/UsernamePasswordDTO.ts";
+import {useForm} from "react-hook-form";
+import {zodResolver} from '@hookform/resolvers/zod';
+import {RegistrationFormSchema} from "./types/RegistrationFormSchema.ts";
+import {RegistrationData} from "./types/RegistrationData.ts";
+import {grey} from "@mui/material/colors";
 
 interface Props {
   onNavigateLogin: () => void;
@@ -16,20 +19,15 @@ interface Props {
 
 const RegisterForm = ({onNavigateLogin}: Props) => {
   const {feedback} = useFeedback();
+  const {
+    register,
+    handleSubmit,
+    formState: {errors},
+  } = useForm<RegistrationData>({resolver: zodResolver(RegistrationFormSchema), mode: "onTouched"});
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const data: FormData = new FormData(event.currentTarget);
-    if (data.get("password") !== data.get("passwordAgain")) {
-      feedback("Passwords don't match.", "error");
-      return;
-    }
-    const loginData: UsernamePasswordDTO = {
-      username: data.get("username") as string,
-      password: data.get("password") as string
-    };
+  async function submit(data: RegistrationData) {
     try {
-      const response: ApiResObj = await register(loginData);
+      const response: ApiResObj = await registerUser(data);
       if (response.status === 201) {
         feedback("Successful registration!", "info");
         onNavigateLogin();
@@ -63,8 +61,13 @@ const RegisterForm = ({onNavigateLogin}: Props) => {
               </Typography>
             </Grid>
 
-            <Box component="form" onSubmit={handleSubmit} noValidate sx={{mt: 2}}>
+            <Box component="form" onSubmit={handleSubmit(submit)} noValidate sx={{mt: 2}}>
               <TextField
+                  type="string"
+                  {...register("username")}
+                  error={!!errors.username}
+                  helperText={errors.username?.message ?? " "}
+                  InputLabelProps={{style: {color: grey[600]}}}
                   margin="normal"
                   required
                   fullWidth
@@ -72,27 +75,17 @@ const RegisterForm = ({onNavigateLogin}: Props) => {
                   label="Username"
                   name="username"
                   autoComplete="username"
-                  autoFocus
                   sx={{
-                    '& .MuiInputLabel-root': {
-                      color: '#10575c', // Default label color
-                    },
-                    '& .MuiOutlinedInput-root': {
-                      '& .MuiOutlinedInput-notchedOutline': {
-                        borderColor: '#10575c', // Default border color
-                      },
-                      '&:hover .MuiOutlinedInput-notchedOutline': {
-                        borderColor: '#10575c', // Border color on hover (optional)
-                      },
-                      '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                        borderColor: '#10575c', // Border color when focused
-                      },
-                    },
+                    mb: 0
                   }}
               />
               <TextField
                   margin="normal"
                   required
+                  {...register("password")}
+                  error={!!errors.password}
+                  helperText={errors.password?.message ?? " "}
+                  InputLabelProps={{style: {color: grey[600]}}}
                   fullWidth
                   name="password"
                   label="Password"
@@ -100,46 +93,24 @@ const RegisterForm = ({onNavigateLogin}: Props) => {
                   id="password"
                   autoComplete="current-password"
                   sx={{
-                    '& .MuiInputLabel-root': {
-                      color: '#10575c', // Default label color
-                    },
-                    '& .MuiOutlinedInput-root': {
-                      '& .MuiOutlinedInput-notchedOutline': {
-                        borderColor: '#10575c', // Default border color
-                      },
-                      '&:hover .MuiOutlinedInput-notchedOutline': {
-                        borderColor: '#10575c', // Border color on hover (optional)
-                      },
-                      '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                        borderColor: '#10575c', // Border color when focused
-                      },
-                    },
+                    mb: 0
                   }}
               />
               <TextField
                   margin="normal"
                   required
+                  {...register("confirmPassword")}
+                  error={!!errors.confirmPassword}
+                  helperText={errors.confirmPassword?.message ?? " "}
+                  InputLabelProps={{style: {color: grey[600]}}}
                   fullWidth
-                  name="passwordAgain"
+                  name="confirmPassword"
                   label="Password again"
                   type="password"
-                  id="passwordAgain"
+                  id="confirmPassword"
                   autoComplete="current-password"
                   sx={{
-                    '& .MuiInputLabel-root': {
-                      color: '#10575c', // Default label color
-                    },
-                    '& .MuiOutlinedInput-root': {
-                      '& .MuiOutlinedInput-notchedOutline': {
-                        borderColor: '#10575c', // Default border color
-                      },
-                      '&:hover .MuiOutlinedInput-notchedOutline': {
-                        borderColor: '#10575c', // Border color on hover (optional)
-                      },
-                      '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                        borderColor: '#10575c', // Border color when focused
-                      },
-                    },
+                    mb: 0
                   }}
               />
               <Grid container justifyContent="flex-end" sx={{pb: 1}}>
