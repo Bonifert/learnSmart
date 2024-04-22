@@ -26,7 +26,7 @@ export const Home = () => {
              position="relative"
              width="100%"
              marginTop={0}
-             paddingTop="10vh"
+             paddingTop="8vh"
         >
           <Box width={isMobile ? '70%' : 'auto'}
                maxWidth={isMobile ? 500 : 500} // Adjust max-width as needed
