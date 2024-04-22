@@ -8,7 +8,7 @@ public record GenerateTopicWithWordsDTO(
 
         @NotNull(message = "topic is mandatory")
         @NotBlank(message = "topic is mandatory")
-        @Size(max = 40, message = "topic must be maximum 40 character")
+        @Size(max = 200, message = "topic must be maximum 200 character")
         String topic,
 
         @NotNull(message = "level is mandatory")
@@ -16,12 +16,12 @@ public record GenerateTopicWithWordsDTO(
 
         @NotNull(message = "nameLang is mandatory")
         @NotBlank(message = "nameLang is mandatory")
-        @Size(min = 3, max = 15, message = "nameLang must be min 3 and max 15 character")
+        @Size(min = 3, max = 30, message = "nameLang must be min 3 and max 30 character")
         String nameLang,
 
         @NotNull(message = "defLang is mandatory")
         @NotBlank(message = "defLang is mandatory")
-        @Size(min = 3, max = 15, message = "defLang must be min 3 and max 15 character")
+        @Size(min = 3, max = 30, message = "defLang must be min 3 and max 30 character")
         String defLang,
 
         @NotNull(message = "numberOfCards is mandatory")
