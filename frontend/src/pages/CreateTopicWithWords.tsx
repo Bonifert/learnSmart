@@ -1,5 +1,4 @@
 import {useState} from "react";
-import {BasicTopic} from "./CreateTopicWithDefinition.tsx";
 import {useFeedback} from "../context/alertContext/feedbackContextImport.ts";
 import {generateTopicWithWords} from "../providers/topicProvider.ts";
 import Box from "@mui/material/Box";
@@ -7,21 +6,15 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
 import GeneratedTopicPreview from "../components/GeneratedTopicPreview.tsx";
 import TopicWithWordsForm from "../components/TopicWithWordsForm.tsx";
-
-export interface TopicWithWordsRequest {
-  topic: string;
-  level: string;
-  nameLang: string;
-  defLang: string;
-  numberOfCards: number;
-}
+import {BasicTopic} from "../components/types/BasicTopic.ts";
+import {TopicWithWordsDTO} from "../components/types/dto/TopicWithWordsDTO.ts";
 
 const CreateTopicWithWords = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [basicTopic, setBasicTopic] = useState<null | BasicTopic>(null);
   const {feedback} = useFeedback();
 
-  async function generateTopic(data: TopicWithWordsRequest){
+  async function generateTopic(data: TopicWithWordsDTO){
     setLoading(true);
     try {
       const response = await generateTopicWithWords(data);

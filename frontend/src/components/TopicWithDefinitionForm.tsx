@@ -1,12 +1,12 @@
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import {TopicWithDefinitionRequest} from "../pages/CreateTopicWithDefinition.tsx";
 import {useState} from "react";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import {FormValue} from "./TopicWithWordsForm.tsx";
 import {useFeedback} from "../context/alertContext/feedbackContextImport.ts";
+import {TopicWithDefinitionDTO} from "./types/dto/TopicWithDefinitionDTO.ts";
 
 const centerStyle = {display: "flex", alignItems: "center", justifyContent: "center"};
 const buttonStyle = {
@@ -20,7 +20,7 @@ const buttonStyle = {
 export const numberCheckRegex = new RegExp("^[0-9]+$");
 
 interface Props {
-  onGenerate: (data: TopicWithDefinitionRequest) => void;
+  onGenerate: (data: TopicWithDefinitionDTO) => void;
 }
 
 const TopicWithDefinitionForm = ({onGenerate}: Props) => {
@@ -42,7 +42,7 @@ const TopicWithDefinitionForm = ({onGenerate}: Props) => {
       const exampleValue = examples.split(",");
       const numberOfCardsValue = parseInt(numberOfCards.value);
       const definitionSentenceAmountValue = parseInt(definitionSentenceAmount.value);
-      const generateConfig: TopicWithDefinitionRequest = {
+      const generateConfig: TopicWithDefinitionDTO = {
         topic: topic.value,
         examples: exampleValue,
         numberOfCards: numberOfCardsValue,

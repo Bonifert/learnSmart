@@ -1,8 +1,8 @@
-import {Term} from "./TopicForm.tsx";
 import Typography from "@mui/material/Typography";
 import {Accordion, AccordionDetails, AccordionSummary, Box, Grid} from "@mui/material";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
-import {BasicTerm} from "../pages/CreateTopicWithDefinition.tsx";
+import {Term} from "./types/Topic.ts";
+import {BasicTerm} from "./types/BasicTopic.ts";
 
 interface Props {
   cards: Term[] | BasicTerm[];

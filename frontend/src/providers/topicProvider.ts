@@ -1,14 +1,11 @@
-import {ApiResObj} from "./userProvider.ts";
-import {BasicTopic, TopicWithDefinitionRequest} from "../pages/CreateTopicWithDefinition.tsx";
-import {TopicWithWordsRequest} from "../pages/CreateTopicWithWords.tsx";
+import {BasicTopic} from "../components/types/BasicTopic.ts";
+import {TopicWithDefinitionDTO} from "../components/types/dto/TopicWithDefinitionDTO.ts";
+import {EditTopicNameDTO} from "../components/types/dto/EditTopicNameDTO.ts";
+import {TopicWithWordsDTO} from "../components/types/dto/TopicWithWordsDTO.ts";
+import {ApiResObj} from "../components/types/dto/ApiResObj.ts";
 
 function getToken(): string {
   return localStorage.getItem("token") ?? "";
-}
-
-export interface EditTopicNameDTO {
-  topicId: number;
-  newName: string;
 }
 
 async function getMyTopics(): Promise<ApiResObj> {
@@ -83,7 +80,7 @@ async function editTopicName(editTopicNameDTO: EditTopicNameDTO): Promise<ApiRes
   return {status: httpRes.status};
 }
 
-async function generateTopicWithDefinitions(data: TopicWithDefinitionRequest): Promise<ApiResObj> {
+async function generateTopicWithDefinitions(data: TopicWithDefinitionDTO): Promise<ApiResObj> {
   const token = getToken();
   const httpRes: Response = await fetch("/api/topic/generate/definitions", {
     method: "POST",
@@ -97,7 +94,7 @@ async function generateTopicWithDefinitions(data: TopicWithDefinitionRequest): P
   return {status: httpRes.status, body};
 }
 
-async function generateTopicWithWords(data: TopicWithWordsRequest): Promise<ApiResObj> {
+async function generateTopicWithWords(data: TopicWithWordsDTO): Promise<ApiResObj> {
   const token = getToken();
   const httpRes: Response = await fetch("/api/topic/generate/words", {
     method: "POST",

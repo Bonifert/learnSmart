@@ -17,16 +17,10 @@ import {createTopic} from "../providers/topicProvider.ts";
 import {useNavigate} from "react-router-dom";
 import {useFeedback} from "../context/alertContext/feedbackContextImport.ts";
 import CircularProgress from '@mui/material/CircularProgress';
+import {TopicInfo} from "./types/TopicInfo.ts";
 
 interface Props {
   topics: TopicInfo[];
-}
-
-export interface TopicInfo {
-  readonly name: string;
-  readonly termLength: number;
-  readonly priority: string;
-  readonly id: number;
 }
 
 const ITEM_HEIGHT = 48;

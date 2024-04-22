@@ -1,7 +1,7 @@
 import {Dialog, DialogActions, DialogContent, DialogTitle} from "@mui/material";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import {Term} from "./TopicForm.tsx";
+import {Term} from "./types/Topic.ts";
 import {useState} from "react";
 import Grid from "@mui/material/Grid";
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';

@@ -1,4 +1,3 @@
-import {BasicTopic} from "../pages/CreateTopicWithDefinition.tsx";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -7,9 +6,10 @@ import {Stack} from "@mui/material";
 import Button from "@mui/material/Button";
 import {useNavigate} from "react-router-dom";
 import CardList from "./CardList.tsx";
-import {ApiResObj} from "../providers/userProvider.ts";
 import {createTopicFromBasic} from "../providers/topicProvider.ts";
 import {useFeedback} from "../context/alertContext/feedbackContextImport.ts";
+import {BasicTopic} from "./types/BasicTopic.ts";
+import {ApiResObj} from "./types/dto/ApiResObj.ts";
 
 const buttonStyle = {
   color: "white",

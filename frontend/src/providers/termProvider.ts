@@ -1,12 +1,7 @@
-import {ApiResObj} from "./userProvider.ts";
-import {Term} from "../components/TopicForm.tsx";
 import {getToken} from "./topicProvider.ts";
-
-export interface NewTermDTO {
-  topicId: number;
-  name: string;
-  definition: string;
-}
+import {Term} from "../components/types/Topic.ts";
+import {NewTermDTO} from "../components/types/dto/NewTermDTO.ts";
+import {ApiResObj} from "../components/types/dto/ApiResObj.ts";
 
 async function createTerm(newTermDTO: NewTermDTO) : Promise<ApiResObj>{
   const token = getToken();

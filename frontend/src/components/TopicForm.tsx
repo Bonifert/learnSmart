@@ -8,7 +8,6 @@ import TermEditDialog from "./TermEditDialog.tsx";
 import {createTerm, deleteTerm, editTerm} from "../providers/termProvider.ts";
 import {useFeedback} from "../context/alertContext/feedbackContextImport.ts";
 import useDebouncedValue from "../hooks/useDebouncedValue.tsx";
-import {ApiResObj} from "../providers/userProvider.ts";
 import {deleteTopic, editTopicName} from "../providers/topicProvider.ts";
 import {useNavigate} from "react-router-dom";
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
@@ -16,22 +15,8 @@ import InfoPopover from "./InfoPopover.tsx";
 import {AddCircleOutlined} from "@mui/icons-material";
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import DoneOutlinedIcon from '@mui/icons-material/DoneOutlined';
-
-export interface Topic {
-  name: string;
-  id: number;
-  terms: Term[];
-  createdAt: string;
-  modifiedAt: string;
-  priority: string;
-}
-
-export interface Term {
-  id: number;
-  name: string;
-  definition: string;
-  nextShowDateTime: string;
-}
+import {Topic, Term} from "./types/Topic.ts";
+import {ApiResObj} from "./types/dto/ApiResObj.ts";
 
 interface Props {
   topic: Topic;

@@ -1,11 +1,7 @@
-import {UserNamePassword} from "../context/userContext/UserProvider.tsx";
+import {ApiResObj} from "../components/types/dto/ApiResObj.ts";
+import {UserNamePasswordDTO} from "../components/types/dto/UserNamePasswordDTO.ts";
 
-export interface ApiResObj {
-  readonly status: number,
-  readonly body?: object
-}
-
-async function login(userInfo: UserNamePassword): Promise<ApiResObj> {
+async function login(userInfo: UserNamePasswordDTO): Promise<ApiResObj> {
   const httpRes: Response = await fetch("/api/user/login", {
     method: "POST",
     headers: {
@@ -16,7 +12,7 @@ async function login(userInfo: UserNamePassword): Promise<ApiResObj> {
   return {status: httpRes.status};
 }
 
-async function register(userInfo: UserNamePassword): Promise<ApiResObj> {
+async function register(userInfo: UserNamePasswordDTO): Promise<ApiResObj> {
   const httpRes: Response = await fetch("/api/user", {
     method: "POST",
     headers: {

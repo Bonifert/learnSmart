@@ -6,32 +6,15 @@ import {useFeedback} from "../context/alertContext/feedbackContextImport.ts";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import GeneratedTopicPreview from "../components/GeneratedTopicPreview.tsx";
-
-export interface TopicWithDefinitionRequest {
-  topic: string;
-  examples: string[];
-  numberOfCards: number;
-  definitionSentenceAmount: number | null;
-}
-
-export interface BasicTopic {
-  name: string;
-  terms: BasicTerm[];
-}
-
-export interface BasicTerm {
-  name: string;
-  definition: string;
-}
+import {BasicTopic} from "../components/types/BasicTopic.ts";
+import {TopicWithDefinitionDTO} from "../components/types/dto/TopicWithDefinitionDTO.ts";
 
 const CreateTopicWithDefinition = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [basicTopic, setBasicTopic] = useState<null | BasicTopic>(null);
   const {feedback} = useFeedback();
 
-
-
-  async function generateTopic(data: TopicWithDefinitionRequest){
+  async function generateTopic(data: TopicWithDefinitionDTO){
     setLoading(true);
     try {
       const response = await generateTopicWithDefinitions(data);

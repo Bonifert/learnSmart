@@ -4,16 +4,17 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import {ApiResObj, register} from "../providers/userProvider.ts";
-import {UserNamePassword} from "../context/userContext/UserProvider.tsx";
+import {register} from "../providers/userProvider.ts";
 import {useFeedback} from "../context/alertContext/feedbackContextImport.ts";
 import {FormEvent} from "react";
+import {ApiResObj} from "./types/dto/ApiResObj.ts";
+import {UserNamePasswordDTO} from "./types/dto/UserNamePasswordDTO.ts";
 
-interface FunctionProp {
+interface Props {
   onNavigateLogin: () => void;
 }
 
-const RegisterForm = ({onNavigateLogin}: FunctionProp) => {
+const RegisterForm = ({onNavigateLogin}: Props) => {
   const {feedback} = useFeedback();
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -23,7 +24,7 @@ const RegisterForm = ({onNavigateLogin}: FunctionProp) => {
       feedback("Passwords don't match.", "error");
       return;
     }
-    const loginData: UserNamePassword = {
+    const loginData: UserNamePasswordDTO = {
       userName: data.get("username") as string,
       password: data.get("password") as string
     };
@@ -150,7 +151,7 @@ const RegisterForm = ({onNavigateLogin}: FunctionProp) => {
                       mb: 2,
                       color: "white",
                       bgcolor: "#469ca3",
-                        "&:hover": {bgcolor: "#18838c", color: "white"}
+                      "&:hover": {bgcolor: "#18838c", color: "white"}
                     }}
                 >
                   register

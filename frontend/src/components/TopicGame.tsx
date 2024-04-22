@@ -1,11 +1,11 @@
-import {Topic} from "./TopicForm.tsx";
 import {useState} from "react";
 import {useFeedback} from "../context/alertContext/feedbackContextImport.ts";
-import {ApiResObj} from "../providers/userProvider.ts";
 import {createTermReview} from "../providers/termProvider.ts";
 import Button from "@mui/material/Button";
 import TermWithFlashCard from "./TermWithFlashCard.tsx";
 import {useNavigate} from "react-router-dom";
+import {Topic} from "./types/Topic.ts";
+import {ApiResObj} from "./types/dto/ApiResObj.ts";
 
 interface Props {
   topic: Topic;

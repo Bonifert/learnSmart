@@ -1,4 +1,3 @@
-import {TopicWithWordsRequest} from "../pages/CreateTopicWithWords.tsx";
 import {useState} from "react";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -10,6 +9,7 @@ import MenuItem from "@mui/material/MenuItem";
 import {useFeedback} from "../context/alertContext/feedbackContextImport.ts";
 import languages from "../../languages.json";
 import {numberCheckRegex} from "./TopicWithDefinitionForm.tsx";
+import {TopicWithWordsDTO} from "./types/dto/TopicWithWordsDTO.ts";
 
 const centerStyle = {display: "flex", alignItems: "center", justifyContent: "center"};
 const buttonStyle = {
@@ -21,7 +21,7 @@ const buttonStyle = {
 };
 
 interface Props {
-  onGenerate: (data: TopicWithWordsRequest) => void;
+  onGenerate: (data: TopicWithWordsDTO) => void;
 }
 
 export interface FormValue<T> {
@@ -46,7 +46,7 @@ const TopicWithWordsForm = ({onGenerate}: Props) => {
       highlightRequired();
     } else {
       const numberOfCardsValue = parseInt(numberOfCards.value);
-      const generateConfig: TopicWithWordsRequest = {
+      const generateConfig: TopicWithWordsDTO = {
         topic: topic.value,
         level,
         nameLang: nameLang.value,

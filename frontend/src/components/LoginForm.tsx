@@ -4,12 +4,12 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import {UserNamePassword} from "../context/userContext/UserProvider.tsx";
 import {useUser} from "../context/userContext/userContextImport.ts";
 import {useFeedback} from "../context/alertContext/feedbackContextImport.ts";
-import {ApiResObj} from "../providers/userProvider.ts";
 import {useNavigate} from "react-router-dom";
 import {FormEvent, useEffect} from "react";
+import {ApiResObj} from "./types/dto/ApiResObj.ts";
+import {UserNamePasswordDTO} from "./types/dto/UserNamePasswordDTO.ts";
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -25,7 +25,7 @@ const LoginForm = () => {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const loginData: UserNamePassword = {
+    const loginData: UserNamePasswordDTO = {
       userName: data.get("username") as string,
       password: data.get("password") as string
     };

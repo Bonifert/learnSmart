@@ -1,9 +1,10 @@
 import {useEffect, useState} from "react";
-import {ApiResObj} from "../providers/userProvider.ts";
 import {getMyTopics} from "../providers/topicProvider.ts";
-import TopicList, {TopicInfo} from "../components/TopicList.tsx";
+import TopicList from "../components/TopicList.tsx";
 import {useFeedback} from "../context/alertContext/feedbackContextImport.ts";
 import {useNavigate} from "react-router-dom";
+import {TopicInfo} from "../components/types/TopicInfo.ts";
+import {ApiResObj} from "../components/types/dto/ApiResObj.ts";
 
 const MyTopics = () => {
   const {feedback} = useFeedback();
