@@ -7,13 +7,13 @@ export const RegistrationFormSchema: ZodType<RegistrationData> = z
           .string({required_error: "Username is required"})
           .trim()
           .min(1, {message: "Username is required"})
-          .min(5, {message: "Minimum 5 character"})
+          .min(3, {message: "Minimum 3 character"})
           .max(35, {message: "Maximum 35 character"}),
       password: z
           .string({required_error: "Password is required"})
           .trim()
           .min(1, {message: "Password is required"})
-          .min(5, {message: "Minimum 5 character"})
+          .min(3, {message: "Minimum 3 character"})
           .max(35, {message: "Maximum 35 character"}),
       confirmPassword: z.string()
     })
