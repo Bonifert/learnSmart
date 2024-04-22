@@ -47,7 +47,7 @@ public class JwtUtils {
     return null;
   }
 
-  public String getUserName(Jws<Claims> claimsJws) {
+  public String getUsername(Jws<Claims> claimsJws) {
     return claimsJws.getBody().getSubject();
   }
 

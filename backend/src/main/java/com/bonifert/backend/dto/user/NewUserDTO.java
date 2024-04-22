@@ -7,10 +7,10 @@ import jakarta.validation.constraints.Size;
 
 public record NewUserDTO(
         @Valid
-        @NotBlank(message = "userName is mandatory")
-        @NotNull(message = "userName is mandatory")
-        @Size(min = 5, max = 35, message = "The userName must be min 5 and max 35 character.")
-        String userName,
+        @NotBlank(message = "username is mandatory")
+        @NotNull(message = "username is mandatory")
+        @Size(min = 5, max = 35, message = "The username must be min 5 and max 35 character.")
+        String username,
 
         @NotBlank(message = "password is mandatory")
         @NotNull(message = "password is mandatory")

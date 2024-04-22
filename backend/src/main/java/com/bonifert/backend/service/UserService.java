@@ -26,11 +26,11 @@ public class UserService {
 
   @Transactional
   public long register(NewUserDTO newUserDTO) {
-    if (userRepository.findByUserName(newUserDTO.userName()).isPresent()) {
+    if (userRepository.findByUsername(newUserDTO.username()).isPresent()) {
       throw new DuplicatedException("Username is already used.");
     }
     UserEntity userEntity = new UserEntity();
-    userEntity.setUserName(newUserDTO.userName());
+    userEntity.setUsername(newUserDTO.username());
     userEntity.setPassword(passwordEncoder.encode(newUserDTO.password()));
     Optional<Role> role = roleRepository.findByName("ROLE_USER");
     if (role.isPresent()) {
