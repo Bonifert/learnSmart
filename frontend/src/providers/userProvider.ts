@@ -12,7 +12,7 @@ async function login(userInfo: UsernamePasswordDTO): Promise<ApiResObj> {
   return {status: httpRes.status};
 }
 
-async function register(userInfo: UsernamePasswordDTO): Promise<ApiResObj> {
+async function registerUser(userInfo: UsernamePasswordDTO): Promise<ApiResObj> {
   const httpRes: Response = await fetch("/api/user", {
     method: "POST",
     headers: {
@@ -23,4 +23,4 @@ async function register(userInfo: UsernamePasswordDTO): Promise<ApiResObj> {
   return {status: httpRes.status};
 }
 
-export {login, register};
+export {login, registerUser};
