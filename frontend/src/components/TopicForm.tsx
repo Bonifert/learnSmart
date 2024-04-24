@@ -87,7 +87,6 @@ const TopicForm = ({topic, disabled}: Props) => {
   async function handleEditTerm(term: Term) {
     try {
       const response = await editTerm(term);
-      console.log(response)
       if (response.status === 200) {
         setTerms((prevState) => {
           const newTerms = [...prevState];
