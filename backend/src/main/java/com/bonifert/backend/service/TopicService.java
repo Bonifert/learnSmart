@@ -100,7 +100,7 @@ public class TopicService {
 
   private List<Topic> getTopicEntitiesByUser() {
     String userName = SecurityContextHolder.getContext().getAuthentication().getName();
-    UserEntity user = userRepository.findByUserName(userName)
+    UserEntity user = userRepository.findByUsername(userName)
                                     .orElseThrow(() -> new NotFoundException("User not found"));
     return topicRepository.getAllByUserEntity(user);
   }
@@ -150,6 +150,6 @@ public class TopicService {
 
   private UserEntity getUser() {
     String userName = SecurityContextHolder.getContext().getAuthentication().getName();
-    return userRepository.findByUserName(userName).orElseThrow(() -> new NotFoundException("User not found"));
+    return userRepository.findByUsername(userName).orElseThrow(() -> new NotFoundException("User not found"));
   }
 }

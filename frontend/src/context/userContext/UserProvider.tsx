@@ -1,7 +1,7 @@
 import {ReactNode, useCallback, useEffect, useState,} from "react";
 import {UserContext} from "./userContextImport.ts";
 import {ApiResObj} from "../../components/types/dto/ApiResObj.ts";
-import {UserNamePasswordDTO} from "../../components/types/dto/UserNamePasswordDTO.ts";
+import {UsernamePasswordDTO} from "../../components/types/dto/UsernamePasswordDTO.ts";
 import {User} from "../../components/types/User.ts";
 
 const getToken = () => window.localStorage.getItem("token");
@@ -49,7 +49,7 @@ const UserProvider = ({children}: Props) => {
     getMe(token);
   }, []);
 
-  async function login(creds: UserNamePasswordDTO): Promise<ApiResObj> {
+  async function login(creds: UsernamePasswordDTO): Promise<ApiResObj> {
     const httpRes: Response = await fetch("/api/user/login", {
       method: "POST",
       headers: {

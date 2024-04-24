@@ -1,11 +1,11 @@
 import {createContext, useContext} from "react";
 import {ApiResObj} from "../../components/types/dto/ApiResObj.ts";
-import {UserNamePasswordDTO} from "../../components/types/dto/UserNamePasswordDTO.ts";
+import {UsernamePasswordDTO} from "../../components/types/dto/UsernamePasswordDTO.ts";
 import {User} from "../../components/types/User.ts";
 
 interface UserContextType {
   user: User | undefined | null;
-  login: (creds: UserNamePasswordDTO) => Promise<ApiResObj>;
+  login: (creds: UsernamePasswordDTO) => Promise<ApiResObj>;
   logout: ()=> void;
 }
 

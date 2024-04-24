@@ -1,7 +1,7 @@
 import {ApiResObj} from "../components/types/dto/ApiResObj.ts";
-import {UserNamePasswordDTO} from "../components/types/dto/UserNamePasswordDTO.ts";
+import {UsernamePasswordDTO} from "../components/types/dto/UsernamePasswordDTO.ts";
 
-async function login(userInfo: UserNamePasswordDTO): Promise<ApiResObj> {
+async function login(userInfo: UsernamePasswordDTO): Promise<ApiResObj> {
   const httpRes: Response = await fetch("/api/user/login", {
     method: "POST",
     headers: {
@@ -12,7 +12,7 @@ async function login(userInfo: UserNamePasswordDTO): Promise<ApiResObj> {
   return {status: httpRes.status};
 }
 
-async function register(userInfo: UserNamePasswordDTO): Promise<ApiResObj> {
+async function registerUser(userInfo: UsernamePasswordDTO): Promise<ApiResObj> {
   const httpRes: Response = await fetch("/api/user", {
     method: "POST",
     headers: {
@@ -23,4 +23,4 @@ async function register(userInfo: UserNamePasswordDTO): Promise<ApiResObj> {
   return {status: httpRes.status};
 }
 
-export {login, register};
+export {login, registerUser};
