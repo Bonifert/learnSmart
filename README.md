@@ -46,6 +46,11 @@
 
 ![React] <br/> ![Mui] <br/> ![TypeScript] <br/>
 
+#### Smaller libraries:
+
+![ZOD] <br/> ![React-hook-form]
+
+
 ### Backend: <br/>
 
 ![Java] <br/> ![SpringBoot]<br/> ![psql] <br/> ![OpenAI]
@@ -185,3 +190,7 @@ simply open an issue with the tag "enhancement".
 [Docker]: https://img.shields.io/badge/docker-121013?style=for-the-badge&logo=docker
 
 [OpenAI]: https://img.shields.io/badge/OpenAI-000000?style=for-the-badge&logo=openai
+
+[ZOD]: https://img.shields.io/badge/zod-000000?style=for-the-badge&logo=zod
+
+[React-hook-form]: https://img.shields.io/badge/react%20hook%20form-000000?style=for-the-badge&logo=react-hook-form
