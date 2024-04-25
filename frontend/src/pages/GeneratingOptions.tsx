@@ -12,7 +12,7 @@ const GeneratingOptions = () => {
       <Box display="flex" justifyContent="center" minHeight="70vh">
         <Grid container my={2} alignContent="center" width={{xs: "95%", sm: "85%", md: "70%", lg: "60%"}}>
           <Grid mt={2} item xs={12} display="flex" justifyContent="center">
-            <Grid p={4} width="100%" mx={2} sx={{bgcolor: "white", borderRadius: 2, boxShadow: 1}}>
+            <Grid p={4} width="100%" mx={2} sx={{bgcolor: "transparent", borderRadius: 2, boxShadow: 1}}>
               <Typography sx={{mb: 4}} variant="h4">Create topic with AI! <AutoAwesomeIcon fontSize="large"/></Typography>
               <Typography>Whether you're delving into topics or exploring vocabulary, our innovative
                 tool caters to your learning needs.</Typography><br/>
@@ -30,8 +30,8 @@ const GeneratingOptions = () => {
             }}>
               <CardMedia
                   sx={{height: 140,}}
-                  image="/definition.png"
-                  title="green iguana"
+                  image="/src/assets/definition.png"
+                  title="Definition icon"
               />
               <CardContent sx={{textAlign: "center"}}>
                 <Typography gutterBottom variant="h5" component="div" sx={{mt: 2}}>
@@ -40,7 +40,7 @@ const GeneratingOptions = () => {
               </CardContent>
             </Card>
           </Grid>
-          <Grid mt={3} px={2} item xs={12} sm={6} sx={{bgcolor: "white"}} display="flex" justifyContent="center">
+          <Grid mt={3} px={2} item xs={12} sm={6} sx={{bgcolor: "transparent"}} display="flex" justifyContent="center">
             <Card onClick={() => navigate("/ai/generate/words")} sx={{
               borderRadius: 2,
               width: "100%",
@@ -50,8 +50,8 @@ const GeneratingOptions = () => {
             }}>
               <CardMedia
                   sx={{height: 140}}
-                  image="/dictionary.png"
-                  title="green iguana"
+                  image="/src/assets/dictionary.png"
+                  title="Dictionary icon"
               />
               <CardContent sx={{textAlign: "center"}}>
                 <Typography gutterBottom variant="h5" component="div" sx={{ mt: 2}}>
