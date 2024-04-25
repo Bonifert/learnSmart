@@ -1,7 +1,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/Bonifert/learnSmart">
-    <img src="frontend/light.png" alt="Logo" width="80" height="80">
+    <img src="frontend/src/assets/light.png" alt="Logo" width="80" height="80">
   </a>
 
 <h3 align="center">learnSmart</h3>
