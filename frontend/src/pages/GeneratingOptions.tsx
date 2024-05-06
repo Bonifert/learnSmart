@@ -30,7 +30,7 @@ const GeneratingOptions = () => {
             }}>
               <CardMedia
                   sx={{height: 140,}}
-                  image="/src/assets/definition.png"
+                  image="/definition.png"
                   title="Definition icon"
               />
               <CardContent sx={{textAlign: "center"}}>
@@ -50,7 +50,7 @@ const GeneratingOptions = () => {
             }}>
               <CardMedia
                   sx={{height: 140}}
-                  image="/src/assets/dictionary.png"
+                  image="/dictionary.png"
                   title="Dictionary icon"
               />
               <CardContent sx={{textAlign: "center"}}>

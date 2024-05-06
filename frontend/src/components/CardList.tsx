@@ -1,8 +1,8 @@
 import Typography from "@mui/material/Typography";
 import {Accordion, AccordionDetails, AccordionSummary, Box, Grid} from "@mui/material";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
-import {Term} from "./types/Topic.ts";
-import {BasicTerm} from "./types/BasicTopic.ts";
+import {Term} from "../type/Topic.ts";
+import {BasicTerm} from "../type/BasicTopic.ts";
 
 interface Props {
   cards: Term[] | BasicTerm[];
@@ -22,8 +22,8 @@ const CardList = ({cards} : Props) => {
       <Box m={3}>
         <Typography variant="h5">Cards:</Typography>
         <Grid container>
-          {cards.map(card => (
-              <Grid item xs={12} sm={12} p={1}>
+          {cards.map((card, index) => (
+              <Grid key={index} item xs={12} sm={12} p={1}>
                 <Accordion sx={{bgcolor: "#e6eff1"}}>
                   <AccordionSummary
                       expandIcon={<ArrowDownwardIcon/>}

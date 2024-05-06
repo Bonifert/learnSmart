@@ -1,4 +1,4 @@
-import {Term} from "./types/Topic.ts";
+import {Term} from "../type/Topic.ts";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import {useEffect, useState} from "react";

@@ -6,8 +6,8 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
 import GeneratedTopicPreview from "../components/GeneratedTopicPreview.tsx";
 import TopicWithWordsForm from "../components/TopicWithWordsForm.tsx";
-import {BasicTopic} from "../components/types/BasicTopic.ts";
-import {TopicWithWordsDTO} from "../components/types/dto/TopicWithWordsDTO.ts";
+import {BasicTopic} from "../type/BasicTopic.ts";
+import {TopicWithWordsDTO} from "../type/dtos/TopicWithWordsDTO.ts";
 
 const CreateTopicWithWords = () => {
   const [loading, setLoading] = useState<boolean>(false);

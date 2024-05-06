@@ -8,11 +8,11 @@ import {useUser} from "../context/userContext/userContextImport.ts";
 import {useFeedback} from "../context/alertContext/feedbackContextImport.ts";
 import {useNavigate} from "react-router-dom";
 import {useEffect} from "react";
-import {ApiResObj} from "./types/dto/ApiResObj.ts";
-import {UsernamePasswordDTO} from "./types/dto/UsernamePasswordDTO.ts";
+import {ApiResObj} from "../type/dtos/ApiResObj.ts";
+import {UsernamePasswordDTO} from "../type/dtos/UsernamePasswordDTO.ts";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {LoginFormSchema} from "./types/LoginFormSchema.ts";
+import {LoginFormSchema} from "../type/LoginFormSchema.ts";
 import {grey} from "@mui/material/colors";
 
 const LoginForm = () => {

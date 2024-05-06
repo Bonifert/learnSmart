@@ -3,10 +3,11 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import {TopicWithDefinitionDTO} from "./types/dto/TopicWithDefinitionDTO.ts";
+import {TopicWithDefinitionDTO} from "../type/dtos/TopicWithDefinitionDTO.ts";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {TopicWithDefinitionFormSchema} from "./types/TopicWithDefinitionFormSchema.ts";
+import {TopicWithDefinitionFormSchema} from "../type/TopicWithDefinitionFormSchema.ts";
+import InfoPopover from "./InfoPopover.tsx";
 
 const centerStyle = {display: "flex", alignItems: "center", justifyContent: "center"};
 const buttonStyle = {

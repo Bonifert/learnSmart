@@ -1,8 +1,8 @@
 import {ReactNode, useCallback, useEffect, useState,} from "react";
 import {UserContext} from "./userContextImport.ts";
-import {ApiResObj} from "../../components/types/dto/ApiResObj.ts";
-import {UsernamePasswordDTO} from "../../components/types/dto/UsernamePasswordDTO.ts";
-import {User} from "../../components/types/User.ts";
+import {ApiResObj} from "../../type/dtos/ApiResObj.ts";
+import {UsernamePasswordDTO} from "../../type/dtos/UsernamePasswordDTO.ts";
+import {User} from "../../type/User.ts";
 
 const getToken = () => window.localStorage.getItem("token");
 const setToken = (token: string) => window.localStorage.setItem("token", token);

@@ -1,8 +1,8 @@
-import {ApiResObj} from "../components/types/dto/ApiResObj.ts";
-import {UsernamePasswordDTO} from "../components/types/dto/UsernamePasswordDTO.ts";
+import {ApiResObj} from "../type/dtos/ApiResObj.ts";
+import {UsernamePasswordDTO} from "../type/dtos/UsernamePasswordDTO.ts";
 
 async function login(userInfo: UsernamePasswordDTO): Promise<ApiResObj> {
-  const httpRes: Response = await fetch("/api/user/login", {
+  const httpRes: Response = await fetch("/api/auth/login", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"

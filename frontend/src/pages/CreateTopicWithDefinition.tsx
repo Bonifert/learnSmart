@@ -6,8 +6,8 @@ import {useFeedback} from "../context/alertContext/feedbackContextImport.ts";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import GeneratedTopicPreview from "../components/GeneratedTopicPreview.tsx";
-import {BasicTopic} from "../components/types/BasicTopic.ts";
-import {TopicWithDefinitionDTO} from "../components/types/dto/TopicWithDefinitionDTO.ts";
+import {BasicTopic} from "../type/BasicTopic.ts";
+import {TopicWithDefinitionDTO} from "../type/dtos/TopicWithDefinitionDTO.ts";
 
 const CreateTopicWithDefinition = () => {
   const [loading, setLoading] = useState<boolean>(false);

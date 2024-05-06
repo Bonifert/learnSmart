@@ -8,8 +8,8 @@ import {useNavigate} from "react-router-dom";
 import CardList from "./CardList.tsx";
 import {createTopicFromBasic} from "../providers/topicProvider.ts";
 import {useFeedback} from "../context/alertContext/feedbackContextImport.ts";
-import {BasicTopic} from "./types/BasicTopic.ts";
-import {ApiResObj} from "./types/dto/ApiResObj.ts";
+import {BasicTopic} from "../type/BasicTopic.ts";
+import {ApiResObj} from "../type/dtos/ApiResObj.ts";
 
 const buttonStyle = {
   color: "white",

@@ -4,8 +4,8 @@ import {createTermReview} from "../providers/termProvider.ts";
 import Button from "@mui/material/Button";
 import TermWithFlashCard from "./TermWithFlashCard.tsx";
 import {useNavigate} from "react-router-dom";
-import {Topic} from "./types/Topic.ts";
-import {ApiResObj} from "./types/dto/ApiResObj.ts";
+import {Topic} from "../type/Topic.ts";
+import {ApiResObj} from "../type/dtos/ApiResObj.ts";
 
 interface Props {
   topic: Topic;

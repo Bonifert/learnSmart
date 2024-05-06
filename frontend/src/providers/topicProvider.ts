@@ -1,8 +1,8 @@
-import {BasicTopic} from "../components/types/BasicTopic.ts";
-import {TopicWithDefinitionDTO} from "../components/types/dto/TopicWithDefinitionDTO.ts";
-import {EditTopicNameDTO} from "../components/types/dto/EditTopicNameDTO.ts";
-import {TopicWithWordsDTO} from "../components/types/dto/TopicWithWordsDTO.ts";
-import {ApiResObj} from "../components/types/dto/ApiResObj.ts";
+import {BasicTopic} from "../type/BasicTopic.ts";
+import {TopicWithDefinitionDTO} from "../type/dtos/TopicWithDefinitionDTO.ts";
+import {EditTopicNameDTO} from "../type/dtos/EditTopicNameDTO.ts";
+import {TopicWithWordsDTO} from "../type/dtos/TopicWithWordsDTO.ts";
+import {ApiResObj} from "../type/dtos/ApiResObj.ts";
 
 function getToken(): string {
   return localStorage.getItem("token") ?? "";

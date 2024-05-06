@@ -15,8 +15,8 @@ import InfoPopover from "./InfoPopover.tsx";
 import {AddCircleOutlined} from "@mui/icons-material";
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import DoneOutlinedIcon from '@mui/icons-material/DoneOutlined';
-import {Topic, Term} from "./types/Topic.ts";
-import {ApiResObj} from "./types/dto/ApiResObj.ts";
+import {Topic, Term} from "../type/Topic.ts";
+import {ApiResObj} from "../type/dtos/ApiResObj.ts";
 
 interface Props {
   topic: Topic;

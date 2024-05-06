@@ -1,7 +1,7 @@
 import {getToken} from "./topicProvider.ts";
-import {Term} from "../components/types/Topic.ts";
-import {NewTermDTO} from "../components/types/dto/NewTermDTO.ts";
-import {ApiResObj} from "../components/types/dto/ApiResObj.ts";
+import {Term} from "../type/Topic.ts";
+import {NewTermDTO} from "../type/dtos/NewTermDTO.ts";
+import {ApiResObj} from "../type/dtos/ApiResObj.ts";
 
 async function createTerm(newTermDTO: NewTermDTO) : Promise<ApiResObj>{
   const token = getToken();

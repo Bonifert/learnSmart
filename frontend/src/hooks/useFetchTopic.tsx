@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {getFilteredTopicById, getTopicById} from "../providers/topicProvider.ts";
 import {Variant} from "../context/alertContext/FeedbackContext.tsx";
-import {Topic} from "../components/types/Topic.ts";
+import {Topic} from "../type/Topic.ts";
 
 export enum TopicType {
   ALL,

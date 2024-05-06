@@ -17,7 +17,7 @@ import {createTopic} from "../providers/topicProvider.ts";
 import {useNavigate} from "react-router-dom";
 import {useFeedback} from "../context/alertContext/feedbackContextImport.ts";
 import CircularProgress from '@mui/material/CircularProgress';
-import {TopicInfo} from "./types/TopicInfo.ts";
+import {TopicInfo} from "../type/TopicInfo.ts";
 
 interface Props {
   topics: TopicInfo[];

@@ -1,7 +1,7 @@
 import {createContext, useContext} from "react";
-import {ApiResObj} from "../../components/types/dto/ApiResObj.ts";
-import {UsernamePasswordDTO} from "../../components/types/dto/UsernamePasswordDTO.ts";
-import {User} from "../../components/types/User.ts";
+import {ApiResObj} from "../../type/dtos/ApiResObj.ts";
+import {UsernamePasswordDTO} from "../../type/dtos/UsernamePasswordDTO.ts";
+import {User} from "../../type/User.ts";
 
 interface UserContextType {
   user: User | undefined | null;

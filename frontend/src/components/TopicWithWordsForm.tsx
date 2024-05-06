@@ -7,11 +7,12 @@ import Button from "@mui/material/Button";
 import {Autocomplete, Select} from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import languages from "../../languages.json";
-import {TopicWithWordsDTO} from "./types/dto/TopicWithWordsDTO.ts";
+import {TopicWithWordsDTO} from "../type/dtos/TopicWithWordsDTO.ts";
 import {Controller, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {TopicWithWordsFormSchema} from "./types/TopicWithWordsFormSchema.ts";
-import {TopicWithWordsFormData} from "./types/TopicWithWordsFormData.ts";
+import {TopicWithWordsFormSchema} from "../type/TopicWithWordsFormSchema.ts";
+import {TopicWithWordsFormData} from "../type/TopicWithWordsFormData.ts";
+import InfoPopover from "./InfoPopover.tsx";
 
 const centerStyle = {display: "flex", alignItems: "center", justifyContent: "center"};
 const buttonStyle = {

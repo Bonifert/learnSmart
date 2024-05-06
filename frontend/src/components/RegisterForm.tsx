@@ -6,11 +6,11 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import {registerUser} from "../providers/userProvider.ts";
 import {useFeedback} from "../context/alertContext/feedbackContextImport.ts";
-import {ApiResObj} from "./types/dto/ApiResObj.ts";
+import {ApiResObj} from "../type/dtos/ApiResObj.ts";
 import {useForm} from "react-hook-form";
 import {zodResolver} from '@hookform/resolvers/zod';
-import {RegistrationFormSchema} from "./types/RegistrationFormSchema.ts";
-import {RegistrationData} from "./types/RegistrationData.ts";
+import {RegistrationFormSchema} from "../type/RegistrationFormSchema.ts";
+import {RegistrationData} from "../type/RegistrationData.ts";
 import {grey} from "@mui/material/colors";
 
 interface Props {
