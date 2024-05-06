@@ -1,4 +1,4 @@
-package com.bonifert.backend.security;
+package com.bonifert.backend.config;
 
 import com.bonifert.backend.security.jwt.AuthEntryPoint;
 import com.bonifert.backend.security.jwt.AuthTokenFilter;
@@ -34,6 +34,8 @@ public class SecurityConfig {
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http.authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests.requestMatchers("/api/user/**")
+                                                                               .permitAll()
+                                                                               .requestMatchers("/api/auth/**")
                                                                                .permitAll()
                                                                                .requestMatchers("/role")
                                                                                .permitAll()
