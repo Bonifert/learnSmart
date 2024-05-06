@@ -25,7 +25,7 @@ public class UserService {
   }
 
   @Transactional
-  public long register(NewUserDTO newUserDTO) {
+  public long create(NewUserDTO newUserDTO) {
     if (userRepository.findByUsername(newUserDTO.username()).isPresent()) {
       throw new DuplicatedException("Username is already used.");
     }
