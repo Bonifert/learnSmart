@@ -24,33 +24,57 @@ public class OpenAIService {
     this.restTemplate = restTemplate;
   }
 
-  public String getTopicWithDefinitionsInJsonStringFormat(GenerateTopicWithDefinitionDTO dto) throws OpenAIException {
+  public String getTopicWithDefinitionsInJsonString(GenerateTopicWithDefinitionDTO dto) throws OpenAIException {
     OpenAIRequestDTO request = new OpenAIRequestDTO(model, createDefinitionPrompt(dto), TEMPERATURE, MAX_TOKENS);
-    request.addMessage(new Message("system",
-                                   "You will give back json string in format like: \"{\n  \"topic\": \"My new topic\",\n  \"terms\": [\n    {\n      \"name\": \"term1\",\n      \"definition\": \"very long definition\"\n    },\n  ]\n}\""));
+    request.addMessage(new Message("system", """
+            You will give back json string in format like:
+            {
+             "topic": "My new topic",
+             "terms": [
+                {
+                  "name": "term1",
+                  "definition": "very long definition"
+                }
+             ]
+            }
+            """));
     return getFromOpenAI(request);
   }
 
-  public String getTopicWithWordsInJsonStringFormat(GenerateTopicWithWordsDTO dto) throws OpenAIException {
+  public String getTopicWithWordsInJsonString(GenerateTopicWithWordsDTO dto) throws OpenAIException {
     OpenAIRequestDTO request = new OpenAIRequestDTO(model, createWordPrompt(dto), TEMPERATURE, MAX_TOKENS);
-    request.addMessage(new Message("system",
-                                   "You will give back json string in format like: \"{\n  \"topic\": \"My new topic\",\n  \"terms\": [\n    {\n      \"name\": \"name language\",\n      \"definition\": \"definition language\"\n    },\n  ]\n}\""));
+    request.addMessage(new Message("system", """
+            You will give back json string (a dictionary) in format like:
+            {
+              "topic": "My new topic",
+              "terms": [
+                {
+                  "name": "name language",
+                  "definition": "definition language"
+                }
+              ]
+            }
+            """));
     return getFromOpenAI(request);
   }
 
   private String getFromOpenAI(OpenAIRequestDTO request) {
     try {
       OpenAIResponseDTO response = restTemplate.postForObject(url, request, OpenAIResponseDTO.class);
-      if (response != null && response.getChoices() != null && !response.getChoices().isEmpty()) {
+      if (isValidResponse(response)) {
         return response.getChoices().get(0).getMessage().getContent();
       }
       else {
-        throw new OpenAIException("Communication with OpenAI api was unsuccessful.");
+        throw new OpenAIException("received an invalid response from OpenAI API");
       }
     }
     catch (Exception e) {
-      throw new OpenAIException("Communication with OpenAI api was unsuccessful.");
+      throw new OpenAIException("failed to communicate with OpenAI API");
     }
+  }
+
+  private boolean isValidResponse(OpenAIResponseDTO response) {
+    return response != null && response.getChoices() != null && !response.getChoices().isEmpty();
   }
 
   private String createWordPrompt(GenerateTopicWithWordsDTO dto) {
