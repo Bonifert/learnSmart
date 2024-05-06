@@ -138,7 +138,6 @@ export const ResponsiveAppBar = () => {
                 borderRadius: 3,
                 alignItems: "center"
               }}>
-                <LightbulbOutlinedIcon fontSize="large"/>
                 <Typography
                     ml={0.5}
                     pt="2px"
@@ -188,7 +187,7 @@ export const ResponsiveAppBar = () => {
                     onClose={handleCloseUserMenu}
                 >
                   {settings.map((setting) => (
-                      <MenuItem key={setting.optionText} onClick={setting.navigate}>
+                      <MenuItem key={setting.optionText} onClick={setting.navigate} >
                         <Typography textAlign="center">{setting.optionText}</Typography>
                       </MenuItem>
                   ))}
