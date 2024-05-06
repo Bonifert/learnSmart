@@ -20,7 +20,7 @@ public class OpenAIRequestDTO {
     this.messages.add(new Message("user", prompt));
   }
 
-  public void addMessage(Message...messages){
+  public void addMessage(Message... messages) {
     this.messages.addAll(List.of(messages));
   }
 }

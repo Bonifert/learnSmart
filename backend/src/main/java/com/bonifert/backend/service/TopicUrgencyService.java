@@ -9,10 +9,10 @@ import java.util.List;
 
 @Service
 public class TopicUrgencyService {
-  public String calculateUrgency(Topic topic){
+  public String calculateUrgency(Topic topic) {
     int expiredCounter = 0;
     List<Term> terms = topic.getTerms();
-    for (Term term : terms){
+    for (Term term : terms) {
       if (term.getNextShowDateTime().isBefore(LocalDateTime.now())) {
         expiredCounter++;
       }

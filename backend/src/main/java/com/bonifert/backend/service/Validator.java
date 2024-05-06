@@ -10,18 +10,18 @@ import java.util.Objects;
 
 @Service
 public class Validator {
-  public void validate(Topic topic){
+  public void validate(Topic topic) {
     String username = SecurityContextHolder.getContext().getAuthentication().getName();
     String topicUserName = topic.getUserEntity().getUsername();
-    if (!Objects.equals(username, topicUserName)){
+    if (!Objects.equals(username, topicUserName)) {
       throw new AccessDeniedException("Resource permission denied");
     }
   }
 
-  public void validate(Term term){
+  public void validate(Term term) {
     String username = SecurityContextHolder.getContext().getAuthentication().getName();
     String termUserName = term.getTopic().getUserEntity().getUsername();
-    if (!Objects.equals(username, termUserName)){
+    if (!Objects.equals(username, termUserName)) {
       throw new AccessDeniedException("Resource permission denied");
     }
   }

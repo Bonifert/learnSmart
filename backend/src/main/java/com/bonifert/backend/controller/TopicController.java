@@ -1,7 +1,6 @@
 package com.bonifert.backend.controller;
 
 import com.bonifert.backend.dto.topic.*;
-import com.bonifert.backend.dto.topic.BasicTopicDTO;
 import com.bonifert.backend.service.TopicService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -26,12 +25,12 @@ public class TopicController {
   }
 
   @PostMapping("/generate/definitions")
-  public ResponseEntity<BasicTopicDTO> generateDefinitions(@Valid @RequestBody GenerateTopicWithDefinitionDTO dto){
+  public ResponseEntity<BasicTopicDTO> generateDefinitions(@Valid @RequestBody GenerateTopicWithDefinitionDTO dto) {
     return ResponseEntity.ok(topicService.generateTopicWithDefinitions(dto));
   }
 
   @PostMapping("/create-from-basic")
-  public ResponseEntity<Long> createFromBasic(@Valid @RequestBody BasicTopicDTO basicTopicDTO){
+  public ResponseEntity<Long> createFromBasic(@Valid @RequestBody BasicTopicDTO basicTopicDTO) {
     long id = topicService.createFromBasic(basicTopicDTO);
     return ResponseEntity.created(URI.create(String.format("/api/topic/%d", id))).body(id);
   }
@@ -64,12 +63,12 @@ public class TopicController {
   }
 
   @GetMapping
-  public ResponseEntity<List<TopicDTO>> getUserTopics(){
+  public ResponseEntity<List<TopicDTO>> getUserTopics() {
     return ResponseEntity.ok(topicService.getTopicsByUser());
   }
 
   @GetMapping("/info")
-  public ResponseEntity<List<InfoTopicDTO>> getUserTopicsInfo(){
+  public ResponseEntity<List<InfoTopicDTO>> getUserTopicsInfo() {
     return ResponseEntity.ok(topicService.getTopicsInfoByUser());
   }
 }

@@ -25,14 +25,14 @@ public class ApiExceptionHandler {
   }
 
   @ExceptionHandler(value = DuplicatedException.class)
-  public ResponseEntity<ErrorResponse> handleDuplicatedException(DuplicatedException exception){
+  public ResponseEntity<ErrorResponse> handleDuplicatedException(DuplicatedException exception) {
     HttpStatus httpStatus = HttpStatus.CONFLICT;
     ErrorResponse errorResponse = new ErrorResponse(exception.getMessage(), httpStatus);
     return new ResponseEntity<>(errorResponse, httpStatus);
   }
 
   @ExceptionHandler(value = MethodArgumentNotValidException.class)
-  public ResponseEntity<Object> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception){
+  public ResponseEntity<Object> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
     HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
     Map<String, String> errors = new HashMap<>();
 
@@ -44,16 +44,17 @@ public class ApiExceptionHandler {
     return new ResponseEntity<>(errors, httpStatus);
   }
 
-  @ExceptionHandler(value = MethodArgumentTypeMismatchException.class) // todo idk why but spring never throw this exception when can't create an enum
+  @ExceptionHandler(value = MethodArgumentTypeMismatchException.class)
+  // todo idk why but spring never throw this exception when can't create an enum
   public ResponseEntity<Object> handleTypeMismatchExceptions(MethodArgumentTypeMismatchException ex) {
     Map<String, Object> response = new HashMap<>();
     Class<?> requiredType = ex.getRequiredType();
     if (requiredType != null && requiredType.isEnum()) {
-      response.put("errors", "Invalid value for " + ex.getName() + ". Please provide one of the following values: " +
-              Arrays.stream(requiredType.getEnumConstants())
-                    .map(Object::toString)
-                    .collect(Collectors.joining(", ")));
-    } else {
+      response.put("errors",
+                   "Invalid value for " + ex.getName() + ". Please provide one of the following values: " + Arrays.stream(
+                           requiredType.getEnumConstants()).map(Object::toString).collect(Collectors.joining(", ")));
+    }
+    else {
       response.put("errors", "Invalid value for " + ex.getName() + ". Please provide a valid value.");
     }
     return ResponseEntity.badRequest().body(response);

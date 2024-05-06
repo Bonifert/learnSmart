@@ -36,8 +36,8 @@ public class AuthenticationService {
     return headers;
   }
 
-  public UserEntity getUser(){
+  public UserEntity getUser() {
     String userName = SecurityContextHolder.getContext().getAuthentication().getName();
-    return userRepository.findByUsername(userName).orElseThrow(()-> new NotFoundException("User not found"));
+    return userRepository.findByUsername(userName).orElseThrow(() -> new NotFoundException("User not found"));
   }
 }

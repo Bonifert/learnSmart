@@ -31,13 +31,13 @@ public class TermController {
   }
 
   @PatchMapping
-  public ResponseEntity<Void> editTerm(@Valid @RequestBody TermDTO termDTO){
+  public ResponseEntity<Void> editTerm(@Valid @RequestBody TermDTO termDTO) {
     termService.edit(termDTO);
     return ResponseEntity.ok().build();
   }
 
   @DeleteMapping("/{id}")
-  public ResponseEntity<Void> delete(@PathVariable long id){
+  public ResponseEntity<Void> delete(@PathVariable long id) {
     termService.delete(id);
     return ResponseEntity.ok().build();
   }

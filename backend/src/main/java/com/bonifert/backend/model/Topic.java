@@ -3,7 +3,6 @@ package com.bonifert.backend.model;
 import com.bonifert.backend.model.user.UserEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -31,7 +30,7 @@ public class Topic {
   private List<Term> terms;
   private String priority = "Optional";
 
-  public void addTerm(Term term){
+  public void addTerm(Term term) {
     terms.add(term);
   }
 }

@@ -70,15 +70,15 @@ public class TermService {
     termRepository.save(term);
   }
 
+  private LocalDateTime calculateNextShowDate(Term term) {
+    return nextShowCalculator.calculate(term.getReviews());
+  }
+
   @Transactional
   public void edit(TermDTO termDTO) {
     Term term = termRepository.findById(termDTO.id()).orElseThrow(() -> new NotFoundException("Term not found"));
     term.setDefinition(termDTO.definition());
     term.setName(termDTO.name());
     termRepository.save(term);
-  }
-
-  private LocalDateTime calculateNextShowDate(Term term) {
-    return nextShowCalculator.calculate(term.getReviews());
   }
 }
