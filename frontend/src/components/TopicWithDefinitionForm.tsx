@@ -27,10 +27,20 @@ const TopicWithDefinitionForm = ({onGenerate}: Props) => {
     register,
     handleSubmit,
     formState: {errors}
-  } = useForm<TopicWithDefinitionDTO>({resolver: zodResolver(TopicWithDefinitionFormSchema), mode: "onTouched"});
+  } = useForm<TopicWithDefinitionDTO>({
+    resolver: zodResolver(TopicWithDefinitionFormSchema),
+    mode: "onTouched"
+  });
 
   async function submit(data: TopicWithDefinitionDTO) {
-    onGenerate(data);
+    const dto: TopicWithDefinitionDTO = {
+      topic: data.topic,
+      numberOfCards: data.numberOfCards
+    }
+    if (data.examples !== "") dto.examples = data.examples
+    const definitionSentenceAmount = data.definitionSentenceAmount;
+    if (definitionSentenceAmount && !isNaN(definitionSentenceAmount)) dto.definitionSentenceAmount = definitionSentenceAmount
+    onGenerate(dto);
   }
 
   return (
