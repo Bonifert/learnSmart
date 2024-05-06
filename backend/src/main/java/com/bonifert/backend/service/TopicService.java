@@ -27,17 +27,19 @@ public class TopicService {
   private final Validator validator;
   private final TopicMapper topicMapper;
   private final OpenAIService openAIService;
+  private final TopicUrgencyService topicUrgencyService;
   private final Gson gson = new Gson();
 
   public TopicService(TopicRepository topicRepository, UserRepository userRepository, TermRepository termRepository,
-                      Validator validator,
-                      TopicMapper topicMapper, OpenAIService openAIService) {
+                      Validator validator, TopicMapper topicMapper, OpenAIService openAIService,
+                      TopicUrgencyService topicUrgencyService) {
     this.topicRepository = topicRepository;
     this.userRepository = userRepository;
     this.termRepository = termRepository;
     this.validator = validator;
     this.topicMapper = topicMapper;
     this.openAIService = openAIService;
+    this.topicUrgencyService = topicUrgencyService;
   }
 
   public long create() {
@@ -67,28 +69,24 @@ public class TopicService {
   }
 
   public BasicTopicDTO generateTopicWithDefinitions(GenerateTopicWithDefinitionDTO dto) {
-    String topicJson = openAIService.getTopicWithDefinitionsInJsonStringFormat(dto);
+    String topicJson = openAIService.getTopicWithDefinitionsInJsonString(dto);
     return gson.fromJson(topicJson, BasicTopicDTO.class);
   }
 
   public BasicTopicDTO generateTopicWithWords(GenerateTopicWithWordsDTO dto) {
-    String topicJson = openAIService.getTopicWithWordsInJsonStringFormat(dto);
+    String topicJson = openAIService.getTopicWithWordsInJsonString(dto);
     return gson.fromJson(topicJson, BasicTopicDTO.class);
   }
 
   public TopicDTO getByIdWithFilteredTerms(long topicId) {
     Topic topic = topicRepository.findById(topicId).orElseThrow(() -> new NotFoundException("Topic not found"));
     validator.validate(topic);
-    LocalDateTime now = LocalDateTime.now();
-    List<Term> currentTerms = topic.getTerms()
-                                   .stream()
-                                   .filter(term -> term.getNextShowDateTime().isBefore(now))
-                                   .toList();
-    return convertTopicToDTOWithFilteredTerms(topic, currentTerms); // TODO do with mapper but how?
+    List<Term> currentTerms = getCurrentTerms(topic);
+    return convertTopicToDTOWithFilteredTerms(topic, currentTerms);
   }
 
   public TopicDTO getById(long topicId) {
-    Topic topic = topicRepository.findById(topicId).orElseThrow(() -> new NotFoundException("Topic not found"));
+    Topic topic = getTopicById(topicId);
     validator.validate(topic);
     return topicMapper.toTopicDTO(topic);
   }
@@ -96,13 +94,6 @@ public class TopicService {
   public List<TopicDTO> getTopicsByUser() {
     List<Topic> topics = getTopicEntitiesByUser();
     return topics.stream().map(topicMapper::toTopicDTO).toList();
-  }
-
-  private List<Topic> getTopicEntitiesByUser() {
-    String userName = SecurityContextHolder.getContext().getAuthentication().getName();
-    UserEntity user = userRepository.findByUsername(userName)
-                                    .orElseThrow(() -> new NotFoundException("User not found"));
-    return topicRepository.getAllByUserEntity(user);
   }
 
   public List<InfoTopicDTO> getTopicsInfoByUser() {
@@ -116,18 +107,31 @@ public class TopicService {
   }
 
   public void deleteById(long id) {
-    Topic topic = topicRepository.findById(id).orElseThrow(() -> new NotFoundException("Topic not found"));
+    Topic topic = getTopicById(id);
     validator.validate(topic);
     topicRepository.delete(topic);
   }
 
+  public Topic getTopicById(long id) {
+    return topicRepository.findById(id).orElseThrow(() -> new NotFoundException("Topic not found"));
+  }
+
+  public void refreshUrgencyAndSave(Topic topic) {
+    topic.setPriority(topicUrgencyService.calculateUrgency(topic));
+    topicRepository.save(topic);
+  }
+
   @Transactional
   public void edit(EditTopicDTO editTopicDTO) {
-    Topic topic = topicRepository.findById(editTopicDTO.topicId())
-                                 .orElseThrow(() -> new NotFoundException("Topic not found"));
+    Topic topic = getTopicById(editTopicDTO.topicId());
     validator.validate(topic);
     topic.setName(editTopicDTO.newName());
     topicRepository.save(topic);
+  }
+
+  private List<Term> getCurrentTerms(Topic topic) {
+    LocalDateTime now = LocalDateTime.now();
+    return topic.getTerms().stream().filter(term -> term.getNextShowDateTime().isBefore(now)).toList();
   }
 
   private List<TermDTO> convertTermsToDTOs(List<Term> terms) {
@@ -148,8 +152,13 @@ public class TopicService {
                         topic.getPriority());
   }
 
-  private UserEntity getUser() {
+  private UserEntity getUser() { // move to an authentication service TODO
     String userName = SecurityContextHolder.getContext().getAuthentication().getName();
     return userRepository.findByUsername(userName).orElseThrow(() -> new NotFoundException("User not found"));
+  }
+
+  private List<Topic> getTopicEntitiesByUser() {
+    UserEntity user = getUser();
+    return topicRepository.getAllByUserEntity(user);
   }
 }
