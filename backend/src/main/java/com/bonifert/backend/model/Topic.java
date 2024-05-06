@@ -27,7 +27,7 @@ public class Topic {
   private LocalDateTime createdAt;
   @UpdateTimestamp
   private LocalDateTime modifiedAt;
-  @OneToMany(mappedBy = "topic", cascade = CascadeType.REMOVE)
+  @OneToMany(mappedBy = "topic", cascade = CascadeType.ALL)
   private List<Term> terms;
   private String priority = "Optional";
 
