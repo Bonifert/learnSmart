@@ -1,5 +1,5 @@
 import {z, ZodType} from "zod";
-import {TopicWithDefinitionDTO} from "./dto/TopicWithDefinitionDTO.ts";
+import {TopicWithDefinitionDTO} from "./dtos/TopicWithDefinitionDTO.ts";
 
 export const TopicWithDefinitionFormSchema: ZodType<TopicWithDefinitionDTO> = z
     .object({
@@ -22,7 +22,10 @@ export const TopicWithDefinitionFormSchema: ZodType<TopicWithDefinitionDTO> = z
               .union(
                   [
                     z.nan(),
-                    z.number().min(1, {message: "Minimum 1"}).max(8, {message: "Maximum 8 sentences"})
+                    z
+                        .number()
+                        .min(1, {message: "Minimum 1"})
+                        .max(8, {message: "Maximum 8 sentences"})
                   ]
               )
           ),

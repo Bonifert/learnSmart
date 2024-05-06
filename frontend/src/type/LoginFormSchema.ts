@@ -1,5 +1,5 @@
 import {z, ZodType} from "zod";
-import {UsernamePasswordDTO} from "./dto/UsernamePasswordDTO.ts";
+import {UsernamePasswordDTO} from "./dtos/UsernamePasswordDTO.ts";
 
 export const LoginFormSchema: ZodType<UsernamePasswordDTO> = z
     .object({
