@@ -13,7 +13,7 @@ async function login(userInfo: UsernamePasswordDTO): Promise<ApiResObj> {
 }
 
 async function registerUser(userInfo: UsernamePasswordDTO): Promise<ApiResObj> {
-  const httpRes: Response = await fetch("/api/user", {
+  const httpRes: Response = await fetch("/api/user/create", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

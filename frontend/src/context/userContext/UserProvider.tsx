@@ -50,7 +50,7 @@ const UserProvider = ({children}: Props) => {
   }, []);
 
   async function login(creds: UsernamePasswordDTO): Promise<ApiResObj> {
-    const httpRes: Response = await fetch("/api/user/login", {
+    const httpRes: Response = await fetch("/api/auth/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
