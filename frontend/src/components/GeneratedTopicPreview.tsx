@@ -10,6 +10,7 @@ import {createTopicFromBasic} from "../providers/topicProvider.ts";
 import {useFeedback} from "../context/alertContext/feedbackContextImport.ts";
 import {BasicTopic} from "../type/BasicTopic.ts";
 import {ApiResObj} from "../type/dtos/ApiResObj.ts";
+import InfoPopover from "./InfoPopover.tsx";
 
 const buttonStyle = {
   color: "white",
@@ -56,7 +57,7 @@ const GeneratedTopicPreview = ({topic, onCancel}: Props) => {
                   <Typography variant="h4">
                     {topic.name}
                   </Typography>
-                  <Typography color={grey[500]}>Topic preview</Typography>
+                  <Typography color={grey[500]}>Topic preview<InfoPopover message="Generated content may not always be accurate, so use with caution."/></Typography>
                 </Box>
               </Grid>
               <Grid item xs={4} sx={{display: "flex", alignItems: "center", justifyContent: "flex-end"}}>
