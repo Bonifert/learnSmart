@@ -2,7 +2,7 @@ import "./app.css"
 import {Home} from "./pages/Home.tsx";
 import MyTopics from "./pages/MyTopics.tsx";
 import {ResponsiveAppBar} from "./pages/layout/ResponsiveAppBar"
-import {createBrowserRouter, RouterProvider} from "react-router-dom";
+import {createBrowserRouter, Navigate, RouterProvider} from "react-router-dom";
 import Protected from "./components/Protected.tsx";
 import EditTopic from "./pages/EditTopic.tsx";
 import TopicDetails from "./pages/TopicDetails.tsx";
@@ -60,8 +60,11 @@ const router = createBrowserRouter([
         ]
       }
     ]
+  },
+  {
+    path: "*",
+    element: <Navigate to="/" replace/>
   }
-
 ])
 
 function App() {
