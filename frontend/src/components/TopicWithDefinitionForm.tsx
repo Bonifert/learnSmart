@@ -103,7 +103,7 @@ const TopicWithDefinitionForm = ({onGenerate}: Props) => {
                 </Grid>
               </Grid>
               <Box display="flex" justifyContent="flex-end">
-                <InfoPopover message="Content generated with AI; check authenticity."/>
+                <InfoPopover message="Generated content may not always be accurate, so use with caution."/>
                 <Button type="submit" variant="outlined" sx={buttonStyle}
                         onClick={handleSubmit(submit)}>Generate</Button>
               </Box>
