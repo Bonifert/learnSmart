@@ -6,12 +6,15 @@ import com.bonifert.backend.dto.openai.OpenAIResponseDTO;
 import com.bonifert.backend.dto.topic.GenerateTopicWithDefinitionDTO;
 import com.bonifert.backend.dto.topic.GenerateTopicWithWordsDTO;
 import com.bonifert.backend.exception.OpenAIException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 @Service
 public class OpenAIService {
+  private static final Logger log = LoggerFactory.getLogger(OpenAIService.class);
   private static final int MAX_TOKENS = 2000;
   private static final double TEMPERATURE = 1;
   @Value("${openai.api.url}")
@@ -69,6 +72,7 @@ public class OpenAIService {
       }
     }
     catch (Exception e) {
+      log.error("OpenAI API call failed: {}", e.getMessage(), e);
       throw new OpenAIException("failed to communicate with OpenAI API");
     }
   }
@@ -88,10 +92,10 @@ public class OpenAIService {
   }
 
   private String createDefinitionPrompt(GenerateTopicWithDefinitionDTO dto) {
-    return String.format("I need a json string related to %s, like %s, at least %d terms. Do not repeat yourself!" + (dto.definitionSentenceAmount() != null ? "The definition of the term should be at least %d sentences long." : ""),
-                         dto.topic(),
-                         dto.examples(),
-                         dto.numberOfCards(),
-                         dto.definitionSentenceAmount());
+    String base = String.format("I need a json string related to %s, like %s, at least %d terms. Do not repeat yourself!", dto.topic(), dto.examples(), dto.numberOfCards());
+    if (dto.definitionSentenceAmount() != null) {
+      base += String.format(" The definition of the term should be at least %d sentences long.", dto.definitionSentenceAmount());
+    }
+    return base;
   }
 }

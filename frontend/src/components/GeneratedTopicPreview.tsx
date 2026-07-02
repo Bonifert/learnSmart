@@ -46,7 +46,7 @@ const GeneratedTopicPreview = ({topic, onCancel}: Props) => {
   }
 
   return (
-      <Box height="100%" width="100%" sx={{...centerStyle}}>
+      <Box width="100%" sx={{...centerStyle, alignItems: "flex-start", overflowY: "auto"}}>
         <Grid my={4} container
               sx={{...centerStyle}}>
           <Grid item xs={10} sm={8} md={7} lg={6} minWidth="275px"

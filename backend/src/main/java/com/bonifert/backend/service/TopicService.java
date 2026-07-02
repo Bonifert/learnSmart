@@ -69,12 +69,23 @@ public class TopicService {
 
   public BasicTopicDTO generateTopicWithDefinitions(GenerateTopicWithDefinitionDTO dto) {
     String topicJson = openAIService.getTopicWithDefinitionsInJsonString(dto);
-    return gson.fromJson(topicJson, BasicTopicDTO.class);
+    return gson.fromJson(stripMarkdown(topicJson), BasicTopicDTO.class);
   }
 
   public BasicTopicDTO generateTopicWithWords(GenerateTopicWithWordsDTO dto) {
     String topicJson = openAIService.getTopicWithWordsInJsonString(dto);
-    return gson.fromJson(topicJson, BasicTopicDTO.class);
+    return gson.fromJson(stripMarkdown(topicJson), BasicTopicDTO.class);
+  }
+
+  private String stripMarkdown(String json) {
+    if (json == null) return null;
+    String trimmed = json.trim();
+    if (trimmed.startsWith("```")) {
+      trimmed = trimmed.replaceFirst("```(?:json)?\\s*", "");
+      int end = trimmed.lastIndexOf("```");
+      if (end != -1) trimmed = trimmed.substring(0, end);
+    }
+    return trimmed.trim();
   }
 
   public TopicDTO getByIdWithFilteredTerms(long topicId) {

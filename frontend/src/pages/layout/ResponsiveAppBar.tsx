@@ -66,7 +66,7 @@ export const ResponsiveAppBar = () => {
   };
 
   return (
-      <Box height="100%" sx={{display:"flex", flexFlow:"column"}} minWidth="270px">
+      <Box sx={{display:"flex", flexFlow:"column", minHeight:"100%"}} minWidth="270px">
         <AppBar position="static" sx={{bgcolor: "#d1e6e8", boxShadow: 0, borderBottom: `1px solid ${grey[300]}`}}>
           <Container maxWidth="xl">
             <Toolbar disableGutters sx={{paddingLeft: 3}}>
